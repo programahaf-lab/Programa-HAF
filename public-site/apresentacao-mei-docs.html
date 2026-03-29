@@ -3,25 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEI Docs | Imersao em IA</title>
+  <title>MEI Docs | AI Immersion Deck</title>
   <style>
     :root {
-      --bg: #030813;
-      --bg-2: #061021;
-      --bg-3: #0d2251;
-      --panel: rgba(6, 14, 30, 0.86);
-      --panel-strong: rgba(8, 18, 38, 0.96);
-      --line: rgba(118, 211, 255, 0.18);
-      --line-strong: rgba(118, 211, 255, 0.36);
-      --text: #edf7ff;
-      --muted: #8da4c6;
-      --neon: #67d4ff;
-      --cyan: #90fbff;
-      --royal: #2b56ff;
-      --good: #61edb2;
-      --warn: #ff7f9f;
-      --gold: #ffd38a;
-      --shadow: 0 30px 120px rgba(0, 0, 0, 0.48);
+      --bg: #020712;
+      --panel: rgba(5, 12, 27, 0.78);
+      --line: rgba(110, 210, 255, 0.16);
+      --text: #eef8ff;
+      --muted: #89a4c7;
+      --cyan: #67d4ff;
+      --ice: #9afaff;
+      --royal: #335dff;
+      --green: #69ebb4;
+      --red: #ff7d9c;
+      --gold: #ffd289;
+      --shadow: 0 34px 120px rgba(0, 0, 0, 0.52);
     }
 
     * {
@@ -34,10 +30,9 @@
       height: 100%;
       overflow: hidden;
       background:
-        radial-gradient(circle at 14% 12%, rgba(43, 86, 255, 0.32), transparent 18%),
-        radial-gradient(circle at 85% 14%, rgba(103, 212, 255, 0.16), transparent 18%),
-        radial-gradient(circle at 55% 120%, rgba(43, 86, 255, 0.18), transparent 30%),
-        linear-gradient(160deg, #02050d 0%, #040b17 36%, #07101f 68%, #020713 100%);
+        radial-gradient(circle at 16% 12%, rgba(51, 93, 255, 0.28), transparent 20%),
+        radial-gradient(circle at 84% 14%, rgba(103, 212, 255, 0.14), transparent 20%),
+        linear-gradient(160deg, #01040b 0%, #040b17 38%, #071021 70%, #020713 100%);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -48,79 +43,84 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
-      opacity: 0.74;
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at center, black 44%, transparent 90%);
+      opacity: 0.7;
     }
 
     .mouse-glow {
       position: fixed;
       left: 0;
       top: 0;
-      width: 380px;
-      height: 380px;
-      border-radius: 50%;
+      width: 420px;
+      height: 420px;
       transform: translate(-50%, -50%);
+      border-radius: 50%;
       pointer-events: none;
-      background: radial-gradient(circle, rgba(103, 212, 255, 0.22) 0%, rgba(103, 212, 255, 0.1) 26%, rgba(103, 212, 255, 0) 74%);
-      filter: blur(14px);
+      background: radial-gradient(circle, rgba(103, 212, 255, 0.22) 0%, rgba(103, 212, 255, 0.09) 28%, rgba(103, 212, 255, 0) 72%);
+      filter: blur(16px);
       z-index: 1;
     }
 
     .hud-left,
     .hud-right,
-    .slide-index {
+    .slide-index,
+    .auto-badge {
       position: fixed;
-      z-index: 30;
+      z-index: 25;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
     .hud-left {
-      top: 18px;
       left: 24px;
-      color: var(--neon);
-    }
-
-    .hud-right {
       top: 18px;
-      right: 24px;
-      color: var(--muted);
-    }
-
-    .hud-right span {
       color: var(--cyan);
     }
 
-    .slide-index {
-      top: 48px;
+    .hud-right {
       right: 24px;
+      top: 18px;
       color: var(--muted);
     }
 
+    .hud-right span,
     .slide-index span {
-      color: var(--neon);
+      color: var(--ice);
+    }
+
+    .slide-index {
+      right: 24px;
+      top: 46px;
+      color: var(--muted);
+    }
+
+    .auto-badge {
+      right: 24px;
+      bottom: 30px;
+      color: var(--muted);
+      font-size: 10px;
     }
 
     .deck {
       position: relative;
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
       z-index: 2;
+      overflow: hidden;
     }
 
     .slide {
       position: absolute;
       inset: 0;
-      padding: 64px 34px 98px;
+      padding: 64px 30px 96px;
       opacity: 0;
       pointer-events: none;
-      transform: translateX(54px) scale(0.985);
+      transform: translateX(58px) scale(0.985);
       transition: opacity 420ms cubic-bezier(.4,0,.2,1), transform 420ms cubic-bezier(.4,0,.2,1);
       display: grid;
       align-items: center;
@@ -134,58 +134,17 @@
 
     .slide.out-left {
       opacity: 0;
-      transform: translateX(-54px) scale(0.99);
+      transform: translateX(-58px) scale(0.99);
     }
 
-    .slide::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.58;
-    }
-
-    .slide.cover::before {
-      background:
-        radial-gradient(circle at 76% 28%, rgba(103, 212, 255, 0.16), transparent 22%),
-        radial-gradient(circle at 18% 72%, rgba(43, 86, 255, 0.18), transparent 28%);
-    }
-
-    .slide.ingest::before {
-      background:
-        radial-gradient(circle at 20% 26%, rgba(255, 127, 159, 0.12), transparent 24%),
-        radial-gradient(circle at 82% 68%, rgba(103, 212, 255, 0.1), transparent 24%);
-    }
-
-    .slide.orchestration::before {
-      background:
-        radial-gradient(circle at 16% 34%, rgba(103, 212, 255, 0.12), transparent 22%),
-        radial-gradient(circle at 82% 70%, rgba(97, 237, 178, 0.12), transparent 24%);
-    }
-
-    .slide.delivery::before {
-      background:
-        radial-gradient(circle at 18% 32%, rgba(97, 237, 178, 0.12), transparent 22%),
-        radial-gradient(circle at 82% 68%, rgba(255, 211, 138, 0.12), transparent 24%);
-    }
-
-    .slide.future::before {
-      background:
-        radial-gradient(circle at 18% 28%, rgba(144, 251, 255, 0.1), transparent 22%),
-        radial-gradient(circle at 84% 70%, rgba(43, 86, 255, 0.14), transparent 26%);
-    }
-
-    .grid {
-      width: min(1520px, 100%);
+    .frame {
+      width: min(1540px, 100%);
       margin: 0 auto;
+      height: 100%;
       display: grid;
       gap: 18px;
-      grid-template-columns: 1.08fr 0.92fr;
-    }
-
-    .grid.single {
-      grid-template-columns: 1fr;
-      width: min(1500px, 100%);
+      grid-template-columns: 0.84fr 1.16fr;
+      align-items: stretch;
     }
 
     .panel {
@@ -195,16 +154,8 @@
       border: 1px solid var(--line);
       background: var(--panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(18px);
       padding: 28px;
-    }
-
-    .panel.strong {
-      background: var(--panel-strong);
-      border-color: rgba(118, 211, 255, 0.3);
-      box-shadow:
-        0 32px 110px rgba(0, 0, 0, 0.56),
-        inset 0 0 0 1px rgba(118, 211, 255, 0.07);
     }
 
     .panel::before {
@@ -213,236 +164,177 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(135deg, rgba(118, 211, 255, 0.1), transparent 28%),
-        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 18%);
+        linear-gradient(135deg, rgba(103, 212, 255, 0.1), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 20%);
     }
 
-    .eyebrow {
+    .kicker {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       min-height: 32px;
       padding: 7px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(118, 211, 255, 0.16);
-      background: rgba(118, 211, 255, 0.08);
-      color: var(--neon);
+      border: 1px solid rgba(103, 212, 255, 0.18);
+      background: rgba(103, 212, 255, 0.08);
+      color: var(--cyan);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 18px;
       width: fit-content;
+      margin-bottom: 18px;
     }
 
-    .eyebrow::before {
+    .kicker::before {
       content: "";
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 14px rgba(144, 251, 255, 0.7);
+      background: var(--ice);
+      box-shadow: 0 0 14px rgba(154, 250, 255, 0.7);
     }
 
-    .slide.ingest .eyebrow {
-      color: var(--warn);
-      border-color: rgba(255, 127, 159, 0.22);
-      background: rgba(255, 127, 159, 0.1);
+    .kicker.problem {
+      color: var(--red);
+      border-color: rgba(255, 125, 156, 0.2);
+      background: rgba(255, 125, 156, 0.08);
     }
 
-    .slide.ingest .eyebrow::before {
-      background: var(--warn);
-      box-shadow: 0 0 14px rgba(255, 127, 159, 0.72);
+    .kicker.problem::before {
+      background: var(--red);
+      box-shadow: 0 0 14px rgba(255, 125, 156, 0.72);
     }
 
-    .slide.delivery .eyebrow {
+    .kicker.solution {
+      color: var(--green);
+      border-color: rgba(105, 235, 180, 0.2);
+      background: rgba(105, 235, 180, 0.08);
+    }
+
+    .kicker.solution::before {
+      background: var(--green);
+      box-shadow: 0 0 14px rgba(105, 235, 180, 0.72);
+    }
+
+    .kicker.delivery {
       color: var(--gold);
-      border-color: rgba(255, 211, 138, 0.22);
-      background: rgba(255, 211, 138, 0.1);
+      border-color: rgba(255, 210, 137, 0.22);
+      background: rgba(255, 210, 137, 0.08);
     }
 
-    .slide.delivery .eyebrow::before {
+    .kicker.delivery::before {
       background: var(--gold);
-      box-shadow: 0 0 14px rgba(255, 211, 138, 0.72);
+      box-shadow: 0 0 14px rgba(255, 210, 137, 0.72);
     }
 
-    h1, h2, h3, h4, p {
+    h1, h2, h3, p {
       margin: 0;
     }
 
     h1, h2, h3 {
       font-family: Georgia, "Times New Roman", serif;
       font-weight: 700;
-      line-height: 1;
+      line-height: 0.96;
     }
 
     h1 {
-      font-size: clamp(48px, 6vw, 84px);
-      letter-spacing: -0.055em;
-      max-width: 10ch;
+      font-size: clamp(52px, 6vw, 90px);
+      letter-spacing: -0.06em;
+      max-width: 9ch;
       margin-bottom: 18px;
     }
 
     h2 {
-      font-size: clamp(30px, 4vw, 54px);
+      font-size: clamp(34px, 4vw, 58px);
       letter-spacing: -0.05em;
-      max-width: 14ch;
-      margin-bottom: 14px;
-    }
-
-    h3 {
-      font-size: 24px;
-      letter-spacing: -0.04em;
-      margin-bottom: 10px;
+      max-width: 10ch;
+      margin-bottom: 18px;
     }
 
     .accent {
-      color: var(--neon);
-      text-shadow: 0 0 26px rgba(103, 212, 255, 0.4);
+      color: var(--cyan);
+      text-shadow: 0 0 28px rgba(103, 212, 255, 0.38);
     }
 
-    .accent-warn {
-      color: var(--warn);
-      text-shadow: 0 0 26px rgba(255, 127, 159, 0.34);
+    .accent-problem {
+      color: var(--red);
+      text-shadow: 0 0 28px rgba(255, 125, 156, 0.34);
     }
 
-    .accent-good {
-      color: var(--good);
-      text-shadow: 0 0 26px rgba(97, 237, 178, 0.3);
+    .accent-solution {
+      color: var(--green);
+      text-shadow: 0 0 28px rgba(105, 235, 180, 0.3);
     }
 
-    p,
-    li,
-    .metric-label,
-    .metric-value,
-    .terminal,
-    .nav-btn {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    p, li, .terminal {
-      color: var(--muted);
-      line-height: 1.68;
-      font-size: 15px;
+    .accent-delivery {
+      color: var(--gold);
+      text-shadow: 0 0 28px rgba(255, 210, 137, 0.32);
     }
 
     .lead {
-      font-size: 17px;
-      color: #d6e6fb;
-      max-width: 56ch;
+      max-width: 38ch;
+      color: #d3e6fb;
+      font-size: 18px;
+      line-height: 1.7;
     }
 
-    .metrics,
-    .grid-3,
-    .grid-4,
-    .grid-2 {
-      display: grid;
-      gap: 16px;
+    .micro {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    .metrics {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .mini-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
     }
 
-    .grid-4 {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(103, 212, 255, 0.14);
+      background: rgba(103, 212, 255, 0.06);
+      color: #d7f5ff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .metric,
-    .card {
+    .stage {
       position: relative;
+      min-height: 100%;
+      border-radius: 30px;
+      border: 1px solid rgba(103, 212, 255, 0.18);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(103, 212, 255, 0.2), transparent 20%),
+        radial-gradient(circle at 18% 82%, rgba(51, 93, 255, 0.18), transparent 26%),
+        linear-gradient(180deg, rgba(8, 18, 38, 0.98), rgba(3, 8, 18, 1));
       overflow: hidden;
-      padding: 20px;
-      border-radius: 22px;
-      border: 1px solid rgba(118, 211, 255, 0.16);
-      background: rgba(255,255,255,0.045);
+      padding: 26px;
     }
 
-    .metric::before,
-    .card::before {
+    .stage::before {
       content: "";
       position: absolute;
       inset: 0;
+      background-image:
+        linear-gradient(rgba(103, 212, 255, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103, 212, 255, 0.09) 1px, transparent 1px);
+      background-size: 42px 42px;
+      opacity: 0.4;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(118, 211, 255, 0.09), transparent 24%);
     }
 
-    .metric-value {
-      font-size: 34px;
-      font-weight: 800;
-      color: var(--neon);
-      line-height: 1;
-      letter-spacing: -0.05em;
-      margin-bottom: 6px;
-    }
-
-    .metric-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .step {
-      display: inline-flex;
-      width: 34px;
-      height: 34px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      border: 1px solid rgba(118, 211, 255, 0.18);
-      background: rgba(118, 211, 255, 0.08);
-      color: var(--neon);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      margin-bottom: 16px;
-    }
-
-    .danger {
-      border-color: rgba(255, 127, 159, 0.2);
-      background: linear-gradient(180deg, rgba(255, 127, 159, 0.08), rgba(255,255,255,0.03));
-    }
-
-    .danger .step {
-      color: var(--warn);
-      border-color: rgba(255, 127, 159, 0.24);
-      background: rgba(255, 127, 159, 0.1);
-    }
-
-    .positive {
-      border-color: rgba(97, 237, 178, 0.2);
-      background: linear-gradient(180deg, rgba(97, 237, 178, 0.08), rgba(255,255,255,0.03));
-    }
-
-    .positive .step {
-      color: var(--good);
-      border-color: rgba(97, 237, 178, 0.24);
-      background: rgba(97, 237, 178, 0.1);
-    }
-
-    .system-stage {
-      display: grid;
-      gap: 16px;
-      grid-template-rows: auto 1fr auto;
-      min-height: 100%;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(103, 212, 255, 0.24), transparent 22%),
-        radial-gradient(circle at 18% 78%, rgba(43, 86, 255, 0.2), transparent 26%),
-        linear-gradient(180deg, rgba(9, 19, 40, 0.98), rgba(3, 8, 18, 1));
-    }
-
-    .system-topline {
+    .stage-top {
+      position: relative;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       gap: 12px;
@@ -451,262 +343,204 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      margin-bottom: 14px;
     }
 
-    .pipeline {
-      position: relative;
-      border-radius: 26px;
-      border: 1px solid rgba(118, 211, 255, 0.16);
-      background:
-        linear-gradient(135deg, rgba(118, 211, 255, 0.08), transparent 34%),
-        rgba(2, 8, 18, 0.76);
-      min-height: 350px;
-      overflow: hidden;
-      padding: 26px;
-    }
-
-    .pipeline::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(118, 211, 255, 0.11) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(118, 211, 255, 0.11) 1px, transparent 1px);
-      background-size: 42px 42px;
-      opacity: 0.42;
-    }
-
-    .pipeline::after {
-      content: "";
-      position: absolute;
-      left: -20%;
-      top: 50%;
-      width: 140%;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(103, 212, 255, 0), rgba(103, 212, 255, 0.9), rgba(103, 212, 255, 0));
-      box-shadow: 0 0 20px rgba(103, 212, 255, 0.45);
-      animation: pulseLine 3.2s linear infinite;
-    }
-
-    @keyframes pulseLine {
-      0% { transform: translateX(-18%) translateY(0); opacity: 0.35; }
-      50% { transform: translateX(10%) translateY(0); opacity: 1; }
-      100% { transform: translateX(26%) translateY(0); opacity: 0.35; }
-    }
-
-    .pipeline-content {
+    .center-visual {
       position: relative;
       z-index: 1;
-      height: 100%;
+      min-height: 520px;
       display: grid;
-      gap: 16px;
-      align-content: center;
+      place-items: center;
     }
 
-    .pipeline-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      align-items: center;
-    }
-
-    .node {
+    .core {
       position: relative;
-      padding: 16px;
-      min-height: 98px;
-      border-radius: 20px;
-      border: 1px solid rgba(118, 211, 255, 0.18);
-      background: rgba(255,255,255,0.04);
-      box-shadow: inset 0 0 0 1px rgba(118, 211, 255, 0.04);
-    }
-
-    .node strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--text);
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .node span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .node.problem {
-      border-color: rgba(255, 127, 159, 0.24);
-      background: rgba(255, 127, 159, 0.08);
-    }
-
-    .node.solution {
-      border-color: rgba(97, 237, 178, 0.22);
-      background: rgba(97, 237, 178, 0.08);
-    }
-
-    .beam {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      color: var(--neon);
-      font-size: 26px;
-      text-shadow: 0 0 18px rgba(103, 212, 255, 0.42);
-      animation: pulseArrow 1.8s ease-in-out infinite;
-    }
-
-    @keyframes pulseArrow {
-      0%, 100% { transform: translateX(0); opacity: 0.5; }
-      50% { transform: translateX(6px); opacity: 1; }
-    }
-
-    .ring {
-      position: relative;
-      width: 220px;
-      height: 220px;
-      margin: 0 auto;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
-      border: 1px solid rgba(118, 211, 255, 0.16);
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle, rgba(103, 212, 255, 0.16) 0%, rgba(103, 212, 255, 0.04) 34%, rgba(103, 212, 255, 0) 72%);
+        radial-gradient(circle, rgba(103, 212, 255, 0.24) 0%, rgba(103, 212, 255, 0.08) 34%, rgba(103, 212, 255, 0) 72%);
+      border: 1px solid rgba(103, 212, 255, 0.18);
       box-shadow:
-        0 0 0 28px rgba(103, 212, 255, 0.03),
-        0 0 0 56px rgba(103, 212, 255, 0.02);
+        0 0 0 30px rgba(103, 212, 255, 0.025),
+        0 0 0 60px rgba(103, 212, 255, 0.015);
       animation: breathe 4s ease-in-out infinite;
     }
 
-    .ring::before,
-    .ring::after {
+    .core::before,
+    .core::after {
       content: "";
       position: absolute;
-      inset: -20px;
+      inset: -24px;
       border-radius: 50%;
-      border: 1px dashed rgba(118, 211, 255, 0.18);
-      animation: spin 16s linear infinite;
+      border: 1px dashed rgba(103, 212, 255, 0.18);
+      animation: spin 18s linear infinite;
     }
 
-    .ring::after {
-      inset: -42px;
+    .core::after {
+      inset: -52px;
       border-style: solid;
-      border-color: rgba(97, 237, 178, 0.12);
+      border-color: rgba(51, 93, 255, 0.14);
       animation-direction: reverse;
-      animation-duration: 22s;
+      animation-duration: 24s;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    @keyframes breathe {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-
-    .ring span {
+    .core span {
       display: block;
-      text-align: center;
       max-width: 10ch;
+      text-align: center;
       color: var(--text);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      line-height: 1.25;
+      line-height: 1.18;
       letter-spacing: -0.02em;
     }
 
-    .quote {
-      padding: 18px 20px;
-      border-left: 4px solid var(--neon);
-      border-radius: 0 16px 16px 0;
-      background: rgba(103, 212, 255, 0.12);
-      color: #d9efff;
-      font-size: 16px;
-      line-height: 1.7;
-      font-style: italic;
-      box-shadow: inset 0 0 0 1px rgba(118, 211, 255, 0.08);
+    .orbit {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      animation: spin 18s linear infinite;
     }
 
-    .timeline {
-      display: grid;
-      gap: 14px;
+    .orbit.reverse {
+      animation-direction: reverse;
+      animation-duration: 22s;
     }
 
-    .timeline-item {
-      padding: 16px 18px;
-      border: 1px solid rgba(118, 211, 255, 0.16);
-      border-radius: 20px;
+    .orb {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 124px;
+      min-height: 78px;
+      transform-origin: 0 0;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(103, 212, 255, 0.16);
       background: rgba(255,255,255,0.04);
+      box-shadow: inset 0 0 0 1px rgba(103, 212, 255, 0.03);
     }
 
-    .timeline-item strong {
+    .orb strong {
       display: block;
-      margin-bottom: 8px;
-      color: var(--neon);
+      margin-bottom: 6px;
       font-size: 12px;
-      font-weight: 800;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--text);
     }
 
-    .terminal-box {
-      border-radius: 24px;
-      border: 1px solid rgba(118, 211, 255, 0.2);
-      background: #030a14;
+    .orb span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .orb.one   { transform: rotate(0deg) translateX(250px) rotate(0deg); }
+    .orb.two   { transform: rotate(90deg) translateX(250px) rotate(-90deg); }
+    .orb.three { transform: rotate(180deg) translateX(250px) rotate(-180deg); }
+    .orb.four  { transform: rotate(270deg) translateX(250px) rotate(-270deg); }
+
+    .orb.problem {
+      border-color: rgba(255, 125, 156, 0.22);
+      background: rgba(255, 125, 156, 0.08);
+    }
+
+    .orb.solution {
+      border-color: rgba(105, 235, 180, 0.22);
+      background: rgba(105, 235, 180, 0.08);
+    }
+
+    .scan-field {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
       overflow: hidden;
-      box-shadow: 0 0 32px rgba(103, 212, 255, 0.08);
+      border-radius: inherit;
     }
 
-    .terminal-top {
-      display: flex;
-      gap: 8px;
-      padding: 12px 14px;
-      border-bottom: 1px solid rgba(118, 211, 255, 0.12);
-      background: rgba(255,255,255,0.03);
+    .scan-field::after {
+      content: "";
+      position: absolute;
+      left: -10%;
+      top: 50%;
+      width: 120%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(103,212,255,0), rgba(103,212,255,0.95), rgba(103,212,255,0));
+      box-shadow: 0 0 22px rgba(103, 212, 255, 0.48);
+      animation: scan 3.6s linear infinite;
     }
 
-    .terminal-top span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
+    @keyframes scan {
+      0% { transform: translateY(-190px); opacity: 0.35; }
+      50% { opacity: 1; }
+      100% { transform: translateY(190px); opacity: 0.35; }
     }
 
-    .terminal-top span:nth-child(1) { background: #ff5f56; }
-    .terminal-top span:nth-child(2) { background: #ffbd2e; }
-    .terminal-top span:nth-child(3) { background: #27c93f; }
+    .stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
 
-    .terminal {
-      padding: 18px;
-      font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+    .stack-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(103, 212, 255, 0.16);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .stack-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .stack-card span {
+      display: block;
+      color: var(--muted);
       font-size: 13px;
-      white-space: pre-wrap;
-      color: #cfeaff;
-    }
-
-    .terminal .accent-line {
-      color: var(--cyan);
+      line-height: 1.55;
     }
 
     .controls {
       position: fixed;
       left: 50%;
-      bottom: 24px;
+      bottom: 22px;
       transform: translateX(-50%);
       display: flex;
       gap: 12px;
       align-items: center;
-      z-index: 30;
+      z-index: 25;
     }
 
     .nav-btn {
       width: 48px;
       height: 48px;
-      border: 2px solid rgba(118, 211, 255, 0.26);
       border-radius: 50%;
+      border: 2px solid rgba(103, 212, 255, 0.26);
       background: rgba(10, 22, 45, 0.9);
-      color: var(--neon);
+      color: var(--cyan);
       font-size: 18px;
       cursor: pointer;
       display: grid;
@@ -715,80 +549,54 @@
     }
 
     .nav-btn:hover {
-      background: var(--neon);
+      background: var(--cyan);
       color: #04101c;
-      border-color: var(--neon);
+      border-color: var(--cyan);
     }
 
     .dots {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
     .dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: rgba(118, 211, 255, 0.24);
+      background: rgba(103, 212, 255, 0.24);
       cursor: pointer;
       transition: all 220ms ease;
     }
 
     .dot.on {
       width: 28px;
-      background: var(--neon);
-      box-shadow: 0 0 22px rgba(103, 212, 255, 0.58);
+      background: var(--cyan);
+      box-shadow: 0 0 22px rgba(103, 212, 255, 0.56);
     }
 
-    .auto-badge {
-      position: fixed;
-      bottom: 32px;
-      right: 24px;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      z-index: 30;
-    }
-
-    @media (max-width: 1040px) {
-      .slide {
-        padding: 50px 16px 88px;
-      }
-
-      .grid,
-      .grid.single,
-      .grid-4,
-      .grid-3,
-      .grid-2,
-      .metrics,
-      .pipeline-row {
+    @media (max-width: 1100px) {
+      .frame {
         grid-template-columns: 1fr;
       }
 
-      .panel {
-        padding: 20px;
+      .center-visual {
+        min-height: 420px;
       }
 
-      h1 {
-        font-size: clamp(34px, 5vw, 58px);
+      .orb {
+        width: 110px;
       }
 
-      h2 {
-        font-size: clamp(26px, 4vw, 42px);
-        max-width: none;
-      }
-
-      h3 {
-        font-size: 21px;
+      .orb.one, .orb.two, .orb.three, .orb.four {
+        transform-origin: 0 0;
       }
     }
 
     @media (max-width: 760px) {
       .slide {
-        padding: 42px 12px 82px;
+        padding: 44px 12px 82px;
       }
 
       .hud-left,
@@ -798,276 +606,179 @@
         display: none;
       }
 
-      .panel {
-        padding: 16px;
+      .panel,
+      .stage {
+        padding: 18px;
         border-radius: 22px;
       }
+
+      h1 {
+        font-size: clamp(36px, 6vw, 58px);
+      }
+
+      h2 {
+        font-size: clamp(28px, 4vw, 40px);
+      }
+
+      .lead {
+        font-size: 15px;
+      }
+
+      .core {
+        width: 180px;
+        height: 180px;
+      }
+
+      .orb {
+        width: 92px;
+        min-height: 66px;
+        padding: 10px;
+      }
+
+      .orb span {
+        font-size: 11px;
+      }
+
+      .orb.one   { transform: rotate(0deg) translateX(190px) rotate(0deg); }
+      .orb.two   { transform: rotate(90deg) translateX(190px) rotate(-90deg); }
+      .orb.three { transform: rotate(180deg) translateX(190px) rotate(-180deg); }
+      .orb.four  { transform: rotate(270deg) translateX(190px) rotate(-270deg); }
     }
   </style>
 </head>
 <body>
   <div class="mouse-glow" id="mouseGlow"></div>
   <div class="hud-left">MEI DOCS // AI IMMERSION</div>
-  <div class="hud-right">Complementary deck <span>project walkthrough</span></div>
-  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">5</span></div>
-  <div class="auto-badge">deck complementar • imersao visual em ia</div>
+  <div class="hud-right">Less text <span>more signal</span></div>
+  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">4</span></div>
+  <div class="auto-badge">imersao automatica • use setas para navegar</div>
 
   <div class="deck">
-    <section class="slide cover active">
-      <div class="grid">
-        <div class="panel strong">
-          <span class="eyebrow">Imersao em IA</span>
-          <h1>O projeto como se o cliente estivesse <span class="accent">dentro do sistema</span>.</h1>
+    <section class="slide active">
+      <div class="frame">
+        <div class="panel">
+          <div class="kicker">Visao geral</div>
+          <h1>Da <span class="accent-problem">desordem</span> para a <span class="accent">clareza</span>.</h1>
           <p class="lead">
-            Este deck não serve para listar features. Ele existe para fazer o cliente sentir o projeto funcionando:
-            entrada de ativos, agentes processando contexto, síntese de conhecimento e entrega de documentação com valor real.
+            O cliente não precisa ler muito para entender a lógica. Os ativos entram confusos,
+            os agentes reorganizam o contexto e a saída vira uma camada clara, utilizável e vendável.
           </p>
-          <div class="metrics" style="margin-top: 20px;">
-            <div class="metric">
-              <div class="metric-value">01</div>
-              <div class="metric-label">Entrada</div>
-              <p>Arquivos, processos e caos técnico entram como matéria-prima.</p>
-            </div>
-            <div class="metric">
-              <div class="metric-value">02</div>
-              <div class="metric-label">Orquestracao</div>
-              <p>Agentes leem, estruturam e relacionam contexto em camadas.</p>
-            </div>
-            <div class="metric">
-              <div class="metric-value">03</div>
-              <div class="metric-label">Sintese</div>
-              <p>O projeto ganha narrativa compreensível, auditável e utilizável.</p>
-            </div>
-            <div class="metric">
-              <div class="metric-value">04</div>
-              <div class="metric-label">Entrega</div>
-              <p>Documentação e apresentação viram ativo estratégico.</p>
-            </div>
+          <div class="mini-pills">
+            <span class="pill">Input caótico</span>
+            <span class="pill">Agent mesh</span>
+            <span class="pill">Contexto sintetizado</span>
           </div>
         </div>
 
-        <div class="panel system-stage">
-          <div class="system-topline">
-            <span>System pulse</span>
-            <span>agent-led documentation engine</span>
+        <div class="stage">
+          <div class="stage-top">
+            <span>Live model</span>
+            <span>MEI Docs pipeline</span>
           </div>
-          <div class="ring"><span>Contexto entra e sai legível</span></div>
-          <div class="quote">
-            A proposta aqui é simples: não vender “texto bonito”, e sim um sistema de tradução entre complexidade técnica e clareza operacional.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide ingest">
-      <div class="grid">
-        <div class="panel strong">
-          <span class="eyebrow">Etapa 1 • Ingestao</span>
-          <h2>Primeiro, o sistema encara a <span class="accent-warn">desordem</span>.</h2>
-          <p class="lead">
-            O cliente normalmente vive aqui: arquivos espalhados, lógica implícita, dependência de pessoas-chave
-            e documentação que nunca acompanha a evolução do projeto.
-          </p>
-          <div class="grid-2" style="margin-top: 20px;">
-            <article class="card danger">
-              <div class="step">IN</div>
-              <h3>Ativos entram crus</h3>
-              <p>PBIX, notebooks, processos, decisões e estruturas chegam como fragmentos sem narrativa consolidada.</p>
-            </article>
-            <article class="card danger">
-              <div class="step">FR</div>
-              <h3>Fricção acumulada</h3>
-              <p>Sem leitura estruturada, o projeto depende de memória, esforço manual e interpretações diferentes.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="panel system-stage">
-          <div class="system-topline">
-            <span>Input layer</span>
-            <span>fragmented context</span>
-          </div>
-          <div class="pipeline">
-            <div class="pipeline-content">
-              <div class="pipeline-row">
-                <div class="node problem">
-                  <strong>PBIX</strong>
-                  <span>visuals, tabelas, medidas, relações</span>
-                </div>
-                <div class="beam">→</div>
-                <div class="node problem">
-                  <strong>Notebook</strong>
-                  <span>células, SQL, UDFs, dependências</span>
-                </div>
-              </div>
-              <div class="pipeline-row">
-                <div class="node problem">
-                  <strong>Contexto tácito</strong>
-                  <span>coisas que o time sabe mas não registrou</span>
-                </div>
-                <div class="beam">→</div>
-                <div class="node problem">
-                  <strong>Risco</strong>
-                  <span>fragilidade, ruído e retrabalho</span>
-                </div>
-              </div>
+          <div class="center-visual">
+            <div class="scan-field"></div>
+            <div class="core"><span>MEI Docs engine</span></div>
+            <div class="orbit">
+              <div class="orb one problem"><strong>Input</strong><span>arquivos e contexto bruto</span></div>
+              <div class="orb two solution"><strong>Agents</strong><span>leitura e interpretação</span></div>
+              <div class="orb three solution"><strong>Synthesis</strong><span>estrutura e narrativa</span></div>
+              <div class="orb four"><strong>Output</strong><span>doc clara e vendável</span></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide orchestration">
-      <div class="grid">
-        <div class="panel strong">
-          <span class="eyebrow">Etapa 2 • Orquestracao</span>
-          <h2>Depois, os agentes <span class="accent">decompõem e reorganizam</span> o projeto.</h2>
-          <div class="timeline" style="margin-top: 12px;">
-            <div class="timeline-item">
-              <strong>Leitura estrutural</strong>
-              Identificam componentes, relações, trechos críticos, lógica implícita e pontos de risco.
-            </div>
-            <div class="timeline-item">
-              <strong>Camadas de explicação</strong>
-              Separaram o que é técnico, o que é contexto e o que é atenção operacional.
-            </div>
-            <div class="timeline-item">
-              <strong>Sinalização de prioridade</strong>
-              O sistema deixa claro o que precisa ser lido primeiro, o que é sensível e o que sustenta o resto.
+    <section class="slide">
+      <div class="frame">
+        <div class="panel">
+          <div class="kicker problem">Problema</div>
+          <h2>Quando o projeto vive em <span class="accent-problem">fragmentos</span>, ninguém enxerga o todo.</h2>
+          <p class="lead">
+            Esse é o ponto de dor. Relatórios, notebooks, decisões e dependências existem, mas sem narrativa,
+            sem prioridade e sem uma leitura confiável para quem chega depois.
+          </p>
+        </div>
+
+        <div class="stage">
+          <div class="stage-top">
+            <span>Input chaos</span>
+            <span>raw project state</span>
+          </div>
+          <div class="center-visual">
+            <div class="scan-field"></div>
+            <div class="core"><span>Complexidade sem tradução</span></div>
+            <div class="orbit">
+              <div class="orb one problem"><strong>PBIX</strong><span>visuais, medidas, relações</span></div>
+              <div class="orb two problem"><strong>Notebook</strong><span>SQL, UDFs, células, fluxo</span></div>
+              <div class="orb three problem"><strong>Contexto</strong><span>coisas só na cabeça do time</span></div>
+              <div class="orb four problem"><strong>Risco</strong><span>retrabalho e dependência</span></div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="panel system-stage">
-          <div class="system-topline">
+    <section class="slide">
+      <div class="frame">
+        <div class="panel">
+          <div class="kicker solution">Solucao</div>
+          <h2>Os agentes <span class="accent-solution">leem, separam e organizam</span> o que importa.</h2>
+          <p class="lead">
+            A parte lúdica do deck é essa: mostrar que o projeto passa por uma malha de agentes que
+            converte caos em contexto, contexto em prioridade e prioridade em documentação utilizável.
+          </p>
+        </div>
+
+        <div class="stage">
+          <div class="stage-top">
             <span>Agent mesh</span>
             <span>context orchestration</span>
           </div>
-          <div class="pipeline">
-            <div class="pipeline-content">
-              <div class="pipeline-row">
-                <div class="node solution">
-                  <strong>Agent 01</strong>
-                  <span>extrai estrutura e hierarquia</span>
-                </div>
-                <div class="beam">→</div>
-                <div class="node solution">
-                  <strong>Agent 02</strong>
-                  <span>interpreta contexto e função</span>
-                </div>
-              </div>
-              <div class="pipeline-row">
-                <div class="node solution">
-                  <strong>Agent 03</strong>
-                  <span>sinaliza risco, atenção e leitura prioritária</span>
-                </div>
-                <div class="beam">→</div>
-                <div class="node solution">
-                  <strong>Agent 04</strong>
-                  <span>monta narrativa utilizável para humanos</span>
-                </div>
-              </div>
+          <div class="center-visual">
+            <div class="scan-field"></div>
+            <div class="core"><span>Agent orchestration</span></div>
+            <div class="orbit reverse">
+              <div class="orb one solution"><strong>Read</strong><span>extrai a estrutura</span></div>
+              <div class="orb two solution"><strong>Explain</strong><span>interpreta função e intenção</span></div>
+              <div class="orb three solution"><strong>Prioritize</strong><span>destaca risco e ordem de leitura</span></div>
+              <div class="orb four solution"><strong>Compose</strong><span>monta narrativa clara</span></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide delivery">
-      <div class="grid">
-        <div class="panel strong">
-          <span class="eyebrow">Etapa 3 • Entrega</span>
-          <h2>O output final parece <span class="accent-good">clareza condensada</span>, não burocracia.</h2>
-          <div class="grid-3" style="margin-top: 18px;">
-            <article class="card positive">
-              <div class="step">DX</div>
-              <h3>Leitura rápida</h3>
-              <p>Quem herda o projeto entende mais rápido o que existe, como ler e onde estão os riscos.</p>
-            </article>
-            <article class="card positive">
-              <div class="step">OP</div>
-              <h3>Uso operacional</h3>
-              <p>A documentação deixa de ser arquivo morto e passa a ser base real para governança e onboarding.</p>
-            </article>
-            <article class="card positive">
-              <div class="step">SA</div>
-              <h3>Camada de venda</h3>
-              <p>O mesmo conteúdo pode sustentar apresentação, proposta e narrativa de valor do projeto.</p>
-            </article>
-          </div>
-        </div>
-
+    <section class="slide">
+      <div class="frame">
         <div class="panel">
-          <span class="eyebrow">Visual de entrega</span>
-          <div class="terminal-box">
-            <div class="terminal-top"><span></span><span></span><span></span></div>
-            <div class="terminal">pipeline://output
-
-<span class="accent-line">STRUCTURE</span>
-guia de leitura
-componentes principais
-dependências críticas
-
-<span class="accent-line">CONTEXT</span>
-o que existe
-por que existe
-como interpretar
-
-<span class="accent-line">ATTENTION</span>
-riscos
-sensibilidades
-prioridades de leitura
-
-<span class="accent-line">RESULT</span>
-documentacao viva
-apresentacao vendável
-continuidade preservada</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide future">
-      <div class="grid">
-        <div class="panel strong">
-          <span class="eyebrow">Projecao</span>
-          <h2>Quando o cliente entende o método, ele para de enxergar só um serviço e passa a ver <span class="accent">uma plataforma de clareza</span>.</h2>
+          <div class="kicker delivery">Entrega</div>
+          <h2>O resultado final parece <span class="accent-delivery">um sistema de clareza</span>, não um documento frio.</h2>
           <p class="lead">
-            É aqui que a proposta ganha escala: documentação guiada por agentes deixa de ser uma resposta pontual
-            para virar disciplina aplicável a novos ativos, novos processos e novas camadas de governança.
+            O cliente deve terminar a imersão entendendo isso sem esforço: o método reduz ruído,
+            preserva conhecimento e ainda cria uma camada de apresentação forte para o projeto.
           </p>
-          <div class="grid-4" style="margin-top: 18px;">
-            <article class="card">
-              <div class="step">01</div>
-              <h3>Onboarding</h3>
-              <p>Menos tempo para entender, mais velocidade para produzir.</p>
-            </article>
-            <article class="card">
-              <div class="step">02</div>
-              <h3>Governança</h3>
-              <p>Mais padronização, contexto e rastreabilidade.</p>
-            </article>
-            <article class="card">
-              <div class="step">03</div>
-              <h3>Venda</h3>
-              <p>Projetos complexos ficam mais fáceis de explicar e defender.</p>
-            </article>
-            <article class="card">
-              <div class="step">04</div>
-              <h3>Escala</h3>
-              <p>O método cresce junto com o acervo técnico da empresa.</p>
-            </article>
+          <div class="stack">
+            <div class="stack-card"><strong>Leitura</strong><span>o projeto fica inteligível mais rápido</span></div>
+            <div class="stack-card"><strong>Operacao</strong><span>o time ganha base para continuidade real</span></div>
+            <div class="stack-card"><strong>Venda</strong><span>a narrativa passa a comunicar valor com mais força</span></div>
           </div>
         </div>
 
-        <div class="panel system-stage">
-          <div class="system-topline">
-            <span>Next state</span>
+        <div class="stage">
+          <div class="stage-top">
+            <span>Final state</span>
             <span>documentation as leverage</span>
           </div>
-          <div class="ring"><span>Mais clareza Menos dependência Mais escala</span></div>
-          <div class="quote">
-            O melhor efeito do projeto é este: depois de ver a experiência, o cliente passa a querer o método, não apenas o documento final.
+          <div class="center-visual">
+            <div class="scan-field"></div>
+            <div class="core"><span>Mais clareza Mais escala</span></div>
+            <div class="orbit">
+              <div class="orb one"><strong>Onboarding</strong><span>menos tempo para entender</span></div>
+              <div class="orb two solution"><strong>Governanca</strong><span>mais contexto e rastreabilidade</span></div>
+              <div class="orb three"><strong>Operacao</strong><span>menos dependência de memória</span></div>
+              <div class="orb four"><strong>Pitch</strong><span>mais força na apresentação</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1077,7 +788,7 @@ continuidade preservada</div>
   <div class="controls">
     <button class="nav-btn" id="prevBtn" type="button" aria-label="Anterior">&#8592;</button>
     <div class="dots" id="dots"></div>
-    <button class="nav-btn" id="nextBtn" type="button" aria-label="Próxima">&#8594;</button>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="Proxima">&#8594;</button>
   </div>
 
   <script>
@@ -1126,10 +837,10 @@ continuidade preservada</div>
       } else {
         oldSlide.style.transition = '';
         oldSlide.style.opacity = '0';
-        oldSlide.style.transform = 'translateX(54px) scale(0.99)';
+        oldSlide.style.transform = 'translateX(58px) scale(0.99)';
       }
 
-      nextSlide.style.cssText = 'transition:none;opacity:0;transform:translateX(' + (dir > 0 ? 54 : -54) + 'px) scale(0.99)';
+      nextSlide.style.cssText = 'transition:none;opacity:0;transform:translateX(' + (dir > 0 ? 58 : -58) + 'px) scale(0.99)';
       nextSlide.classList.add('active');
       nextSlide.getBoundingClientRect();
       nextSlide.style.cssText = '';
@@ -1154,7 +865,7 @@ continuidade preservada</div>
       clearInterval(autoTimer);
       autoTimer = setInterval(() => {
         goTo((current + 1) % total);
-      }, 5400);
+      }, 5200);
     }
 
     prevBtn.addEventListener('click', () => {
