@@ -349,6 +349,27 @@
       padding: 26px;
     }
 
+    .stage.problem-mode {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 125, 156, 0.18), transparent 20%),
+        radial-gradient(circle at 18% 82%, rgba(51, 93, 255, 0.16), transparent 26%),
+        linear-gradient(180deg, rgba(20, 10, 22, 0.98), rgba(8, 4, 12, 1));
+    }
+
+    .stage.solution-mode {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(105, 235, 180, 0.18), transparent 20%),
+        radial-gradient(circle at 18% 82%, rgba(103, 212, 255, 0.16), transparent 26%),
+        linear-gradient(180deg, rgba(6, 20, 26, 0.98), rgba(3, 8, 18, 1));
+    }
+
+    .stage.delivery-mode {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 210, 137, 0.16), transparent 20%),
+        radial-gradient(circle at 18% 82%, rgba(103, 212, 255, 0.16), transparent 26%),
+        linear-gradient(180deg, rgba(22, 18, 8, 0.98), rgba(6, 10, 18, 1));
+    }
+
     .stage::before {
       content: "";
       position: absolute;
@@ -381,6 +402,34 @@
       min-height: 520px;
       display: grid;
       place-items: center;
+    }
+
+    .particle-field {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(154, 250, 255, 0.8);
+      box-shadow: 0 0 16px rgba(154, 250, 255, 0.45);
+      opacity: 0.5;
+      animation: drift 10s linear infinite;
+    }
+
+    .particle.p2 { width: 4px; height: 4px; animation-duration: 12s; }
+    .particle.p3 { width: 8px; height: 8px; animation-duration: 15s; }
+
+    @keyframes drift {
+      0% { transform: translate3d(0, 40px, 0); opacity: 0; }
+      10% { opacity: 0.55; }
+      80% { opacity: 0.35; }
+      100% { transform: translate3d(0, -120px, 0); opacity: 0; }
     }
 
     .core {
@@ -462,6 +511,10 @@
       border: 1px solid rgba(103, 212, 255, 0.16);
       background: rgba(255,255,255,0.04);
       box-shadow: inset 0 0 0 1px rgba(103, 212, 255, 0.03);
+      appearance: none;
+      -webkit-appearance: none;
+      text-align: left;
+      cursor: pointer;
     }
 
     .orb strong {
@@ -476,8 +529,26 @@
     .orb span {
       display: block;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.45;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .orb:hover span,
+    .orb:focus-visible span {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .orb:hover,
+    .orb:focus-visible {
+      border-color: rgba(154, 250, 255, 0.34);
+      box-shadow:
+        0 0 28px rgba(103, 212, 255, 0.12),
+        inset 0 0 0 1px rgba(154, 250, 255, 0.12);
+      outline: none;
     }
 
     .orb.one   { transform: rotate(0deg) translateX(250px) rotate(0deg); }
@@ -550,6 +621,21 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.55;
+    }
+
+    .hover-hint {
+      position: relative;
+      z-index: 1;
+      justify-self: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(103, 212, 255, 0.14);
+      background: rgba(103, 212, 255, 0.06);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
     .controls {
@@ -698,10 +784,7 @@
         <div class="panel">
           <div class="kicker">Visao geral</div>
           <h1>Da <span class="accent-problem">desordem</span> para a <span class="accent">clareza</span>.</h1>
-          <p class="lead">
-            O cliente não precisa ler muito para entender a lógica. Os ativos entram confusos,
-            os agentes reorganizam o contexto e a saída vira uma camada clara, utilizável e vendável.
-          </p>
+          <p class="lead">Os ativos entram confusos. Os agentes reorganizam. A saída vira clareza utilizável.</p>
           <div class="mini-pills">
             <span class="pill">Input caótico</span>
             <span class="pill">Agent mesh</span>
@@ -715,15 +798,23 @@
             <span>MEI Docs pipeline</span>
           </div>
           <div class="center-visual">
+            <div class="particle-field">
+              <span class="particle" style="left:12%; top:78%; animation-delay:0s;"></span>
+              <span class="particle p2" style="left:22%; top:72%; animation-delay:1.2s;"></span>
+              <span class="particle p3" style="left:76%; top:80%; animation-delay:2.1s;"></span>
+              <span class="particle p2" style="left:64%; top:68%; animation-delay:3s;"></span>
+              <span class="particle" style="left:84%; top:74%; animation-delay:4.4s;"></span>
+            </div>
             <div class="scan-field"></div>
             <div class="core"><span>MEI Docs engine</span></div>
             <div class="orbit">
-              <div class="orb one problem"><strong>Input</strong><span>arquivos e contexto bruto</span></div>
-              <div class="orb two solution"><strong>Agents</strong><span>leitura e interpretação</span></div>
-              <div class="orb three solution"><strong>Synthesis</strong><span>estrutura e narrativa</span></div>
-              <div class="orb four"><strong>Output</strong><span>doc clara e vendável</span></div>
+              <button class="orb one problem" type="button"><strong>Input</strong><span>arquivos e contexto bruto</span></button>
+              <button class="orb two solution" type="button"><strong>Agents</strong><span>leitura e interpretação</span></button>
+              <button class="orb three solution" type="button"><strong>Synthesis</strong><span>estrutura e narrativa</span></button>
+              <button class="orb four" type="button"><strong>Output</strong><span>doc clara e vendável</span></button>
             </div>
           </div>
+          <div class="hover-hint">passe o mouse nos nós</div>
         </div>
       </div>
     </section>
@@ -733,27 +824,31 @@
         <div class="panel">
           <div class="kicker problem">Problema</div>
           <h2>Quando o projeto vive em <span class="accent-problem">fragmentos</span>, ninguém enxerga o todo.</h2>
-          <p class="lead">
-            Esse é o ponto de dor. Relatórios, notebooks, decisões e dependências existem, mas sem narrativa,
-            sem prioridade e sem uma leitura confiável para quem chega depois.
-          </p>
+          <p class="lead">Relatórios, notebooks e decisões existem, mas sem narrativa, sem prioridade e sem leitura confiável.</p>
         </div>
 
-        <div class="stage">
+        <div class="stage problem-mode">
           <div class="stage-top">
             <span>Input chaos</span>
             <span>raw project state</span>
           </div>
           <div class="center-visual">
+            <div class="particle-field">
+              <span class="particle p3" style="left:14%; top:80%; animation-delay:.3s; background:rgba(255,125,156,.8); box-shadow:0 0 16px rgba(255,125,156,.45);"></span>
+              <span class="particle p2" style="left:22%; top:70%; animation-delay:1.1s; background:rgba(255,125,156,.75); box-shadow:0 0 16px rgba(255,125,156,.4);"></span>
+              <span class="particle" style="left:78%; top:76%; animation-delay:2.4s;"></span>
+              <span class="particle p2" style="left:62%; top:68%; animation-delay:3.5s;"></span>
+            </div>
             <div class="scan-field"></div>
             <div class="core"><span>Complexidade sem tradução</span></div>
             <div class="orbit">
-              <div class="orb one problem"><strong>PBIX</strong><span>visuais, medidas, relações</span></div>
-              <div class="orb two problem"><strong>Notebook</strong><span>SQL, UDFs, células, fluxo</span></div>
-              <div class="orb three problem"><strong>Contexto</strong><span>coisas só na cabeça do time</span></div>
-              <div class="orb four problem"><strong>Risco</strong><span>retrabalho e dependência</span></div>
+              <button class="orb one problem" type="button"><strong>PBIX</strong><span>visuais, medidas, relações</span></button>
+              <button class="orb two problem" type="button"><strong>Notebook</strong><span>SQL, UDFs, células, fluxo</span></button>
+              <button class="orb three problem" type="button"><strong>Contexto</strong><span>coisas só na cabeça do time</span></button>
+              <button class="orb four problem" type="button"><strong>Risco</strong><span>retrabalho e dependência</span></button>
             </div>
           </div>
+          <div class="hover-hint">hover revela a dor</div>
         </div>
       </div>
     </section>
@@ -763,27 +858,31 @@
         <div class="panel">
           <div class="kicker solution">Solucao</div>
           <h2>Os agentes <span class="accent-solution">leem, separam e organizam</span> o que importa.</h2>
-          <p class="lead">
-            A parte lúdica do deck é essa: mostrar que o projeto passa por uma malha de agentes que
-            converte caos em contexto, contexto em prioridade e prioridade em documentação utilizável.
-          </p>
+          <p class="lead">Uma malha de agentes converte caos em contexto, contexto em prioridade e prioridade em documentação.</p>
         </div>
 
-        <div class="stage">
+        <div class="stage solution-mode">
           <div class="stage-top">
             <span>Agent mesh</span>
             <span>context orchestration</span>
           </div>
           <div class="center-visual">
+            <div class="particle-field">
+              <span class="particle" style="left:12%; top:78%; animation-delay:0s; background:rgba(105,235,180,.78); box-shadow:0 0 16px rgba(105,235,180,.42);"></span>
+              <span class="particle p2" style="left:25%; top:68%; animation-delay:1.5s;"></span>
+              <span class="particle p3" style="left:76%; top:76%; animation-delay:2.8s; background:rgba(105,235,180,.78); box-shadow:0 0 16px rgba(105,235,180,.42);"></span>
+              <span class="particle p2" style="left:60%; top:72%; animation-delay:4.1s;"></span>
+            </div>
             <div class="scan-field"></div>
             <div class="core"><span>Agent orchestration</span></div>
             <div class="orbit reverse">
-              <div class="orb one solution"><strong>Read</strong><span>extrai a estrutura</span></div>
-              <div class="orb two solution"><strong>Explain</strong><span>interpreta função e intenção</span></div>
-              <div class="orb three solution"><strong>Prioritize</strong><span>destaca risco e ordem de leitura</span></div>
-              <div class="orb four solution"><strong>Compose</strong><span>monta narrativa clara</span></div>
+              <button class="orb one solution" type="button"><strong>Read</strong><span>extrai a estrutura</span></button>
+              <button class="orb two solution" type="button"><strong>Explain</strong><span>interpreta função e intenção</span></button>
+              <button class="orb three solution" type="button"><strong>Prioritize</strong><span>destaca risco e ordem de leitura</span></button>
+              <button class="orb four solution" type="button"><strong>Compose</strong><span>monta narrativa clara</span></button>
             </div>
           </div>
+          <div class="hover-hint">hover revela a função de cada agente</div>
         </div>
       </div>
     </section>
@@ -793,10 +892,7 @@
         <div class="panel">
           <div class="kicker delivery">Entrega</div>
           <h2>O resultado final parece <span class="accent-delivery">um sistema de clareza</span>, não um documento frio.</h2>
-          <p class="lead">
-            O cliente deve terminar a imersão entendendo isso sem esforço: o método reduz ruído,
-            preserva conhecimento e ainda cria uma camada de apresentação forte para o projeto.
-          </p>
+          <p class="lead">No final, a sensação precisa ser essa: menos ruído, mais leitura e uma camada forte de apresentação.</p>
           <div class="stack">
             <div class="stack-card"><strong>Leitura</strong><span>o projeto fica inteligível mais rápido</span></div>
             <div class="stack-card"><strong>Operacao</strong><span>o time ganha base para continuidade real</span></div>
@@ -804,21 +900,28 @@
           </div>
         </div>
 
-        <div class="stage">
+        <div class="stage delivery-mode">
           <div class="stage-top">
             <span>Final state</span>
             <span>documentation as leverage</span>
           </div>
           <div class="center-visual">
+            <div class="particle-field">
+              <span class="particle p3" style="left:14%; top:78%; animation-delay:0.4s; background:rgba(255,210,137,.82); box-shadow:0 0 16px rgba(255,210,137,.46);"></span>
+              <span class="particle p2" style="left:28%; top:68%; animation-delay:1.7s;"></span>
+              <span class="particle" style="left:76%; top:78%; animation-delay:2.5s; background:rgba(255,210,137,.82); box-shadow:0 0 16px rgba(255,210,137,.46);"></span>
+              <span class="particle p2" style="left:60%; top:70%; animation-delay:4s;"></span>
+            </div>
             <div class="scan-field"></div>
             <div class="core"><span>Mais clareza Mais escala</span></div>
             <div class="orbit">
-              <div class="orb one"><strong>Onboarding</strong><span>menos tempo para entender</span></div>
-              <div class="orb two solution"><strong>Governanca</strong><span>mais contexto e rastreabilidade</span></div>
-              <div class="orb three"><strong>Operacao</strong><span>menos dependência de memória</span></div>
-              <div class="orb four"><strong>Pitch</strong><span>mais força na apresentação</span></div>
+              <button class="orb one" type="button"><strong>Onboarding</strong><span>menos tempo para entender</span></button>
+              <button class="orb two solution" type="button"><strong>Governanca</strong><span>mais contexto e rastreabilidade</span></button>
+              <button class="orb three" type="button"><strong>Operacao</strong><span>menos dependência de memória</span></button>
+              <button class="orb four" type="button"><strong>Pitch</strong><span>mais força na apresentação</span></button>
             </div>
           </div>
+          <div class="hover-hint">hover revela o impacto final</div>
         </div>
       </div>
     </section>
