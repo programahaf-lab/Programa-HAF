@@ -3,47 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEI Docs | Documentacao guiada por agentes</title>
+  <title>MEI Docs | Agent-led documentation</title>
   <style>
     :root {
-      --bg: #081226;
-      --bg-2: #0e1d3d;
-      --panel: rgba(9, 20, 41, 0.74);
-      --panel-strong: rgba(11, 24, 50, 0.92);
-      --line: rgba(125, 201, 255, 0.16);
-      --line-strong: rgba(125, 201, 255, 0.34);
-      --text: #ecf7ff;
-      --muted: #92a7c5;
-      --royal: #173eab;
-      --neon: #7dd7ff;
-      --neon-soft: rgba(125, 215, 255, 0.14);
-      --cyan: #8bf6ff;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
-      --radius-xl: 30px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --container: min(1200px, calc(100% - 32px));
+      --bg: #071121;
+      --bg-2: #0b1a35;
+      --bg-3: #10224a;
+      --panel: rgba(8, 18, 38, 0.82);
+      --panel-strong: rgba(9, 21, 46, 0.94);
+      --line: rgba(123, 213, 255, 0.16);
+      --line-strong: rgba(123, 213, 255, 0.34);
+      --text: #edf7ff;
+      --muted: #94aac8;
+      --neon: #7bd5ff;
+      --neon-2: #8cf8ff;
+      --royal: #2048cb;
+      --good: #5be5a8;
+      --warn: #ff9bb2;
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
+    html, body {
       margin: 0;
-      min-width: 320px;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       background:
-        radial-gradient(circle at 15% 10%, rgba(30, 82, 255, 0.22), transparent 22%),
-        radial-gradient(circle at 80% 18%, rgba(125, 215, 255, 0.14), transparent 20%),
-        radial-gradient(circle at 50% 120%, rgba(34, 101, 255, 0.22), transparent 32%),
-        linear-gradient(160deg, #071122 0%, #09162d 34%, #0b1734 64%, #061120 100%);
-      overflow-x: hidden;
+        radial-gradient(circle at 14% 12%, rgba(32, 72, 203, 0.28), transparent 20%),
+        radial-gradient(circle at 85% 15%, rgba(123, 213, 255, 0.15), transparent 20%),
+        radial-gradient(circle at 50% 120%, rgba(42, 96, 255, 0.18), transparent 28%),
+        linear-gradient(155deg, #050d1a 0%, #081225 36%, #0b1731 68%, #06101d 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body::before {
@@ -52,11 +47,11 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
-      opacity: 0.55;
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
+      opacity: 0.6;
     }
 
     a {
@@ -65,39 +60,36 @@
 
     .mouse-glow {
       position: fixed;
-      top: 0;
       left: 0;
-      width: 360px;
-      height: 360px;
+      top: 0;
+      width: 340px;
+      height: 340px;
       border-radius: 50%;
       pointer-events: none;
-      background: radial-gradient(circle, rgba(125, 215, 255, 0.16) 0%, rgba(125, 215, 255, 0.08) 26%, rgba(125, 215, 255, 0) 72%);
       transform: translate(-50%, -50%);
-      z-index: 0;
-      filter: blur(10px);
-      transition: opacity 200ms ease;
-      opacity: 0.85;
+      background: radial-gradient(circle, rgba(123, 213, 255, 0.18) 0%, rgba(123, 213, 255, 0.08) 28%, rgba(123, 213, 255, 0) 72%);
+      filter: blur(12px);
+      z-index: 1;
     }
 
     .hud-left,
     .hud-right {
       position: fixed;
-      z-index: 40;
       top: 18px;
+      z-index: 20;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--neon);
-      opacity: 0.95;
     }
 
     .hud-left {
-      left: 22px;
+      left: 24px;
+      color: var(--neon);
     }
 
     .hud-right {
-      right: 22px;
+      right: 24px;
       color: var(--muted);
     }
 
@@ -105,150 +97,66 @@
       color: var(--neon);
     }
 
-    .progress-rail {
-      position: fixed;
-      top: 120px;
-      right: 18px;
-      width: 3px;
-      height: calc(100vh - 180px);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
-      z-index: 35;
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 68px 76px 104px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(54px) scale(0.985);
+      transition: opacity 380ms cubic-bezier(.4,0,.2,1), transform 380ms cubic-bezier(.4,0,.2,1);
+      display: grid;
+      align-items: center;
       overflow: hidden;
     }
 
-    .progress-rail::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: var(--scroll-progress, 0%);
-      background: linear-gradient(180deg, var(--cyan) 0%, var(--neon) 100%);
-      box-shadow: 0 0 18px rgba(125, 215, 255, 0.45);
-      border-radius: inherit;
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
     }
 
-    .shell {
-      position: relative;
-      z-index: 1;
-      padding-bottom: 48px;
+    .slide.out-left {
+      opacity: 0;
+      transform: translateX(-54px) scale(0.99);
     }
 
-    .container {
-      width: var(--container);
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+      width: min(1240px, 100%);
       margin: 0 auto;
+      max-height: 100%;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      padding: 52px 0 0;
-    }
-
-    .nav-shell {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 16px;
-      border: 1px solid rgba(125, 215, 255, 0.16);
-      border-radius: 999px;
-      background: rgba(8, 18, 38, 0.72);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.24);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      min-width: 0;
-    }
-
-    .brand-chip {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-size: 14px;
-      font-weight: 900;
-      color: #031425;
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--neon) 100%);
-      box-shadow: 0 0 24px rgba(125, 215, 255, 0.35);
-    }
-
-    .brand-copy {
-      min-width: 0;
-    }
-
-    .brand-copy strong {
-      display: block;
-      font-size: 15px;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-copy span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .nav-links a {
-      padding: 11px 14px;
-      border-radius: 999px;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-      background: rgba(125, 215, 255, 0.09);
-      box-shadow: inset 0 0 0 1px rgba(125, 215, 255, 0.12);
-    }
-
-    section {
-      padding: 22px 0 0;
-    }
-
-    .hero {
-      padding-top: 20px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
-      gap: 24px;
-      align-items: stretch;
+    .slide-grid.single {
+      grid-template-columns: 1fr;
+      width: min(1180px, 100%);
     }
 
     .panel {
       position: relative;
       overflow: hidden;
-      background: var(--panel);
+      border-radius: 30px;
       border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
+      background: var(--panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(20px);
+      padding: 30px;
+    }
+
+    .panel.strong {
+      background: var(--panel-strong);
+      border-color: rgba(123, 213, 255, 0.22);
     }
 
     .panel::before {
@@ -257,195 +165,120 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(135deg, rgba(125, 215, 255, 0.08), transparent 30%),
+        linear-gradient(135deg, rgba(123, 213, 255, 0.08), transparent 28%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%);
     }
 
-    .hero-copy {
-      padding: 40px;
-      min-height: 680px;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto auto;
-      gap: 20px;
-    }
-
-    .eyebrow {
+    .tag {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 12px;
-      border: 1px solid rgba(125, 215, 255, 0.18);
+      min-height: 32px;
+      padding: 7px 12px;
       border-radius: 999px;
-      color: var(--neon);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      background: rgba(125, 215, 255, 0.06);
-      width: fit-content;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 14px rgba(139, 246, 255, 0.8);
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    p {
-      margin: 0;
-    }
-
-    h1,
-    h2,
-    .brand-copy strong {
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    h1 {
-      font-size: clamp(44px, 6vw, 78px);
-      line-height: 0.92;
-      letter-spacing: -0.05em;
-      max-width: 10ch;
-      text-wrap: balance;
-    }
-
-    h1 .accent,
-    h2 .accent {
-      color: var(--neon);
-      text-shadow: 0 0 24px rgba(125, 215, 255, 0.2);
-    }
-
-    .hero-lead {
-      max-width: 56ch;
-      color: #d2e5fb;
-      font-size: 17px;
-      line-height: 1.72;
-    }
-
-    .slider-shell {
-      position: relative;
-      min-height: 260px;
-      border: 1px solid rgba(125, 215, 255, 0.12);
-      border-radius: 24px;
-      background: rgba(5, 13, 28, 0.46);
-      overflow: hidden;
-    }
-
-    .hero-slide {
-      position: absolute;
-      inset: 0;
-      padding: 24px;
-      display: grid;
-      align-content: start;
-      gap: 14px;
-      opacity: 0;
-      transform: translateX(40px);
-      pointer-events: none;
-      transition: opacity 380ms ease, transform 380ms ease;
-    }
-
-    .hero-slide.active {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-    }
-
-    .hero-slide .slide-tag {
+      border: 1px solid rgba(123, 213, 255, 0.16);
+      background: rgba(123, 213, 255, 0.08);
       color: var(--neon);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      margin-bottom: 18px;
+      width: fit-content;
     }
 
-    .hero-slide h3 {
-      font-size: clamp(28px, 3.2vw, 44px);
+    .tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-2);
+      box-shadow: 0 0 12px rgba(140, 248, 255, 0.72);
+    }
+
+    h1, h2, h3, h4, p {
+      margin: 0;
+    }
+
+    h1, h2, h3, .brand {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    h1 {
+      font-size: clamp(46px, 6vw, 82px);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      max-width: 10ch;
+      text-wrap: balance;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 15ch;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 24px;
       line-height: 1;
       letter-spacing: -0.04em;
+      margin-bottom: 10px;
     }
 
-    .hero-slide p {
-      max-width: 42ch;
+    .accent {
+      color: var(--neon);
+      text-shadow: 0 0 22px rgba(123, 213, 255, 0.22);
+    }
+
+    .lead,
+    .subcopy,
+    .card p,
+    .metric p,
+    .list li,
+    .terminal,
+    .mini {
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.68;
       font-size: 15px;
     }
 
-    .slide-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .lead {
+      max-width: 54ch;
+      font-size: 17px;
+      color: #d4e6fb;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(125, 215, 255, 0.16);
-      background: rgba(125, 215, 255, 0.06);
-      color: #d7f6ff;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      min-height: 100%;
     }
 
-    .slider-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 0 4px;
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 18px;
     }
 
-    .slide-dots {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .slide-dots button {
-      width: 10px;
-      height: 10px;
-      border: 0;
-      padding: 0;
-      border-radius: 999px;
-      background: rgba(125, 215, 255, 0.24);
-      cursor: pointer;
-      transition: width 220ms ease, background 220ms ease;
-    }
-
-    .slide-dots button.active {
-      width: 28px;
-      background: var(--neon);
-      box-shadow: 0 0 16px rgba(125, 215, 255, 0.36);
-    }
-
-    .slide-status {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .hero-copy {
+      display: grid;
+      align-content: start;
+      gap: 18px;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      margin-top: 6px;
     }
 
-    .cta-primary,
-    .cta-secondary {
+    .cta,
+    .ghost {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -455,68 +288,156 @@
       text-decoration: none;
       font-size: 14px;
       font-weight: 800;
-      letter-spacing: 0.04em;
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      letter-spacing: 0.05em;
+      transition: transform 180ms ease, box-shadow 180ms ease;
     }
 
-    .cta-primary {
-      color: #051220;
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--neon) 100%);
-      box-shadow: 0 14px 34px rgba(125, 215, 255, 0.28);
+    .cta {
+      background: linear-gradient(135deg, var(--neon-2) 0%, var(--neon) 100%);
+      color: #05111f;
+      box-shadow: 0 16px 38px rgba(123, 213, 255, 0.24);
     }
 
-    .cta-secondary {
+    .ghost {
+      border: 1px solid rgba(123, 213, 255, 0.18);
+      background: rgba(123, 213, 255, 0.06);
       color: var(--text);
-      border: 1px solid rgba(125, 215, 255, 0.18);
-      background: rgba(125, 215, 255, 0.06);
     }
 
-    .cta-primary:hover,
-    .cta-secondary:hover {
+    .cta:hover,
+    .ghost:hover {
       transform: translateY(-1px);
     }
 
-    .hero-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+    .hero-pills,
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .metric {
-      padding: 16px;
-      border-radius: 20px;
-      border: 1px solid rgba(125, 215, 255, 0.12);
-      background: rgba(255, 255, 255, 0.025);
+    .pill {
+      display: inline-flex;
+      min-height: 30px;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(123, 213, 255, 0.16);
+      background: rgba(123, 213, 255, 0.06);
+      color: #daf6ff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-metrics,
+    .metrics,
+    .grid-3,
+    .grid-4,
+    .grid-2 {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-metrics {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .metrics {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric,
+    .card {
+      position: relative;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(123, 213, 255, 0.14);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+
+    .metric::before,
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(123, 213, 255, 0.06), transparent 24%);
     }
 
     .metric strong {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       color: var(--neon);
-      font-size: 28px;
+      font-size: 30px;
       line-height: 1;
       letter-spacing: -0.05em;
     }
 
-    .metric span {
-      color: var(--muted);
+    .step {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid rgba(123, 213, 255, 0.18);
+      background: rgba(123, 213, 255, 0.08);
+      color: var(--neon);
       font-size: 12px;
-      line-height: 1.45;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+
+    .danger {
+      border-color: rgba(255, 155, 178, 0.18);
+      background: linear-gradient(180deg, rgba(255, 96, 128, 0.08), rgba(255, 255, 255, 0.02));
+    }
+
+    .danger .step {
+      color: var(--warn);
+      border-color: rgba(255, 155, 178, 0.24);
+      background: rgba(255, 155, 178, 0.08);
+    }
+
+    .positive {
+      border-color: rgba(91, 229, 168, 0.18);
+      background: linear-gradient(180deg, rgba(91, 229, 168, 0.08), rgba(255, 255, 255, 0.02));
+    }
+
+    .positive .step {
+      color: var(--good);
+      border-color: rgba(91, 229, 168, 0.24);
+      background: rgba(91, 229, 168, 0.08);
     }
 
     .hero-visual {
-      min-height: 680px;
-      padding: 28px;
+      min-height: 100%;
       display: grid;
+      gap: 16px;
       grid-template-rows: auto 1fr auto;
-      gap: 18px;
       background:
-        radial-gradient(circle at 50% 20%, rgba(125, 215, 255, 0.2), transparent 20%),
-        radial-gradient(circle at 20% 80%, rgba(50, 97, 255, 0.18), transparent 26%),
-        linear-gradient(180deg, rgba(14, 29, 61, 0.92), rgba(7, 17, 34, 0.98));
+        radial-gradient(circle at 50% 20%, rgba(123, 213, 255, 0.2), transparent 22%),
+        radial-gradient(circle at 20% 80%, rgba(32, 72, 203, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(12, 24, 50, 0.96), rgba(5, 12, 24, 0.98));
     }
 
-    .visual-topline {
+    .topline {
       display: flex;
       justify-content: space-between;
       gap: 12px;
@@ -527,24 +448,15 @@
       text-transform: uppercase;
     }
 
-    .visual-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 16px;
-      align-items: stretch;
-    }
-
-    .blueprint,
-    .visual-card {
-      border-radius: 24px;
-      border: 1px solid rgba(125, 215, 255, 0.16);
-      background: rgba(4, 10, 22, 0.54);
-      overflow: hidden;
-    }
-
     .blueprint {
-      min-height: 360px;
       position: relative;
+      min-height: 290px;
+      border-radius: 24px;
+      border: 1px solid rgba(123, 213, 255, 0.16);
+      background:
+        linear-gradient(135deg, rgba(123, 213, 255, 0.04), transparent 34%),
+        rgba(4, 10, 22, 0.52);
+      overflow: hidden;
       padding: 24px;
     }
 
@@ -553,21 +465,10 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(125, 215, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(125, 215, 255, 0.08) 1px, transparent 1px);
-      background-size: 42px 42px;
-      opacity: 0.5;
-    }
-
-    .blueprint::after {
-      content: "";
-      position: absolute;
-      inset: 30px;
-      border-radius: 24px;
-      border: 1px solid rgba(125, 215, 255, 0.18);
-      box-shadow:
-        0 0 0 1px rgba(125, 215, 255, 0.06) inset,
-        0 0 42px rgba(125, 215, 255, 0.07);
+        linear-gradient(rgba(123, 213, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123, 213, 255, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.46;
     }
 
     .blueprint-content {
@@ -578,33 +479,18 @@
       align-content: space-between;
     }
 
-    .blueprint h3 {
-      font-size: 26px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      max-width: 10ch;
-    }
-
-    .blueprint small {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
-      max-width: 28ch;
-    }
-
     .wire-stack {
       display: grid;
       gap: 10px;
       justify-items: end;
-      margin-top: 24px;
     }
 
     .wire {
-      height: 52px;
-      width: min(100%, 230px);
+      width: min(100%, 220px);
+      height: 48px;
       border-radius: 14px;
-      border: 1px solid rgba(125, 215, 255, 0.14);
-      background: linear-gradient(135deg, rgba(125, 215, 255, 0.08), rgba(125, 215, 255, 0.02));
+      border: 1px solid rgba(123, 213, 255, 0.16);
+      background: linear-gradient(135deg, rgba(123, 213, 255, 0.09), rgba(123, 213, 255, 0.02));
       position: relative;
       overflow: hidden;
     }
@@ -612,299 +498,44 @@
     .wire::after {
       content: "";
       position: absolute;
-      inset: 9px;
+      inset: 8px;
       border-radius: 9px;
-      border: 1px dashed rgba(125, 215, 255, 0.16);
+      border: 1px dashed rgba(123, 213, 255, 0.16);
     }
 
-    .side-stack {
-      display: grid;
-      gap: 16px;
-    }
-
-    .visual-card {
-      padding: 18px;
-    }
-
-    .visual-card h4 {
-      margin-bottom: 8px;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-
-    .visual-card p,
-    .visual-card li {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .visual-card ul {
-      margin: 0;
-      padding-left: 16px;
-    }
-
-    .scanline {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scanline::after {
-      content: "";
-      position: absolute;
-      inset: -40% 0 auto;
-      height: 40%;
-      background: linear-gradient(180deg, rgba(125, 215, 255, 0), rgba(125, 215, 255, 0.12), rgba(125, 215, 255, 0));
-      animation: sweep 7s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes sweep {
-      0% { transform: translateY(-140%); }
-      100% { transform: translateY(340%); }
-    }
-
-    .story-grid,
-    .pillars-grid,
-    .packages-grid,
-    .contact-grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .section-card {
-      padding: 30px;
-    }
-
-    .section-header {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 22px;
-      max-width: 70ch;
-    }
-
-    .section-tag {
-      color: var(--neon);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      font-size: clamp(32px, 4.8vw, 54px);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-      text-wrap: balance;
-    }
-
-    .section-header p {
-      color: var(--muted);
-      line-height: 1.72;
+    .quote {
+      padding: 18px 20px;
+      border-left: 4px solid var(--neon);
+      border-radius: 0 16px 16px 0;
+      background: rgba(123, 213, 255, 0.08);
+      color: #d8eeff;
       font-size: 16px;
+      line-height: 1.7;
+      font-style: italic;
     }
 
-    .story-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .story-card,
-    .pillar,
-    .package,
-    .contact-card {
-      position: relative;
-      padding: 22px;
-      border-radius: 24px;
-      border: 1px solid rgba(125, 215, 255, 0.14);
-      background: rgba(255, 255, 255, 0.03);
-      overflow: hidden;
-    }
-
-    .story-card::before,
-    .pillar::before,
-    .package::before,
-    .contact-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(125, 215, 255, 0.06), transparent 26%);
-      pointer-events: none;
-    }
-
-    .story-card .step,
-    .pillar .step {
-      display: inline-flex;
-      width: 34px;
-      height: 34px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      background: rgba(125, 215, 255, 0.08);
-      border: 1px solid rgba(125, 215, 255, 0.16);
-      color: var(--neon);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      margin-bottom: 16px;
-    }
-
-    .story-card h3,
-    .pillar h3,
-    .package h3,
-    .contact-card h3 {
-      font-size: 24px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      margin-bottom: 12px;
-    }
-
-    .story-card p,
-    .pillar p,
-    .package p,
-    .contact-card p,
-    .package li {
-      color: var(--muted);
-      line-height: 1.68;
-      font-size: 15px;
-    }
-
-    .story-card ul,
-    .package ul {
-      margin: 14px 0 0;
+    .list {
+      margin: 0;
       padding-left: 18px;
     }
 
-    .danger {
-      border-color: rgba(255, 113, 153, 0.18);
-      background: linear-gradient(180deg, rgba(255, 67, 97, 0.08), rgba(255, 255, 255, 0.02));
+    .list li {
+      margin-bottom: 8px;
     }
 
-    .danger .step {
-      color: #ff8aa9;
-      border-color: rgba(255, 138, 169, 0.24);
-      background: rgba(255, 138, 169, 0.08);
-    }
-
-    .signal {
-      border-color: rgba(139, 246, 255, 0.18);
-      background: linear-gradient(180deg, rgba(139, 246, 255, 0.08), rgba(255, 255, 255, 0.02));
-    }
-
-    .signal .step {
-      color: var(--cyan);
-      border-color: rgba(139, 246, 255, 0.24);
-      background: rgba(139, 246, 255, 0.08);
-    }
-
-    .pillars-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .pillar {
-      min-height: 260px;
-    }
-
-    .pillar strong {
-      display: block;
-      margin-top: 18px;
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.5;
-      letter-spacing: 0.04em;
-    }
-
-    .packages-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: stretch;
-    }
-
-    .package {
-      display: grid;
-      align-content: start;
-      gap: 14px;
-      min-height: 100%;
-    }
-
-    .package.featured {
-      border-color: rgba(125, 215, 255, 0.3);
-      background: linear-gradient(180deg, rgba(125, 215, 255, 0.12), rgba(255, 255, 255, 0.03));
-      box-shadow: 0 0 0 1px rgba(125, 215, 255, 0.08) inset, 0 0 36px rgba(125, 215, 255, 0.08);
-    }
-
-    .package-kicker {
-      display: inline-flex;
-      width: fit-content;
-      align-items: center;
-      gap: 8px;
-      min-height: 30px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(125, 215, 255, 0.08);
-      border: 1px solid rgba(125, 215, 255, 0.16);
-      color: var(--neon);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .package-price {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .package-price strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--text);
-      font-size: 38px;
-      line-height: 1;
-      letter-spacing: -0.05em;
-    }
-
-    .package .mini-note {
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(0, 0, 0, 0.18);
-      border: 1px solid rgba(125, 215, 255, 0.12);
-      color: #cfe4f8;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .contact-grid {
-      grid-template-columns: 1.2fr 0.8fr;
-    }
-
-    .contact-card .contact-line {
-      display: block;
-      color: var(--text);
-      font-size: 18px;
-      font-weight: 700;
-      text-decoration: none;
-      margin-top: 12px;
-    }
-
-    .contact-card .contact-line:hover {
-      color: var(--neon);
-    }
-
-    .terminal {
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(125, 215, 255, 0.16);
+    .terminal-box {
+      border-radius: 24px;
+      border: 1px solid rgba(123, 213, 255, 0.16);
       background: #06101d;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      overflow: hidden;
     }
 
     .terminal-top {
       display: flex;
-      align-items: center;
       gap: 8px;
       padding: 12px 14px;
+      border-bottom: 1px solid rgba(123, 213, 255, 0.12);
       background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid rgba(125, 215, 255, 0.1);
     }
 
     .terminal-top span {
@@ -912,89 +543,150 @@
       height: 10px;
       border-radius: 50%;
       display: block;
-      background: rgba(255, 255, 255, 0.2);
     }
 
     .terminal-top span:nth-child(1) { background: #ff5f56; }
     .terminal-top span:nth-child(2) { background: #ffbd2e; }
     .terminal-top span:nth-child(3) { background: #27c93f; }
 
-    .terminal-body {
+    .terminal {
       padding: 18px;
       font-family: Consolas, "SFMono-Regular", Menlo, monospace;
-      font-size: 13px;
-      line-height: 1.7;
-      color: #ccecff;
       white-space: pre-wrap;
-    }
-
-    .terminal-body .accent-line {
-      color: var(--cyan);
-    }
-
-    .footer {
-      padding: 28px 0 42px;
-      color: var(--muted);
       font-size: 13px;
-      text-align: center;
+      color: #cde9ff;
     }
 
-    @media (max-width: 1080px) {
-      .hero-grid,
-      .visual-grid,
-      .story-grid,
-      .pillars-grid,
-      .packages-grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
+    .terminal .accent-line {
+      color: var(--neon-2);
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 30;
+    }
+
+    .nav-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(123, 213, 255, 0.26);
+      background: rgba(10, 22, 45, 0.9);
+      color: var(--neon);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 180ms ease;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--neon);
+      color: #04101c;
+      border-color: var(--neon);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.22;
+      cursor: default;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(123, 213, 255, 0.24);
+      cursor: pointer;
+      transition: all 220ms ease;
+    }
+
+    .dot.on {
+      width: 28px;
+      background: var(--neon);
+      box-shadow: 0 0 16px rgba(123, 213, 255, 0.42);
+    }
+
+    .slide-index {
+      position: fixed;
+      right: 24px;
+      top: 50px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      z-index: 20;
+    }
+
+    .slide-index span {
+      color: var(--neon);
+    }
+
+    .autoplay-badge {
+      position: fixed;
+      bottom: 34px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      z-index: 20;
+    }
+
+    @media (max-width: 1040px) {
+      .slide {
+        padding: 58px 22px 92px;
+        overflow-y: auto;
       }
 
-      .hero-copy,
-      .hero-visual {
-        min-height: auto;
-      }
-
+      .slide-grid,
+      .slide-grid.single,
+      .hero-top,
+      .metrics,
+      .grid-4,
+      .grid-3,
+      .grid-2,
       .hero-metrics {
         grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 22px;
+      }
+
+      .slide-index,
+      .hud-right {
+        right: 16px;
+      }
+
+      .hud-left {
+        left: 16px;
       }
     }
 
     @media (max-width: 760px) {
       .hud-left,
       .hud-right,
-      .progress-rail {
+      .slide-index,
+      .autoplay-badge {
         display: none;
       }
 
-      .container {
-        width: min(100% - 20px, 1200px);
-      }
-
-      .topbar {
-        padding-top: 18px;
-      }
-
-      .nav-shell {
-        border-radius: 28px;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        justify-content: flex-start;
-      }
-
-      .hero-copy,
-      .hero-visual,
-      .section-card {
-        padding: 22px;
-      }
-
-      .hero-slide {
-        padding: 18px;
-      }
-
-      h1 {
-        max-width: none;
+      .nav {
+        bottom: 18px;
       }
     }
   </style>
@@ -1002,425 +694,373 @@
 <body>
   <div class="mouse-glow" id="mouseGlow"></div>
   <div class="hud-left">MEI DOCS // AGENT-LED DOCUMENTATION</div>
-  <div class="hud-right">Pages <span>online</span> • Futuristic sales layer</div>
-  <div class="progress-rail" aria-hidden="true"></div>
+  <div class="hud-right">No scroll <span>deck mode</span></div>
+  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">5</span></div>
+  <div class="autoplay-badge">capa em autoplay • setas navegam</div>
 
-  <div class="shell">
-    <header class="topbar">
-      <div class="container">
-        <div class="nav-shell">
-          <a class="brand" href="#top">
-            <div class="brand-chip">MD</div>
-            <div class="brand-copy">
-              <strong>MEI Docs</strong>
-              <span>Documentacao guiada por agentes</span>
+  <div class="deck" id="deck">
+    <section class="slide active">
+      <div class="slide-grid single">
+        <div class="panel strong hero-layout">
+          <div class="hero-top">
+            <div class="hero-copy">
+              <div class="tag">Proposta comercial orientada a tecnologia</div>
+              <h1>Documentação é chata. <span class="accent">O prejuízo de não ter</span> é muito pior.</h1>
+              <p class="lead">
+                O MEI Docs existe para vender uma ideia simples: documentação não é um anexo burocrático.
+                É infraestrutura de continuidade. Nós usamos agentes para ler ativos, estruturar contexto,
+                transformar caos técnico em narrativa útil e entregar uma camada premium para operação, onboarding e venda.
+              </p>
+              <div class="hero-actions">
+                <a class="cta" href="mailto:contato@meidocs.dev">Quero conversar</a>
+                <a class="ghost" href="./apresentacao-mei-docs.html">Abrir deck complementar</a>
+              </div>
+              <div class="hero-pills">
+                <span class="pill">Agent-led docs</span>
+                <span class="pill">Context engineering</span>
+                <span class="pill">Governanca</span>
+                <span class="pill">Tech sales layer</span>
+              </div>
             </div>
-          </a>
-          <nav class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#narrativa">Narrativa</a>
-            <a href="#pilares">Pilares</a>
-            <a href="#pacotes">Pacotes</a>
-            <a href="#contato">Contato</a>
-            <a href="./apresentacao-mei-docs.html">Deck</a>
-          </nav>
+
+            <div class="panel hero-visual">
+              <div class="topline">
+                <span>Navigation reference</span>
+                <span>PBIX Analyzer Case Study</span>
+              </div>
+              <div class="blueprint">
+                <div class="blueprint-content">
+                  <div>
+                    <div class="tag" style="margin-bottom: 14px;">Lógica puxada do case</div>
+                    <h3>HUD fixa, leitura em etapas e abertura com impacto.</h3>
+                  </div>
+                  <div class="wire-stack">
+                    <div class="wire"></div>
+                    <div class="wire" style="max-width: 196px;"></div>
+                    <div class="wire" style="max-width: 152px;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="quote">
+                “O que vendemos não é só documentação. É uma forma mais inteligente de preservar contexto, reduzir atrito e tornar projetos complexos legíveis.”
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <strong>01</strong>
+              <p>Agentes lendo e organizando ativos reais em vez de depender de escrita manual do zero.</p>
+            </div>
+            <div class="metric">
+              <strong>02</strong>
+              <p>Documentação com narrativa estratégica para quem opera, mantém e compra a ideia.</p>
+            </div>
+            <div class="metric">
+              <strong>03</strong>
+              <p>Acabamento visual premium para reforçar o valor do método e não parecer material burocrático.</p>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
+    </section>
 
-    <main id="top">
-      <section class="hero" id="home" data-section>
-        <div class="container">
-          <div class="hero-grid">
-            <div class="panel hero-copy">
-              <div class="eyebrow">Documentacao chata. Valor estratégico.</div>
-              <h1>Transformamos <span class="accent">caos técnico</span> em documentação que vende clareza.</h1>
-              <p class="hero-lead">
-                O problema nunca foi só escrever documentação. O problema é que times precisam manter contexto,
-                transferir conhecimento, reduzir risco e continuar entregando sem depender da memória de quem criou tudo.
-                O MEI Docs vende exatamente isso: documentação guiada por agentes, com método, narrativa e aplicação real.
-              </p>
-
-              <div class="slider-shell">
-                <article class="hero-slide active">
-                  <span class="slide-tag">Slide 01 · a dor real</span>
-                  <h3>Ninguém quer documentar, mas todo time paga pela ausência.</h3>
-                  <p>
-                    Quando a documentação some, o custo aparece em onboarding lento, retrabalho, dependência de pessoas-chave,
-                    decisões mal interpretadas e projetos que envelhecem sem contexto.
-                  </p>
-                  <div class="slide-pills">
-                    <span class="pill">Onboarding lento</span>
-                    <span class="pill">Retrabalho</span>
-                    <span class="pill">Risco operacional</span>
-                  </div>
-                </article>
-                <article class="hero-slide">
-                  <span class="slide-tag">Slide 02 · o metodo</span>
-                  <h3>Agentes leem, estruturam e explicam como um especialista faria.</h3>
-                  <p>
-                    Nós desenhamos fluxos em que agentes analisam ativos reais, organizam a narrativa técnica,
-                    registram alertas e deixam o material pronto para uso executivo e operacional.
-                  </p>
-                  <div class="slide-pills">
-                    <span class="pill">LLM orchestration</span>
-                    <span class="pill">Narrativa técnica</span>
-                    <span class="pill">Padronização</span>
-                  </div>
-                </article>
-                <article class="hero-slide">
-                  <span class="slide-tag">Slide 03 · o valor</span>
-                  <h3>O resultado não é “um doc”. É continuidade, clareza e escala.</h3>
-                  <p>
-                    A documentação passa a funcionar como ativo estratégico: reduz atrito interno,
-                    melhora leitura de projetos complexos e dá material de confiança para operação, gestão e venda.
-                  </p>
-                  <div class="slide-pills">
-                    <span class="pill">Conhecimento vivo</span>
-                    <span class="pill">Escala operacional</span>
-                    <span class="pill">Contexto preservado</span>
-                  </div>
-                </article>
-              </div>
-
-              <div class="slider-footer">
-                <div class="slide-dots" id="slideDots"></div>
-                <div class="slide-status"><span id="currentSlide">1</span> / <span id="totalSlides">3</span></div>
-              </div>
-
-              <div class="hero-actions">
-                <a class="cta-primary" href="#pacotes">Ver pacotes</a>
-                <a class="cta-secondary" href="#contato">Falar sobre o projeto</a>
-              </div>
-
-              <div class="hero-metrics">
-                <div class="metric">
-                  <strong>01</strong>
-                  <span>Estratégia para transformar documentação em ativo de negócio.</span>
-                </div>
-                <div class="metric">
-                  <strong>02</strong>
-                  <span>Execução guiada por agentes com método replicável e auditável.</span>
-                </div>
-                <div class="metric">
-                  <strong>03</strong>
-                  <span>Entrega pensada para operação, onboarding, governança e venda.</span>
-                </div>
-              </div>
-            </div>
-
-            <aside class="panel hero-visual scanline">
-              <div class="visual-topline">
-                <span>Signal map</span>
-                <span>venda orientada a tecnologia</span>
-              </div>
-
-              <div class="visual-grid">
-                <div class="blueprint">
-                  <div class="blueprint-content">
-                    <div>
-                      <div class="section-tag">Navigation inspired by the case study</div>
-                      <h3>Leitura em camadas, como uma apresentação viva.</h3>
-                    </div>
-                    <div class="wire-stack">
-                      <div class="wire"></div>
-                      <div class="wire" style="max-width: 200px;"></div>
-                      <div class="wire" style="max-width: 168px;"></div>
-                    </div>
-                    <small>HUD fixo, seções sequenciais, cards densos e hero que se comporta como o início de um deck.</small>
-                  </div>
-                </div>
-
-                <div class="side-stack">
-                  <div class="visual-card">
-                    <div class="section-tag">What we sell</div>
-                    <h4>Documentacao guiada por agentes</h4>
-                    <p>Uma combinação de leitura automatizada, curadoria estrutural e narrativa técnica voltada à continuidade do projeto.</p>
-                  </div>
-                  <div class="visual-card">
-                    <div class="section-tag">Why it matters</div>
-                    <ul>
-                      <li>Menos dependência de memória individual</li>
-                      <li>Mais contexto para quem herda sistemas</li>
-                      <li>Mais confiança para operação e decisão</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="visual-card">
-                <div class="section-tag">Current pitch</div>
-                <h4>Tecnologia, clareza e acabamento.</h4>
-                <p>O site não é catálogo genérico. Ele funciona como peça de venda do método: mostra a dor, traduz a proposta e ancora o valor em uma experiência visual coerente com o tema.</p>
-              </div>
-            </aside>
+    <section class="slide">
+      <div class="slide-grid">
+        <div class="panel strong">
+          <div class="tag">O problema</div>
+          <h2>Todo mundo sabe que precisa. <span class="accent">Quase ninguém quer fazer.</span></h2>
+          <p class="subcopy">
+            A dor é repetida em quase qualquer projeto mais técnico: materiais dispersos, dependência de quem construiu,
+            dificuldade para treinar gente nova e zero padronização entre ativos críticos.
+          </p>
+          <div class="grid-2" style="margin-top: 20px;">
+            <article class="card danger">
+              <div class="step">A1</div>
+              <h3>Antes</h3>
+              <ul class="list">
+                <li>Contexto preso em poucas pessoas</li>
+                <li>Onboarding lento e inseguro</li>
+                <li>Projetos difíceis de transferir</li>
+                <li>Decisões sem histórico confiável</li>
+              </ul>
+            </article>
+            <article class="card danger">
+              <div class="step">A2</div>
+              <h3>Na prática</h3>
+              <ul class="list">
+                <li>Relatórios complexos ficam opacos</li>
+                <li>Notebooks e pipelines viram caixas-pretas</li>
+                <li>Governança depende de esforço manual contínuo</li>
+                <li>Documentação envelhece antes de ficar pronta</li>
+              </ul>
+            </article>
           </div>
         </div>
-      </section>
 
-      <section id="narrativa" data-section>
-        <div class="container">
-          <div class="panel section-card">
-            <div class="section-header">
-              <div class="section-tag">Narrativa central</div>
-              <h2>O site precisa vender uma ideia simples: <span class="accent">documentação é tediosa</span>, mas a ausência dela custa caro.</h2>
-              <p>
-                A navegação foi organizada como no case study do PBIX Analyzer: uma abertura forte, sequência de blocos com leitura orientada
-                e densidade suficiente para parecer solução séria, não landing page vazia. Aqui a história é dividida em dor, método e resultado.
-              </p>
+        <div class="panel">
+          <div class="tag">A leitura comercial</div>
+          <h3>O custo da ausência é operacional, técnico e político.</h3>
+          <div class="metrics" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px;">
+            <div class="metric">
+              <strong>Risco</strong>
+              <p>Mais fragilidade quando o conhecimento depende de pessoas-chave.</p>
             </div>
-
-            <div class="story-grid">
-              <article class="story-card danger">
-                <div class="step">01</div>
-                <h3>A dor que todo mundo empurra</h3>
-                <p>Documentar é visto como custo, tarefa burocrática ou detalhe para depois. Só que o “depois” vira retrabalho, dependência e risco operacional.</p>
-                <ul>
-                  <li>Projetos difíceis de transferir</li>
-                  <li>Conhecimento preso em poucas pessoas</li>
-                  <li>Ambientes críticos sem narrativa confiável</li>
-                </ul>
-              </article>
-
-              <article class="story-card signal">
-                <div class="step">02</div>
-                <h3>O método guiado por agentes</h3>
-                <p>Em vez de pedir que alguém pare tudo para escrever do zero, usamos agentes para ler, estruturar, resumir, explicar e organizar com padrão.</p>
-                <ul>
-                  <li>Leitura técnica dos artefatos</li>
-                  <li>Explicação contextual por camada</li>
-                  <li>Documentação com cara de ativo, não anexo</li>
-                </ul>
-              </article>
-
-              <article class="story-card">
-                <div class="step">03</div>
-                <h3>O valor entregue</h3>
-                <p>O resultado melhora o presente e protege o futuro: acelera onboarding, reduz atrito e torna o projeto mais legível para times, liderança e clientes.</p>
-                <ul>
-                  <li>Governança mais clara</li>
-                  <li>Operação menos frágil</li>
-                  <li>Apresentação mais vendável</li>
-                </ul>
-              </article>
+            <div class="metric">
+              <strong>Atrito</strong>
+              <p>Mais demora para entender o que já existe e o que pode quebrar.</p>
+            </div>
+            <div class="metric">
+              <strong>Ruido</strong>
+              <p>Mais dificuldade para explicar o valor do projeto para terceiros.</p>
+            </div>
+            <div class="metric">
+              <strong>Custo</strong>
+              <p>Mais horas gastas reconstruindo contexto que já deveria estar registrado.</p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="pilares" data-section>
-        <div class="container">
-          <div class="panel section-card">
-            <div class="section-header">
-              <div class="section-tag">Pilares do projeto</div>
-              <h2>Quatro pilares para uma proposta que parece <span class="accent">tecnologia aplicada</span>, não só serviço manual.</h2>
-            </div>
-
-            <div class="pillars-grid">
-              <article class="pillar">
-                <div class="step">A</div>
-                <h3>Leitura guiada</h3>
-                <p>Agentes e regras percorrem os ativos do projeto para extrair estrutura, intenção, dependências, métricas e pontos críticos.</p>
-                <strong>Leitura técnica antes de virar texto.</strong>
-              </article>
-
-              <article class="pillar">
-                <div class="step">B</div>
-                <h3>Narrativa útil</h3>
-                <p>A documentação não pode ser só descritiva. Ela precisa explicar por que aquilo existe, como deve ser lido e onde estão os riscos.</p>
-                <strong>Contexto para quem decide e para quem mantém.</strong>
-              </article>
-
-              <article class="pillar">
-                <div class="step">C</div>
-                <h3>Padrão replicável</h3>
-                <p>O valor cresce quando o método pode ser aplicado em mais de um projeto, mais de um ativo e mais de um fluxo operacional.</p>
-                <strong>Escala sem perder consistência.</strong>
-              </article>
-
-              <article class="pillar">
-                <div class="step">D</div>
-                <h3>Entrega premium</h3>
-                <p>Forma também comunica valor. Por isso a apresentação, o acabamento e a legibilidade fazem parte da solução.</p>
-                <strong>Bom conteúdo com boa superfície de leitura.</strong>
-              </article>
-            </div>
+    <section class="slide">
+      <div class="slide-grid">
+        <div class="panel strong">
+          <div class="tag">A solução</div>
+          <h2>Documentação guiada por agentes, com <span class="accent">método replicável</span>.</h2>
+          <div class="grid-4" style="margin-top: 18px;">
+            <article class="card positive">
+              <div class="step">01</div>
+              <h3>Ler</h3>
+              <p>Agentes percorrem os ativos para extrair estrutura, dependências, componentes e sinais relevantes.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">02</div>
+              <h3>Explicar</h3>
+              <p>O conteúdo deixa de ser só técnico e passa a trazer contexto, intenção e pontos de atenção.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">03</div>
+              <h3>Padronizar</h3>
+              <p>As entregas ganham forma consistente, o que permite reaplicação em mais projetos e times.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">04</div>
+              <h3>Entregar</h3>
+              <p>A documentação vira ativo utilizável para governança, onboarding, operação e apresentação.</p>
+            </article>
           </div>
         </div>
-      </section>
 
-      <section id="pacotes" data-section>
-        <div class="container">
-          <div class="panel section-card">
-            <div class="section-header">
-              <div class="section-tag">Pacotes</div>
-              <h2>Pacotes pensados para vender <span class="accent">clareza operacional</span> em diferentes níveis.</h2>
-              <p>
-                Os nomes e faixas podem mudar depois. A estrutura abaixo já separa bem entrada, transformação e operação contínua.
-              </p>
-            </div>
-
-            <div class="packages-grid">
-              <article class="package">
-                <div class="package-kicker">Starter scan</div>
-                <h3>Diagnóstico orientado</h3>
-                <div class="package-price">
-                  <strong>Entrada</strong>
-                  Mapeamento inicial para transformar acervo disperso em visão clara do problema.
-                </div>
-                <ul>
-                  <li>Leitura de ativos prioritários</li>
-                  <li>Mapeamento de lacunas de documentação</li>
-                  <li>Proposta de estrutura e padrão editorial</li>
-                </ul>
-                <div class="mini-note">Ideal para provar o valor do método antes de partir para documentação mais profunda.</div>
-              </article>
-
-              <article class="package featured">
-                <div class="package-kicker">Core delivery</div>
-                <h3>Documentação guiada por agentes</h3>
-                <div class="package-price">
-                  <strong>Principal</strong>
-                  Pacote central para gerar documentação utilizável, narrativa técnica e camada de apresentação.
-                </div>
-                <ul>
-                  <li>Estruturação do conteúdo por prioridade</li>
-                  <li>Explicação contextual dos componentes críticos</li>
-                  <li>Entrega com acabamento para operação e apresentação</li>
-                </ul>
-                <div class="mini-note">Aqui está o coração da venda: menos fricção, mais clareza, melhor transferência de conhecimento.</div>
-              </article>
-
-              <article class="package">
-                <div class="package-kicker">Continuous mode</div>
-                <h3>Governança contínua</h3>
-                <div class="package-price">
-                  <strong>Evolução</strong>
-                  Modelo para acompanhar mudanças, manter padrões e evitar que a documentação volte a envelhecer.
-                </div>
-                <ul>
-                  <li>Atualização recorrente dos ativos</li>
-                  <li>Padronização expandida por projeto ou time</li>
-                  <li>Base para onboarding e governança contínua</li>
-                </ul>
-                <div class="mini-note">Faz sentido quando a empresa quer transformar documentação em disciplina operacional, não em esforço pontual.</div>
-              </article>
-            </div>
+        <div class="panel">
+          <div class="tag">O que isso vende</div>
+          <h3>Não é sobre “escrever docs”.</h3>
+          <p class="subcopy">
+            É sobre escalar clareza. Quando a camada de documentação passa a ser guiada por agentes,
+            o time deixa de disputar tempo com tarefas repetitivas e passa a ganhar uma base mais forte para continuidade.
+          </p>
+          <div class="quote" style="margin-top: 18px;">
+            O serviço vale porque reduz fricção agora e protege o projeto depois.
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="contato" data-section>
-        <div class="container">
-          <div class="panel section-card">
-            <div class="section-header">
-              <div class="section-tag">Contato</div>
-              <h2>Quando a documentação vira um gargalo, a conversa certa não é <span class="accent">“quem vai escrever?”</span>, e sim “como isso escala?”.</h2>
-              <p>
-                Esta seção fecha o raciocínio comercial: o trabalho não é só produzir documento, e sim desenhar uma forma mais inteligente
-                de manter contexto, transmitir conhecimento e apresentar projetos técnicos com clareza.
-              </p>
-            </div>
+    <section class="slide">
+      <div class="slide-grid single">
+        <div class="panel strong">
+          <div class="tag">Pilares</div>
+          <h2>Quatro pilares para vender <span class="accent">tecnologia aplicada à documentação.</span></h2>
+          <div class="grid-4" style="margin-top: 22px;">
+            <article class="card">
+              <div class="step">P1</div>
+              <h3>Leitura guiada</h3>
+              <p>Começa em leitura técnica do ativo real, não em texto genérico.</p>
+            </article>
+            <article class="card">
+              <div class="step">P2</div>
+              <h3>Narrativa útil</h3>
+              <p>Explica o que existe, por que existe e onde mora o risco.</p>
+            </article>
+            <article class="card">
+              <div class="step">P3</div>
+              <h3>Padrão replicável</h3>
+              <p>O método precisa sobreviver a mais de um projeto e mais de um time.</p>
+            </article>
+            <article class="card">
+              <div class="step">P4</div>
+              <h3>Entrega premium</h3>
+              <p>Forma e leitura importam porque também comunicam valor.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="contact-grid">
-              <article class="contact-card">
-                <div class="section-tag">Fale sobre o projeto</div>
-                <h3>Vamos estruturar a proposta de valor do seu acervo técnico.</h3>
-                <p>Se o problema hoje é excesso de complexidade, falta de padrão ou dificuldade para transferir conhecimento, o MEI Docs entra para organizar a camada que quase sempre fica para depois.</p>
-                <a class="contact-line" href="mailto:contato@meidocs.dev">contato@meidocs.dev</a>
-                <a class="contact-line" href="https://github.com/programahaf-lab/MEI-Docs">github.com/programahaf-lab/MEI-Docs</a>
-              </article>
+    <section class="slide">
+      <div class="slide-grid">
+        <div class="panel strong">
+          <div class="tag">Pacotes</div>
+          <h2>Uma estrutura comercial em <span class="accent">três níveis</span>.</h2>
+          <div class="grid-3" style="margin-top: 18px;">
+            <article class="card">
+              <div class="step">S</div>
+              <h3>Starter Scan</h3>
+              <p>Diagnóstico orientado para mapear ativos prioritários, lacunas e padrão ideal de documentação.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">C</div>
+              <h3>Core Delivery</h3>
+              <p>Pacote principal de documentação guiada por agentes, narrativa técnica e camada de apresentação.</p>
+            </article>
+            <article class="card">
+              <div class="step">G</div>
+              <h3>Governança Contínua</h3>
+              <p>Modelo para manter a documentação viva à medida que os ativos e processos evoluem.</p>
+            </article>
+          </div>
+        </div>
 
-              <aside class="terminal">
-                <div class="terminal-top">
-                  <span></span><span></span><span></span>
-                </div>
-                <div class="terminal-body">prompt://discovery
+        <div class="panel">
+          <div class="tag">Contato</div>
+          <h3>A conversa certa é sobre como isso escala.</h3>
+          <p class="subcopy">
+            Se o problema hoje é complexidade demais e contexto de menos, a proposta do MEI Docs é transformar
+            documentação em infraestrutura de continuidade.
+          </p>
+          <div class="terminal-box" style="margin-top: 18px;">
+            <div class="terminal-top"><span></span><span></span><span></span></div>
+            <div class="terminal">prompt://discovery
 
 <span class="accent-line">INPUT</span>
-Projeto com contexto fragmentado, documentação chata e baixa transferibilidade
+Projeto com contexto fragmentado e documentação negligenciada
 
 <span class="accent-line">METHOD</span>
-1. Ler artefatos prioritários
+1. Ler ativos prioritários
 2. Organizar narrativa técnica
-3. Sinalizar riscos e dependências
-4. Entregar camada de apresentação
+3. Sinalizar riscos
+4. Entregar camada premium
 
-<span class="accent-line">OUTPUT</span>
-Documentacao viva, utilizável e vendável
-
-<span class="accent-line">STATUS</span>
-Ready for conversation</div>
-              </aside>
-            </div>
+<span class="accent-line">CONTACT</span>
+contato@meidocs.dev
+github.com/programahaf-lab/MEI-Docs</div>
           </div>
         </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="container">
-        MEI Docs • documentacao guiada por agentes • tecnologia, narrativa e continuidade do conhecimento
       </div>
-    </footer>
+    </section>
   </div>
 
+  <nav class="nav">
+    <button class="nav-btn" id="prevBtn" type="button" aria-label="Slide anterior">&#8592;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="Próximo slide">&#8594;</button>
+  </nav>
+
   <script>
-    const slideEls = Array.from(document.querySelectorAll('.hero-slide'));
-    const dotsRoot = document.getElementById('slideDots');
-    const currentSlideEl = document.getElementById('currentSlide');
-    const totalSlidesEl = document.getElementById('totalSlides');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const total = slides.length;
+    const dotsEl = document.getElementById('dots');
+    const cn = document.getElementById('cn');
+    const tn = document.getElementById('tn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const mouseGlow = document.getElementById('mouseGlow');
-    const sections = Array.from(document.querySelectorAll('[data-section]'));
-    const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-    let current = 0;
-    let intervalId;
+    let cur = 0;
+    let busy = false;
+    let autoTimer;
 
-    totalSlidesEl.textContent = String(slideEls.length);
+    tn.textContent = String(total);
 
-    slideEls.forEach((_, index) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.setAttribute('aria-label', 'Ir para slide ' + (index + 1));
-      button.addEventListener('click', () => {
-        showSlide(index);
-        restartAuto();
+    slides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'dot' + (index === 0 ? ' on' : '');
+      dot.setAttribute('aria-label', 'Ir para slide ' + (index + 1));
+      dot.addEventListener('click', () => {
+        goTo(index);
+        stopAuto();
       });
-      dotsRoot.appendChild(button);
+      dotsEl.appendChild(dot);
     });
 
-    function renderDots() {
-      Array.from(dotsRoot.children).forEach((dot, index) => {
-        dot.classList.toggle('active', index === current);
+    function ui() {
+      cn.textContent = String(cur + 1);
+      prevBtn.disabled = cur === 0;
+      nextBtn.disabled = cur === total - 1;
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('on', index === cur);
       });
-      currentSlideEl.textContent = String(current + 1);
     }
 
-    function showSlide(index) {
-      slideEls.forEach((slide, slideIndex) => {
-        slide.classList.toggle('active', slideIndex === index);
-      });
-      current = index;
-      renderDots();
-    }
+    function goTo(index) {
+      if (busy || index === cur || index < 0 || index >= total) return;
+      busy = true;
+      const dir = index > cur ? 1 : -1;
+      const oldSlide = slides[cur];
+      const nextSlide = slides[index];
 
-    function nextSlide() {
-      showSlide((current + 1) % slideEls.length);
-    }
-
-    function restartAuto() {
-      clearInterval(intervalId);
-      intervalId = setInterval(nextSlide, 5200);
-    }
-
-    showSlide(0);
-    restartAuto();
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        clearInterval(intervalId);
+      if (dir > 0) {
+        oldSlide.classList.add('out-left');
       } else {
-        restartAuto();
+        oldSlide.style.transition = '';
+        oldSlide.style.opacity = '0';
+        oldSlide.style.transform = 'translateX(54px) scale(0.99)';
+      }
+
+      nextSlide.style.cssText = 'transition:none;opacity:0;transform:translateX(' + (dir > 0 ? 54 : -54) + 'px) scale(0.99)';
+      nextSlide.classList.add('active');
+      nextSlide.getBoundingClientRect();
+      nextSlide.style.cssText = '';
+      nextSlide.style.opacity = '1';
+      nextSlide.style.transform = 'translateX(0) scale(1)';
+
+      setTimeout(() => {
+        oldSlide.classList.remove('active', 'out-left');
+        oldSlide.style.cssText = '';
+        nextSlide.style.cssText = '';
+        cur = index;
+        ui();
+        busy = false;
+      }, 400);
+    }
+
+    function go(delta) {
+      goTo(cur + delta);
+    }
+
+    function stopAuto() {
+      clearInterval(autoTimer);
+    }
+
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(() => {
+        if (cur < 1) {
+          go(1);
+        } else {
+          stopAuto();
+        }
+      }, 4600);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      go(-1);
+      stopAuto();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      go(1);
+      stopAuto();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+        go(1);
+        stopAuto();
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        go(-1);
+        stopAuto();
       }
     });
 
@@ -1429,38 +1069,8 @@ Ready for conversation</div>
       mouseGlow.style.top = event.clientY + 'px';
     });
 
-    document.addEventListener('pointerleave', () => {
-      mouseGlow.style.opacity = '0';
-    });
-
-    document.addEventListener('pointerenter', () => {
-      mouseGlow.style.opacity = '0.85';
-    });
-
-    function updateScrollUI() {
-      const doc = document.documentElement;
-      const maxScroll = doc.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
-      doc.style.setProperty('--scroll-progress', progress + '%');
-
-      const focusLine = window.scrollY + window.innerHeight * 0.28;
-      let activeId = sections[0] ? sections[0].id : '';
-
-      sections.forEach((section) => {
-        if (section.offsetTop <= focusLine) {
-          activeId = section.id;
-        }
-      });
-
-      navLinks.forEach((link) => {
-        const target = link.getAttribute('href').slice(1);
-        link.classList.toggle('active', target === activeId);
-      });
-    }
-
-    updateScrollUI();
-    window.addEventListener('scroll', updateScrollUI, { passive: true });
-    window.addEventListener('resize', updateScrollUI);
+    ui();
+    startAuto();
   </script>
 </body>
 </html>
