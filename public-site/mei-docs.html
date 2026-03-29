@@ -6,21 +6,21 @@
   <title>MEI Docs | Agent-led documentation</title>
   <style>
     :root {
-      --bg: #071121;
-      --bg-2: #0b1a35;
-      --bg-3: #10224a;
-      --panel: rgba(8, 18, 38, 0.82);
-      --panel-strong: rgba(9, 21, 46, 0.94);
-      --line: rgba(123, 213, 255, 0.16);
-      --line-strong: rgba(123, 213, 255, 0.34);
+      --bg: #030813;
+      --bg-2: #09152c;
+      --bg-3: #0f2461;
+      --panel: rgba(5, 12, 28, 0.9);
+      --panel-strong: rgba(6, 16, 38, 0.97);
+      --line: rgba(123, 213, 255, 0.22);
+      --line-strong: rgba(123, 213, 255, 0.46);
       --text: #edf7ff;
-      --muted: #94aac8;
-      --neon: #7bd5ff;
-      --neon-2: #8cf8ff;
-      --royal: #2048cb;
+      --muted: #88a1c8;
+      --neon: #67d4ff;
+      --neon-2: #93fbff;
+      --royal: #2a58ff;
       --good: #5be5a8;
       --warn: #ff9bb2;
-      --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+      --shadow: 0 32px 110px rgba(0, 0, 0, 0.52);
     }
 
     * {
@@ -34,10 +34,10 @@
       overflow: hidden;
       overscroll-behavior: none;
       background:
-        radial-gradient(circle at 14% 12%, rgba(32, 72, 203, 0.28), transparent 20%),
-        radial-gradient(circle at 85% 15%, rgba(123, 213, 255, 0.15), transparent 20%),
-        radial-gradient(circle at 50% 120%, rgba(42, 96, 255, 0.18), transparent 28%),
-        linear-gradient(155deg, #050d1a 0%, #081225 36%, #0b1731 68%, #06101d 100%);
+        radial-gradient(circle at 14% 12%, rgba(42, 88, 255, 0.34), transparent 18%),
+        radial-gradient(circle at 85% 15%, rgba(147, 251, 255, 0.18), transparent 18%),
+        radial-gradient(circle at 50% 120%, rgba(42, 96, 255, 0.22), transparent 26%),
+        linear-gradient(155deg, #02060f 0%, #050d1b 34%, #081327 64%, #030915 100%);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -48,11 +48,11 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
       background-size: 34px 34px;
       mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
-      opacity: 0.6;
+      opacity: 0.74;
     }
 
     a {
@@ -68,8 +68,8 @@
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(123, 213, 255, 0.18) 0%, rgba(123, 213, 255, 0.08) 28%, rgba(123, 213, 255, 0) 72%);
-      filter: blur(12px);
+      background: radial-gradient(circle, rgba(103, 212, 255, 0.28) 0%, rgba(103, 212, 255, 0.14) 26%, rgba(103, 212, 255, 0) 72%);
+      filter: blur(14px);
       z-index: 1;
     }
 
@@ -157,7 +157,10 @@
 
     .panel.strong {
       background: var(--panel-strong);
-      border-color: rgba(123, 213, 255, 0.22);
+      border-color: rgba(123, 213, 255, 0.3);
+      box-shadow:
+        0 32px 110px rgba(0, 0, 0, 0.56),
+        inset 0 0 0 1px rgba(123, 213, 255, 0.08);
     }
 
     .panel::before {
@@ -166,8 +169,16 @@
       inset: 0;
       pointer-events: none;
       background:
-        linear-gradient(135deg, rgba(123, 213, 255, 0.08), transparent 28%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%);
+        linear-gradient(135deg, rgba(123, 213, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 18%);
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     .tag {
@@ -178,7 +189,7 @@
       padding: 7px 12px;
       border-radius: 999px;
       border: 1px solid rgba(123, 213, 255, 0.16);
-      background: rgba(123, 213, 255, 0.08);
+      background: rgba(103, 212, 255, 0.11);
       color: var(--neon);
       font-size: 11px;
       font-weight: 800;
@@ -231,7 +242,7 @@
 
     .accent {
       color: var(--neon);
-      text-shadow: 0 0 22px rgba(123, 213, 255, 0.22);
+      text-shadow: 0 0 30px rgba(103, 212, 255, 0.4);
     }
 
     .lead,
@@ -366,8 +377,8 @@
       position: relative;
       padding: 20px;
       border-radius: 22px;
-      border: 1px solid rgba(123, 213, 255, 0.14);
-      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(123, 213, 255, 0.18);
+      background: rgba(255, 255, 255, 0.045);
       overflow: hidden;
     }
 
@@ -377,7 +388,7 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(123, 213, 255, 0.06), transparent 24%);
+      background: linear-gradient(180deg, rgba(123, 213, 255, 0.1), transparent 24%);
     }
 
     .metric strong {
@@ -433,9 +444,9 @@
       gap: 16px;
       grid-template-rows: auto 1fr auto;
       background:
-        radial-gradient(circle at 50% 20%, rgba(123, 213, 255, 0.2), transparent 22%),
-        radial-gradient(circle at 20% 80%, rgba(32, 72, 203, 0.18), transparent 28%),
-        linear-gradient(180deg, rgba(12, 24, 50, 0.96), rgba(5, 12, 24, 0.98));
+        radial-gradient(circle at 50% 20%, rgba(103, 212, 255, 0.28), transparent 22%),
+        radial-gradient(circle at 20% 80%, rgba(42, 88, 255, 0.24), transparent 28%),
+        linear-gradient(180deg, rgba(10, 22, 48, 0.98), rgba(3, 8, 18, 1));
     }
 
     .topline {
@@ -455,8 +466,8 @@
       border-radius: 24px;
       border: 1px solid rgba(123, 213, 255, 0.16);
       background:
-        linear-gradient(135deg, rgba(123, 213, 255, 0.04), transparent 34%),
-        rgba(4, 10, 22, 0.52);
+        linear-gradient(135deg, rgba(123, 213, 255, 0.08), transparent 34%),
+        rgba(2, 8, 18, 0.7);
       overflow: hidden;
       padding: 24px;
     }
@@ -466,8 +477,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(123, 213, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(123, 213, 255, 0.08) 1px, transparent 1px);
+        linear-gradient(rgba(123, 213, 255, 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123, 213, 255, 0.11) 1px, transparent 1px);
       background-size: 40px 40px;
       opacity: 0.46;
     }
@@ -492,6 +503,7 @@
       border-radius: 14px;
       border: 1px solid rgba(123, 213, 255, 0.16);
       background: linear-gradient(135deg, rgba(123, 213, 255, 0.09), rgba(123, 213, 255, 0.02));
+      box-shadow: 0 0 22px rgba(103, 212, 255, 0.06);
       position: relative;
       overflow: hidden;
     }
@@ -508,11 +520,12 @@
       padding: 18px 20px;
       border-left: 4px solid var(--neon);
       border-radius: 0 16px 16px 0;
-      background: rgba(123, 213, 255, 0.08);
+      background: rgba(103, 212, 255, 0.12);
       color: #d8eeff;
       font-size: 16px;
       line-height: 1.7;
       font-style: italic;
+      box-shadow: inset 0 0 0 1px rgba(123, 213, 255, 0.1);
     }
 
     .list {
@@ -526,9 +539,10 @@
 
     .terminal-box {
       border-radius: 24px;
-      border: 1px solid rgba(123, 213, 255, 0.16);
-      background: #06101d;
+      border: 1px solid rgba(123, 213, 255, 0.22);
+      background: #030a14;
       overflow: hidden;
+      box-shadow: 0 0 34px rgba(103, 212, 255, 0.08);
     }
 
     .terminal-top {
@@ -617,7 +631,7 @@
     .dot.on {
       width: 28px;
       background: var(--neon);
-      box-shadow: 0 0 16px rgba(123, 213, 255, 0.42);
+      box-shadow: 0 0 22px rgba(103, 212, 255, 0.58);
     }
 
     .slide-index {
