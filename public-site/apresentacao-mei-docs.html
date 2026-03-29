@@ -3,17 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEI Docs | Apresentacao</title>
+  <title>MEI Docs | Imersao em IA</title>
   <style>
     :root {
-      --panel: rgba(255, 255, 255, 0.82);
-      --panel-strong: rgba(255, 255, 255, 0.96);
-      --ink: #191613;
-      --muted: #5f5852;
-      --line: rgba(25, 22, 19, 0.1);
-      --accent: #b86b39;
-      --accent-2: #d69b6c;
-      --shadow: 0 24px 80px rgba(42, 28, 18, 0.12);
+      --bg: #030813;
+      --bg-2: #061021;
+      --bg-3: #0d2251;
+      --panel: rgba(6, 14, 30, 0.86);
+      --panel-strong: rgba(8, 18, 38, 0.96);
+      --line: rgba(118, 211, 255, 0.18);
+      --line-strong: rgba(118, 211, 255, 0.36);
+      --text: #edf7ff;
+      --muted: #8da4c6;
+      --neon: #67d4ff;
+      --cyan: #90fbff;
+      --royal: #2b56ff;
+      --good: #61edb2;
+      --warn: #ff7f9f;
+      --gold: #ffd38a;
+      --shadow: 0 30px 120px rgba(0, 0, 0, 0.48);
     }
 
     * {
@@ -22,34 +30,100 @@
 
     html, body {
       margin: 0;
-      padding: 0;
-      background:
-        radial-gradient(circle at 14% 10%, rgba(214, 155, 108, 0.24), transparent 24%),
-        radial-gradient(circle at 84% 12%, rgba(184, 107, 57, 0.18), transparent 22%),
-        radial-gradient(circle at 72% 82%, rgba(214, 155, 108, 0.1), transparent 22%),
-        linear-gradient(135deg, #fcfaf7 0%, #f7f2ec 48%, #f1e7dc 100%);
-      color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(43, 86, 255, 0.32), transparent 18%),
+        radial-gradient(circle at 85% 14%, rgba(103, 212, 255, 0.16), transparent 18%),
+        radial-gradient(circle at 55% 120%, rgba(43, 86, 255, 0.18), transparent 30%),
+        linear-gradient(160deg, #02050d 0%, #040b17 36%, #07101f 68%, #020713 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
+      opacity: 0.74;
+    }
+
+    .mouse-glow {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(103, 212, 255, 0.22) 0%, rgba(103, 212, 255, 0.1) 26%, rgba(103, 212, 255, 0) 74%);
+      filter: blur(14px);
+      z-index: 1;
+    }
+
+    .hud-left,
+    .hud-right,
+    .slide-index {
+      position: fixed;
+      z-index: 30;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hud-left {
+      top: 18px;
+      left: 24px;
+      color: var(--neon);
+    }
+
+    .hud-right {
+      top: 18px;
+      right: 24px;
+      color: var(--muted);
+    }
+
+    .hud-right span {
+      color: var(--cyan);
+    }
+
+    .slide-index {
+      top: 48px;
+      right: 24px;
+      color: var(--muted);
+    }
+
+    .slide-index span {
+      color: var(--neon);
     }
 
     .deck {
-      height: 100vh;
-      width: 100vw;
       position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 2;
     }
 
     .slide {
       position: absolute;
       inset: 0;
-      padding: 56px;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
+      padding: 64px 34px 98px;
       opacity: 0;
       pointer-events: none;
-      transform: translateX(28px) scale(0.985);
-      transition: opacity 280ms ease, transform 280ms ease;
+      transform: translateX(54px) scale(0.985);
+      transition: opacity 420ms cubic-bezier(.4,0,.2,1), transform 420ms cubic-bezier(.4,0,.2,1);
+      display: grid;
+      align-items: center;
     }
 
     .slide.active {
@@ -58,130 +132,501 @@
       transform: translateX(0) scale(1);
     }
 
+    .slide.out-left {
+      opacity: 0;
+      transform: translateX(-54px) scale(0.99);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.58;
+    }
+
+    .slide.cover::before {
+      background:
+        radial-gradient(circle at 76% 28%, rgba(103, 212, 255, 0.16), transparent 22%),
+        radial-gradient(circle at 18% 72%, rgba(43, 86, 255, 0.18), transparent 28%);
+    }
+
+    .slide.ingest::before {
+      background:
+        radial-gradient(circle at 20% 26%, rgba(255, 127, 159, 0.12), transparent 24%),
+        radial-gradient(circle at 82% 68%, rgba(103, 212, 255, 0.1), transparent 24%);
+    }
+
+    .slide.orchestration::before {
+      background:
+        radial-gradient(circle at 16% 34%, rgba(103, 212, 255, 0.12), transparent 22%),
+        radial-gradient(circle at 82% 70%, rgba(97, 237, 178, 0.12), transparent 24%);
+    }
+
+    .slide.delivery::before {
+      background:
+        radial-gradient(circle at 18% 32%, rgba(97, 237, 178, 0.12), transparent 22%),
+        radial-gradient(circle at 82% 68%, rgba(255, 211, 138, 0.12), transparent 24%);
+    }
+
+    .slide.future::before {
+      background:
+        radial-gradient(circle at 18% 28%, rgba(144, 251, 255, 0.1), transparent 22%),
+        radial-gradient(circle at 84% 70%, rgba(43, 86, 255, 0.14), transparent 26%);
+    }
+
+    .grid {
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1.08fr 0.92fr;
+    }
+
+    .grid.single {
+      grid-template-columns: 1fr;
+      width: min(1500px, 100%);
+    }
+
     .panel {
-      background: var(--panel);
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      padding: 26px 28px;
+      position: relative;
       overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      padding: 28px;
     }
 
     .panel.strong {
       background: var(--panel-strong);
+      border-color: rgba(118, 211, 255, 0.3);
+      box-shadow:
+        0 32px 110px rgba(0, 0, 0, 0.56),
+        inset 0 0 0 1px rgba(118, 211, 255, 0.07);
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(118, 211, 255, 0.1), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 18%);
     }
 
     .eyebrow {
-      display: inline-block;
-      padding: 8px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 32px;
+      padding: 7px 12px;
       border-radius: 999px;
-      background: rgba(184, 107, 57, 0.12);
-      color: var(--accent);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.12em;
+      border: 1px solid rgba(118, 211, 255, 0.16);
+      background: rgba(118, 211, 255, 0.08);
+      color: var(--neon);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       margin-bottom: 18px;
+      width: fit-content;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 14px rgba(144, 251, 255, 0.7);
+    }
+
+    .slide.ingest .eyebrow {
+      color: var(--warn);
+      border-color: rgba(255, 127, 159, 0.22);
+      background: rgba(255, 127, 159, 0.1);
+    }
+
+    .slide.ingest .eyebrow::before {
+      background: var(--warn);
+      box-shadow: 0 0 14px rgba(255, 127, 159, 0.72);
+    }
+
+    .slide.delivery .eyebrow {
+      color: var(--gold);
+      border-color: rgba(255, 211, 138, 0.22);
+      background: rgba(255, 211, 138, 0.1);
+    }
+
+    .slide.delivery .eyebrow::before {
+      background: var(--gold);
+      box-shadow: 0 0 14px rgba(255, 211, 138, 0.72);
+    }
+
+    h1, h2, h3, h4, p {
+      margin: 0;
     }
 
     h1, h2, h3 {
-      margin: 0 0 14px;
-      line-height: 1.02;
+      font-family: Georgia, "Times New Roman", serif;
       font-weight: 700;
+      line-height: 1;
     }
 
     h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      max-width: 11ch;
+      font-size: clamp(48px, 6vw, 84px);
+      letter-spacing: -0.055em;
+      max-width: 10ch;
+      margin-bottom: 18px;
     }
 
     h2 {
-      font-size: clamp(28px, 3vw, 42px);
+      font-size: clamp(30px, 4vw, 54px);
+      letter-spacing: -0.05em;
+      max-width: 14ch;
+      margin-bottom: 14px;
     }
 
-    p, li, .metric-value, .metric-label, .nav-btn, .slide-index {
+    h3 {
+      font-size: 24px;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .accent {
+      color: var(--neon);
+      text-shadow: 0 0 26px rgba(103, 212, 255, 0.4);
+    }
+
+    .accent-warn {
+      color: var(--warn);
+      text-shadow: 0 0 26px rgba(255, 127, 159, 0.34);
+    }
+
+    .accent-good {
+      color: var(--good);
+      text-shadow: 0 0 26px rgba(97, 237, 178, 0.3);
+    }
+
+    p,
+    li,
+    .metric-label,
+    .metric-value,
+    .terminal,
+    .nav-btn {
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    p {
-      margin: 0 0 12px;
+    p, li, .terminal {
       color: var(--muted);
-      line-height: 1.55;
-      font-size: 16px;
+      line-height: 1.68;
+      font-size: 15px;
     }
 
-    ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
+    .lead {
+      font-size: 17px;
+      color: #d6e6fb;
+      max-width: 56ch;
     }
 
-    li {
-      margin: 0 0 10px;
-      line-height: 1.45;
-    }
-
-    .hero-art {
-      position: relative;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at 28% 18%, rgba(214, 155, 108, 0.95), transparent 20%),
-        radial-gradient(circle at 34% 18%, rgba(184, 107, 57, 0.88), transparent 28%),
-        radial-gradient(circle at 80% 18%, rgba(214, 155, 108, 0.22), transparent 24%),
-        linear-gradient(160deg, #17120f 0%, #3e2a1d 48%, #7d563c 100%);
-      min-height: 340px;
-    }
-
-    .hero-art::before,
-    .hero-art::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-    }
-
-    .hero-art::before {
-      width: 320px;
-      height: 320px;
-      top: -80px;
-      right: -40px;
-    }
-
-    .hero-art::after {
-      width: 220px;
-      height: 220px;
-      left: -50px;
-      bottom: -70px;
-    }
-
-    .grid-3 {
+    .metrics,
+    .grid-3,
+    .grid-4,
+    .grid-2 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
-    .metric {
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px;
-      min-height: 110px;
+    .metrics {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric,
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(118, 211, 255, 0.16);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .metric::before,
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(118, 211, 255, 0.09), transparent 24%);
     }
 
     .metric-value {
       font-size: 34px;
-      font-weight: 700;
-      color: var(--ink);
+      font-weight: 800;
+      color: var(--neon);
+      line-height: 1;
+      letter-spacing: -0.05em;
       margin-bottom: 6px;
     }
 
     .metric-label {
-      font-size: 12px;
-      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      color: var(--muted);
       margin-bottom: 10px;
+    }
+
+    .step {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid rgba(118, 211, 255, 0.18);
+      background: rgba(118, 211, 255, 0.08);
+      color: var(--neon);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+
+    .danger {
+      border-color: rgba(255, 127, 159, 0.2);
+      background: linear-gradient(180deg, rgba(255, 127, 159, 0.08), rgba(255,255,255,0.03));
+    }
+
+    .danger .step {
+      color: var(--warn);
+      border-color: rgba(255, 127, 159, 0.24);
+      background: rgba(255, 127, 159, 0.1);
+    }
+
+    .positive {
+      border-color: rgba(97, 237, 178, 0.2);
+      background: linear-gradient(180deg, rgba(97, 237, 178, 0.08), rgba(255,255,255,0.03));
+    }
+
+    .positive .step {
+      color: var(--good);
+      border-color: rgba(97, 237, 178, 0.24);
+      background: rgba(97, 237, 178, 0.1);
+    }
+
+    .system-stage {
+      display: grid;
+      gap: 16px;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(103, 212, 255, 0.24), transparent 22%),
+        radial-gradient(circle at 18% 78%, rgba(43, 86, 255, 0.2), transparent 26%),
+        linear-gradient(180deg, rgba(9, 19, 40, 0.98), rgba(3, 8, 18, 1));
+    }
+
+    .system-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .pipeline {
+      position: relative;
+      border-radius: 26px;
+      border: 1px solid rgba(118, 211, 255, 0.16);
+      background:
+        linear-gradient(135deg, rgba(118, 211, 255, 0.08), transparent 34%),
+        rgba(2, 8, 18, 0.76);
+      min-height: 350px;
+      overflow: hidden;
+      padding: 26px;
+    }
+
+    .pipeline::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(118, 211, 255, 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 211, 255, 0.11) 1px, transparent 1px);
+      background-size: 42px 42px;
+      opacity: 0.42;
+    }
+
+    .pipeline::after {
+      content: "";
+      position: absolute;
+      left: -20%;
+      top: 50%;
+      width: 140%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(103, 212, 255, 0), rgba(103, 212, 255, 0.9), rgba(103, 212, 255, 0));
+      box-shadow: 0 0 20px rgba(103, 212, 255, 0.45);
+      animation: pulseLine 3.2s linear infinite;
+    }
+
+    @keyframes pulseLine {
+      0% { transform: translateX(-18%) translateY(0); opacity: 0.35; }
+      50% { transform: translateX(10%) translateY(0); opacity: 1; }
+      100% { transform: translateX(26%) translateY(0); opacity: 0.35; }
+    }
+
+    .pipeline-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .pipeline-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: center;
+    }
+
+    .node {
+      position: relative;
+      padding: 16px;
+      min-height: 98px;
+      border-radius: 20px;
+      border: 1px solid rgba(118, 211, 255, 0.18);
+      background: rgba(255,255,255,0.04);
+      box-shadow: inset 0 0 0 1px rgba(118, 211, 255, 0.04);
+    }
+
+    .node strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .node span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .node.problem {
+      border-color: rgba(255, 127, 159, 0.24);
+      background: rgba(255, 127, 159, 0.08);
+    }
+
+    .node.solution {
+      border-color: rgba(97, 237, 178, 0.22);
+      background: rgba(97, 237, 178, 0.08);
+    }
+
+    .beam {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      color: var(--neon);
+      font-size: 26px;
+      text-shadow: 0 0 18px rgba(103, 212, 255, 0.42);
+      animation: pulseArrow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseArrow {
+      0%, 100% { transform: translateX(0); opacity: 0.5; }
+      50% { transform: translateX(6px); opacity: 1; }
+    }
+
+    .ring {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+      border-radius: 50%;
+      border: 1px solid rgba(118, 211, 255, 0.16);
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle, rgba(103, 212, 255, 0.16) 0%, rgba(103, 212, 255, 0.04) 34%, rgba(103, 212, 255, 0) 72%);
+      box-shadow:
+        0 0 0 28px rgba(103, 212, 255, 0.03),
+        0 0 0 56px rgba(103, 212, 255, 0.02);
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    .ring::before,
+    .ring::after {
+      content: "";
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border: 1px dashed rgba(118, 211, 255, 0.18);
+      animation: spin 16s linear infinite;
+    }
+
+    .ring::after {
+      inset: -42px;
+      border-style: solid;
+      border-color: rgba(97, 237, 178, 0.12);
+      animation-direction: reverse;
+      animation-duration: 22s;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .ring span {
+      display: block;
+      text-align: center;
+      max-width: 10ch;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .quote {
+      padding: 18px 20px;
+      border-left: 4px solid var(--neon);
+      border-radius: 0 16px 16px 0;
+      background: rgba(103, 212, 255, 0.12);
+      color: #d9efff;
+      font-size: 16px;
+      line-height: 1.7;
+      font-style: italic;
+      box-shadow: inset 0 0 0 1px rgba(118, 211, 255, 0.08);
     }
 
     .timeline {
@@ -191,203 +636,555 @@
 
     .timeline-item {
       padding: 16px 18px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(118, 211, 255, 0.16);
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255,255,255,0.04);
     }
 
     .timeline-item strong {
       display: block;
       margin-bottom: 8px;
-      font-family: Arial, Helvetica, sans-serif;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      color: var(--neon);
       font-size: 12px;
-      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .terminal-box {
+      border-radius: 24px;
+      border: 1px solid rgba(118, 211, 255, 0.2);
+      background: #030a14;
+      overflow: hidden;
+      box-shadow: 0 0 32px rgba(103, 212, 255, 0.08);
+    }
+
+    .terminal-top {
+      display: flex;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(118, 211, 255, 0.12);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .terminal-top span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-top span:nth-child(1) { background: #ff5f56; }
+    .terminal-top span:nth-child(2) { background: #ffbd2e; }
+    .terminal-top span:nth-child(3) { background: #27c93f; }
+
+    .terminal {
+      padding: 18px;
+      font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      color: #cfeaff;
+    }
+
+    .terminal .accent-line {
+      color: var(--cyan);
     }
 
     .controls {
       position: fixed;
       left: 50%;
-      bottom: 22px;
+      bottom: 24px;
       transform: translateX(-50%);
       display: flex;
       gap: 12px;
       align-items: center;
-      z-index: 20;
+      z-index: 30;
     }
 
     .nav-btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      background: rgba(25, 22, 19, 0.9);
-      color: #fff;
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(118, 211, 255, 0.26);
+      border-radius: 50%;
+      background: rgba(10, 22, 45, 0.9);
+      color: var(--neon);
+      font-size: 18px;
       cursor: pointer;
-      font-weight: 700;
+      display: grid;
+      place-items: center;
+      transition: all 180ms ease;
     }
 
-    .slide-index {
-      padding: 12px 16px;
+    .nav-btn:hover {
+      background: var(--neon);
+      color: #04101c;
+      border-color: var(--neon);
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.86);
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
+      background: rgba(118, 211, 255, 0.24);
+      cursor: pointer;
+      transition: all 220ms ease;
     }
 
-    @media (max-width: 960px) {
+    .dot.on {
+      width: 28px;
+      background: var(--neon);
+      box-shadow: 0 0 22px rgba(103, 212, 255, 0.58);
+    }
+
+    .auto-badge {
+      position: fixed;
+      bottom: 32px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      z-index: 30;
+    }
+
+    @media (max-width: 1040px) {
       .slide {
-        grid-template-columns: 1fr;
-        overflow-y: auto;
-        padding: 22px 22px 94px;
+        padding: 50px 16px 88px;
       }
 
-      .grid-3 {
+      .grid,
+      .grid.single,
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .metrics,
+      .pipeline-row {
         grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: clamp(34px, 5vw, 58px);
+      }
+
+      h2 {
+        font-size: clamp(26px, 4vw, 42px);
+        max-width: none;
+      }
+
+      h3 {
+        font-size: 21px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .slide {
+        padding: 42px 12px 82px;
+      }
+
+      .hud-left,
+      .hud-right,
+      .slide-index,
+      .auto-badge {
+        display: none;
+      }
+
+      .panel {
+        padding: 16px;
+        border-radius: 22px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="mouse-glow" id="mouseGlow"></div>
+  <div class="hud-left">MEI DOCS // AI IMMERSION</div>
+  <div class="hud-right">Complementary deck <span>project walkthrough</span></div>
+  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">5</span></div>
+  <div class="auto-badge">deck complementar • imersao visual em ia</div>
+
   <div class="deck">
-    <section class="slide active">
-      <div class="panel strong">
-        <span class="eyebrow">Apresentacao executiva</span>
-        <h1>MEI Docs como camada pública de documentação e apresentação.</h1>
-        <p>
-          O projeto passa a ter uma entrada clara no GitHub Pages: uma vitrine estática, leve e própria
-          para compartilhamento, sem depender de abrir o repositório primeiro.
-        </p>
-        <div class="grid-3">
-          <div class="metric">
-            <div class="metric-value">3</div>
-            <div class="metric-label">Paginas publicas</div>
-            <p>Entrada, página principal e deck executivo.</p>
-          </div>
-          <div class="metric">
-            <div class="metric-value">1</div>
-            <div class="metric-label">Fonte de deploy</div>
-            <p>Publicação dedicada a partir de `public-site/`.</p>
-          </div>
-          <div class="metric">
-            <div class="metric-value">0</div>
-            <div class="metric-label">Dependencias</div>
-            <p>HTML estático puro, sem build local obrigatório.</p>
+    <section class="slide cover active">
+      <div class="grid">
+        <div class="panel strong">
+          <span class="eyebrow">Imersao em IA</span>
+          <h1>O projeto como se o cliente estivesse <span class="accent">dentro do sistema</span>.</h1>
+          <p class="lead">
+            Este deck não serve para listar features. Ele existe para fazer o cliente sentir o projeto funcionando:
+            entrada de ativos, agentes processando contexto, síntese de conhecimento e entrega de documentação com valor real.
+          </p>
+          <div class="metrics" style="margin-top: 20px;">
+            <div class="metric">
+              <div class="metric-value">01</div>
+              <div class="metric-label">Entrada</div>
+              <p>Arquivos, processos e caos técnico entram como matéria-prima.</p>
+            </div>
+            <div class="metric">
+              <div class="metric-value">02</div>
+              <div class="metric-label">Orquestracao</div>
+              <p>Agentes leem, estruturam e relacionam contexto em camadas.</p>
+            </div>
+            <div class="metric">
+              <div class="metric-value">03</div>
+              <div class="metric-label">Sintese</div>
+              <p>O projeto ganha narrativa compreensível, auditável e utilizável.</p>
+            </div>
+            <div class="metric">
+              <div class="metric-value">04</div>
+              <div class="metric-label">Entrega</div>
+              <p>Documentação e apresentação viram ativo estratégico.</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="panel">
-        <div class="hero-art"></div>
+
+        <div class="panel system-stage">
+          <div class="system-topline">
+            <span>System pulse</span>
+            <span>agent-led documentation engine</span>
+          </div>
+          <div class="ring"><span>Contexto entra e sai legível</span></div>
+          <div class="quote">
+            A proposta aqui é simples: não vender “texto bonito”, e sim um sistema de tradução entre complexidade técnica e clareza operacional.
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="panel strong">
-        <span class="eyebrow">Metodo</span>
-        <h2>Separar acervo interno da vitrine pública.</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <strong>Passo 1</strong>
-            O site público vive em `public-site/`, sem depender dos arquivos de bastidor.
-          </div>
-          <div class="timeline-item">
-            <strong>Passo 2</strong>
-            O workflow de Pages publica apenas esse pacote estático.
-          </div>
-          <div class="timeline-item">
-            <strong>Passo 3</strong>
-            O repositório continua preservando o material completo para evolução do projeto.
+    <section class="slide ingest">
+      <div class="grid">
+        <div class="panel strong">
+          <span class="eyebrow">Etapa 1 • Ingestao</span>
+          <h2>Primeiro, o sistema encara a <span class="accent-warn">desordem</span>.</h2>
+          <p class="lead">
+            O cliente normalmente vive aqui: arquivos espalhados, lógica implícita, dependência de pessoas-chave
+            e documentação que nunca acompanha a evolução do projeto.
+          </p>
+          <div class="grid-2" style="margin-top: 20px;">
+            <article class="card danger">
+              <div class="step">IN</div>
+              <h3>Ativos entram crus</h3>
+              <p>PBIX, notebooks, processos, decisões e estruturas chegam como fragmentos sem narrativa consolidada.</p>
+            </article>
+            <article class="card danger">
+              <div class="step">FR</div>
+              <h3>Fricção acumulada</h3>
+              <p>Sem leitura estruturada, o projeto depende de memória, esforço manual e interpretações diferentes.</p>
+            </article>
           </div>
         </div>
-      </div>
-      <div class="panel">
-        <span class="eyebrow">Beneficio</span>
-        <h2>Menos atrito para compartilhar.</h2>
-        <ul>
-          <li>Navegação mais clara para quem chega de fora.</li>
-          <li>Menor chance de expor arquivos internos como homepage pública.</li>
-          <li>Replicação simples do padrão que já funcionou na Elevra.</li>
-        </ul>
+
+        <div class="panel system-stage">
+          <div class="system-topline">
+            <span>Input layer</span>
+            <span>fragmented context</span>
+          </div>
+          <div class="pipeline">
+            <div class="pipeline-content">
+              <div class="pipeline-row">
+                <div class="node problem">
+                  <strong>PBIX</strong>
+                  <span>visuals, tabelas, medidas, relações</span>
+                </div>
+                <div class="beam">→</div>
+                <div class="node problem">
+                  <strong>Notebook</strong>
+                  <span>células, SQL, UDFs, dependências</span>
+                </div>
+              </div>
+              <div class="pipeline-row">
+                <div class="node problem">
+                  <strong>Contexto tácito</strong>
+                  <span>coisas que o time sabe mas não registrou</span>
+                </div>
+                <div class="beam">→</div>
+                <div class="node problem">
+                  <strong>Risco</strong>
+                  <span>fragilidade, ruído e retrabalho</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="slide">
-      <div class="panel strong">
-        <span class="eyebrow">Proximo passo</span>
-        <h2>O que melhora a partir daqui.</h2>
-        <div class="grid-3">
-          <div class="metric">
-            <div class="metric-value">01</div>
-            <div class="metric-label">Copy final</div>
-            <p>Substituir o texto-base pela narrativa comercial definitiva.</p>
+    <section class="slide orchestration">
+      <div class="grid">
+        <div class="panel strong">
+          <span class="eyebrow">Etapa 2 • Orquestracao</span>
+          <h2>Depois, os agentes <span class="accent">decompõem e reorganizam</span> o projeto.</h2>
+          <div class="timeline" style="margin-top: 12px;">
+            <div class="timeline-item">
+              <strong>Leitura estrutural</strong>
+              Identificam componentes, relações, trechos críticos, lógica implícita e pontos de risco.
+            </div>
+            <div class="timeline-item">
+              <strong>Camadas de explicação</strong>
+              Separaram o que é técnico, o que é contexto e o que é atenção operacional.
+            </div>
+            <div class="timeline-item">
+              <strong>Sinalização de prioridade</strong>
+              O sistema deixa claro o que precisa ser lido primeiro, o que é sensível e o que sustenta o resto.
+            </div>
           </div>
-          <div class="metric">
-            <div class="metric-value">02</div>
-            <div class="metric-label">Identidade</div>
-            <p>Adicionar marca, mockups e provas visuais do projeto.</p>
+        </div>
+
+        <div class="panel system-stage">
+          <div class="system-topline">
+            <span>Agent mesh</span>
+            <span>context orchestration</span>
           </div>
-          <div class="metric">
-            <div class="metric-value">03</div>
-            <div class="metric-label">CTA</div>
-            <p>Fechar a jornada com contato, proposta ou ação desejada.</p>
+          <div class="pipeline">
+            <div class="pipeline-content">
+              <div class="pipeline-row">
+                <div class="node solution">
+                  <strong>Agent 01</strong>
+                  <span>extrai estrutura e hierarquia</span>
+                </div>
+                <div class="beam">→</div>
+                <div class="node solution">
+                  <strong>Agent 02</strong>
+                  <span>interpreta contexto e função</span>
+                </div>
+              </div>
+              <div class="pipeline-row">
+                <div class="node solution">
+                  <strong>Agent 03</strong>
+                  <span>sinaliza risco, atenção e leitura prioritária</span>
+                </div>
+                <div class="beam">→</div>
+                <div class="node solution">
+                  <strong>Agent 04</strong>
+                  <span>monta narrativa utilizável para humanos</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="panel">
-        <span class="eyebrow">Repositorio</span>
-        <p>
-          O material completo continua disponível em
-          <a href="https://github.com/programahaf-lab/MEI-Docs">programahaf-lab/MEI-Docs</a>.
-        </p>
-        <p>
-          A função do Pages aqui é apresentar o projeto com clareza, não substituir o repositório como fonte técnica.
-        </p>
+    </section>
+
+    <section class="slide delivery">
+      <div class="grid">
+        <div class="panel strong">
+          <span class="eyebrow">Etapa 3 • Entrega</span>
+          <h2>O output final parece <span class="accent-good">clareza condensada</span>, não burocracia.</h2>
+          <div class="grid-3" style="margin-top: 18px;">
+            <article class="card positive">
+              <div class="step">DX</div>
+              <h3>Leitura rápida</h3>
+              <p>Quem herda o projeto entende mais rápido o que existe, como ler e onde estão os riscos.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">OP</div>
+              <h3>Uso operacional</h3>
+              <p>A documentação deixa de ser arquivo morto e passa a ser base real para governança e onboarding.</p>
+            </article>
+            <article class="card positive">
+              <div class="step">SA</div>
+              <h3>Camada de venda</h3>
+              <p>O mesmo conteúdo pode sustentar apresentação, proposta e narrativa de valor do projeto.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="panel">
+          <span class="eyebrow">Visual de entrega</span>
+          <div class="terminal-box">
+            <div class="terminal-top"><span></span><span></span><span></span></div>
+            <div class="terminal">pipeline://output
+
+<span class="accent-line">STRUCTURE</span>
+guia de leitura
+componentes principais
+dependências críticas
+
+<span class="accent-line">CONTEXT</span>
+o que existe
+por que existe
+como interpretar
+
+<span class="accent-line">ATTENTION</span>
+riscos
+sensibilidades
+prioridades de leitura
+
+<span class="accent-line">RESULT</span>
+documentacao viva
+apresentacao vendável
+continuidade preservada</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide future">
+      <div class="grid">
+        <div class="panel strong">
+          <span class="eyebrow">Projecao</span>
+          <h2>Quando o cliente entende o método, ele para de enxergar só um serviço e passa a ver <span class="accent">uma plataforma de clareza</span>.</h2>
+          <p class="lead">
+            É aqui que a proposta ganha escala: documentação guiada por agentes deixa de ser uma resposta pontual
+            para virar disciplina aplicável a novos ativos, novos processos e novas camadas de governança.
+          </p>
+          <div class="grid-4" style="margin-top: 18px;">
+            <article class="card">
+              <div class="step">01</div>
+              <h3>Onboarding</h3>
+              <p>Menos tempo para entender, mais velocidade para produzir.</p>
+            </article>
+            <article class="card">
+              <div class="step">02</div>
+              <h3>Governança</h3>
+              <p>Mais padronização, contexto e rastreabilidade.</p>
+            </article>
+            <article class="card">
+              <div class="step">03</div>
+              <h3>Venda</h3>
+              <p>Projetos complexos ficam mais fáceis de explicar e defender.</p>
+            </article>
+            <article class="card">
+              <div class="step">04</div>
+              <h3>Escala</h3>
+              <p>O método cresce junto com o acervo técnico da empresa.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="panel system-stage">
+          <div class="system-topline">
+            <span>Next state</span>
+            <span>documentation as leverage</span>
+          </div>
+          <div class="ring"><span>Mais clareza Menos dependência Mais escala</span></div>
+          <div class="quote">
+            O melhor efeito do projeto é este: depois de ver a experiência, o cliente passa a querer o método, não apenas o documento final.
+          </div>
+        </div>
       </div>
     </section>
   </div>
 
   <div class="controls">
-    <button class="nav-btn" type="button" data-direction="-1">Anterior</button>
-    <div class="slide-index"><span id="current">1</span> / <span id="total">3</span></div>
-    <button class="nav-btn" type="button" data-direction="1">Proxima</button>
+    <button class="nav-btn" id="prevBtn" type="button" aria-label="Anterior">&#8592;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" type="button" aria-label="Próxima">&#8594;</button>
   </div>
 
   <script>
     const slides = Array.from(document.querySelectorAll('.slide'));
-    const currentEl = document.getElementById('current');
-    const totalEl = document.getElementById('total');
-    const buttons = Array.from(document.querySelectorAll('[data-direction]'));
+    const total = slides.length;
+    const cn = document.getElementById('cn');
+    const tn = document.getElementById('tn');
+    const dotsEl = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const mouseGlow = document.getElementById('mouseGlow');
     let current = 0;
+    let busy = false;
+    let autoTimer;
 
-    totalEl.textContent = String(slides.length);
+    tn.textContent = String(total);
 
-    function render() {
-      slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === current);
+    slides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'dot' + (index === 0 ? ' on' : '');
+      dot.setAttribute('aria-label', 'Ir para slide ' + (index + 1));
+      dot.addEventListener('click', () => {
+        goTo(index);
+        restartAuto();
       });
-      currentEl.textContent = String(current + 1);
+      dotsEl.appendChild(dot);
+    });
+
+    function renderUI() {
+      cn.textContent = String(current + 1);
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('on', index === current);
+      });
+    }
+
+    function goTo(index) {
+      if (busy || index === current || index < 0 || index >= total) return;
+      busy = true;
+      const dir = index > current ? 1 : -1;
+      const oldSlide = slides[current];
+      const nextSlide = slides[index];
+
+      if (dir > 0) {
+        oldSlide.classList.add('out-left');
+      } else {
+        oldSlide.style.transition = '';
+        oldSlide.style.opacity = '0';
+        oldSlide.style.transform = 'translateX(54px) scale(0.99)';
+      }
+
+      nextSlide.style.cssText = 'transition:none;opacity:0;transform:translateX(' + (dir > 0 ? 54 : -54) + 'px) scale(0.99)';
+      nextSlide.classList.add('active');
+      nextSlide.getBoundingClientRect();
+      nextSlide.style.cssText = '';
+      nextSlide.style.opacity = '1';
+      nextSlide.style.transform = 'translateX(0) scale(1)';
+
+      setTimeout(() => {
+        oldSlide.classList.remove('active', 'out-left');
+        oldSlide.style.cssText = '';
+        nextSlide.style.cssText = '';
+        current = index;
+        renderUI();
+        busy = false;
+      }, 430);
     }
 
     function move(delta) {
-      current = (current + delta + slides.length) % slides.length;
-      render();
+      goTo((current + delta + total) % total);
     }
 
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        move(Number(button.dataset.direction));
-      });
+    function restartAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        goTo((current + 1) % total);
+      }, 5400);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      move(-1);
+      restartAuto();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      move(1);
+      restartAuto();
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowRight' || event.key === 'PageDown') {
         move(1);
+        restartAuto();
       }
       if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
         move(-1);
+        restartAuto();
       }
     });
+
+    document.addEventListener('pointermove', (event) => {
+      mouseGlow.style.left = event.clientX + 'px';
+      mouseGlow.style.top = event.clientY + 'px';
+    });
+
+    renderUI();
+    restartAuto();
   </script>
 </body>
 </html>
