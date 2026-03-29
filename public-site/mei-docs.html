@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEI Docs</title>
+  <style>
+    :root {
+      --bg: #f5efe8;
+      --paper: rgba(255, 255, 255, 0.9);
+      --paper-strong: #fffdf9;
+      --ink: #1d1712;
+      --muted: #665d56;
+      --line: rgba(29, 23, 18, 0.1);
+      --accent: #b86b39;
+      --accent-soft: #efd7c6;
+      --accent-dark: #7e4724;
+      --shadow: 0 18px 50px rgba(64, 37, 21, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(184, 107, 57, 0.16), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(126, 71, 36, 0.1), transparent 22%),
+        linear-gradient(135deg, #fbf7f2 0%, #f5efe8 46%, #ece1d6 100%);
+      font-family: Arial, Helvetica, sans-serif;
+      min-width: 320px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 14px 0 0;
+    }
+
+    .nav-shell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255, 253, 249, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 36px rgba(64, 37, 21, 0.08);
+    }
+
+    .brand-mark {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-links a:hover {
+      background: rgba(184, 107, 57, 0.08);
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 24px 0;
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+      gap: 24px;
+      align-items: stretch;
+      background: var(--paper);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 42px 42px 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+      margin-bottom: 18px;
+    }
+
+    .hero-copy p,
+    .section-heading p,
+    .card p,
+    .visual-card p,
+    .visual-card li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .hero-copy p {
+      max-width: 50ch;
+      margin-bottom: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .cta-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(126, 71, 36, 0.22);
+    }
+
+    .cta-secondary {
+      border: 1px solid rgba(184, 107, 57, 0.2);
+      background: rgba(184, 107, 57, 0.06);
+      color: var(--accent-dark);
+    }
+
+    .hero-notes,
+    .grid-3,
+    .grid-2 {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-notes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 24px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .hero-note,
+    .card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 253, 249, 0.82);
+      border: 1px solid var(--line);
+    }
+
+    .hero-note strong,
+    .label {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .hero-note strong {
+      margin-bottom: 6px;
+    }
+
+    .hero-note span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .hero-visual {
+      min-height: 420px;
+      position: relative;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(239, 215, 198, 0.95), transparent 18%),
+        radial-gradient(circle at 72% 24%, rgba(184, 107, 57, 0.28), transparent 22%),
+        linear-gradient(150deg, #261a14 0%, #5a3b2a 46%, #9c6b49 100%);
+      overflow: hidden;
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .hero-visual::before {
+      width: 320px;
+      height: 320px;
+      top: -54px;
+      right: -42px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-visual::after {
+      width: 240px;
+      height: 240px;
+      left: -70px;
+      bottom: -90px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .visual-stack {
+      position: absolute;
+      inset: 0;
+      padding: 38px;
+      display: grid;
+      align-content: end;
+      gap: 16px;
+    }
+
+    .visual-card {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(255, 252, 248, 0.92);
+      box-shadow: 0 16px 40px rgba(22, 14, 10, 0.22);
+    }
+
+    .visual-card h3,
+    .card h3 {
+      margin: 10px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .visual-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    section {
+      padding: 18px 0 0;
+    }
+
+    .section-card {
+      background: var(--paper);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    .section-heading {
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .label {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(184, 107, 57, 0.1);
+    }
+
+    .card a {
+      color: var(--accent-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      padding: 22px 0 48px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero-card,
+      .hero-notes,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .nav-shell {
+        border-radius: 26px;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero-copy,
+      .section-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container">
+      <div class="nav-shell">
+        <a class="brand-mark" href="#top">MEI Docs</a>
+        <div class="nav-links">
+          <a href="#visao-geral">Visao geral</a>
+          <a href="#estrutura">Estrutura</a>
+          <a href="#acesso">Acesso</a>
+          <a href="./apresentacao-mei-docs.html">Apresentacao</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">Hub publico do projeto</span>
+            <h1>Documentacao comercial organizada para consulta e apresentacao.</h1>
+            <p>
+              O MEI Docs transforma um conjunto de materiais técnicos e comerciais em uma camada
+              de navegação mais clara, leve e publicável. A base segue o mesmo método aplicado no
+              projeto Elevra Sunwear, agora adaptado para um repositório com publicação no GitHub Pages.
+            </p>
+            <div class="hero-actions">
+              <a class="cta-primary" href="./apresentacao-mei-docs.html">Abrir apresentacao</a>
+              <a class="cta-secondary" href="https://github.com/programahaf-lab/MEI-Docs">Ver repositorio</a>
+            </div>
+            <div class="hero-notes">
+              <div class="hero-note">
+                <strong>Publicacao</strong>
+                <span>Versão pública separada em `public-site/` para deploy limpo no Pages.</span>
+              </div>
+              <div class="hero-note">
+                <strong>Estrutura</strong>
+                <span>Página principal, deck executivo e workflow dedicado de deploy.</span>
+              </div>
+              <div class="hero-note">
+                <strong>Objetivo</strong>
+                <span>Facilitar leitura, compartilhamento e demonstração do projeto.</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="visual-stack">
+              <div class="visual-card">
+                <span class="label">Narrativa</span>
+                <h3>Uma camada mais apresentável para um acervo técnico.</h3>
+                <p>
+                  O site concentra visão geral, contexto de entrega e acesso ao material-fonte sem depender
+                  de ferramentas específicas ou de uma pilha frontend complexa.
+                </p>
+              </div>
+              <div class="visual-card">
+                <span class="label">Uso</span>
+                <ul>
+                  <li>Apresentação comercial em reuniões</li>
+                  <li>Hub de documentação navegável</li>
+                  <li>Ponto único para evolução pública do projeto</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="visao-geral">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>O que este site resolve</h2>
+            <p>
+              Em vez de expor arquivos soltos como entrada principal, o Pages passa a entregar uma experiência
+              objetiva: visão do projeto, lógica da documentação e caminhos claros para navegação.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <span class="label">1</span>
+              <h3>Contexto primeiro</h3>
+              <p>O visitante entende rapidamente o que é o projeto antes de abrir arquivos ou materiais complementares.</p>
+            </div>
+            <div class="card">
+              <span class="label">2</span>
+              <h3>Publicacao limpa</h3>
+              <p>O deploy publica apenas o que é necessário para o site, sem depender do restante do acervo do repositório.</p>
+            </div>
+            <div class="card">
+              <span class="label">3</span>
+              <h3>Manutencao simples</h3>
+              <p>Tudo é HTML estático, fácil de ajustar, versionar e republicar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="estrutura">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>Estrutura adotada para o GitHub Pages</h2>
+            <p>
+              O projeto agora separa o conteúdo publicado da base interna do repositório. Isso reduz atrito,
+              evita links quebrados na vitrine pública e deixa o fluxo de deploy mais previsível.
+            </p>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <span class="label">Site publico</span>
+              <h3>`public-site/`</h3>
+              <p>Contém `index.html`, a página principal, o deck e `.nojekyll`, exatamente o que o Pages precisa para servir o site.</p>
+            </div>
+            <div class="card">
+              <span class="label">Repositorio</span>
+              <h3>Acervo completo</h3>
+              <p>Os materiais técnicos e comerciais continuam no repositório como fonte de trabalho, sem precisar virar a homepage pública.</p>
+            </div>
+            <div class="card">
+              <span class="label">Deploy</span>
+              <h3>Workflow dedicado</h3>
+              <p>Um workflow publica apenas a pasta pública usando GitHub Actions, no formato recomendado pela documentação oficial do GitHub Pages.</p>
+            </div>
+            <div class="card">
+              <span class="label">Navegacao</span>
+              <h3>Deck separado</h3>
+              <p>A apresentação executiva fica em uma página própria, melhor para reuniões e compartilhamento rápido.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="acesso">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>Acesso e continuidade</h2>
+            <p>
+              A vitrine pública ficou propositalmente enxuta. O material complementar permanece disponível no próprio
+              repositório para aprofundamento e evolução do projeto.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <span class="label">Codigo</span>
+              <h3>Repositorio principal</h3>
+              <p><a href="https://github.com/programahaf-lab/MEI-Docs">Abrir `programahaf-lab/MEI-Docs`</a></p>
+              <p>Referência central para arquivos, histórico e continuidade técnica.</p>
+            </div>
+            <div class="card">
+              <span class="label">Apresentacao</span>
+              <h3>Deck online</h3>
+              <p><a href="./apresentacao-mei-docs.html">Abrir apresentação executiva</a></p>
+              <p>Camada narrativa para reuniões, validação e demonstração do projeto.</p>
+            </div>
+            <div class="card">
+              <span class="label">Evolucao</span>
+              <h3>Próximas iterações</h3>
+              <p>O próximo ganho real é trocar o texto-base por copy final, identidade visual fechada e chamadas de ação específicas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      MEI Docs publicado com GitHub Pages a partir de uma versão pública dedicada.
+    </div>
+  </footer>
+</body>
+</html>

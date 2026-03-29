@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEI Docs | Apresentacao</title>
+  <style>
+    :root {
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: rgba(255, 255, 255, 0.96);
+      --ink: #191613;
+      --muted: #5f5852;
+      --line: rgba(25, 22, 19, 0.1);
+      --accent: #b86b39;
+      --accent-2: #d69b6c;
+      --shadow: 0 24px 80px rgba(42, 28, 18, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(214, 155, 108, 0.24), transparent 24%),
+        radial-gradient(circle at 84% 12%, rgba(184, 107, 57, 0.18), transparent 22%),
+        radial-gradient(circle at 72% 82%, rgba(214, 155, 108, 0.1), transparent 22%),
+        linear-gradient(135deg, #fcfaf7 0%, #f7f2ec 48%, #f1e7dc 100%);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow: hidden;
+    }
+
+    .deck {
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 56px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(28px) scale(0.985);
+      transition: opacity 280ms ease, transform 280ms ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      padding: 26px 28px;
+      overflow: hidden;
+    }
+
+    .panel.strong {
+      background: var(--panel-strong);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(184, 107, 57, 0.12);
+      color: var(--accent);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 14px;
+      line-height: 1.02;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 72px);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(28px, 3vw, 42px);
+    }
+
+    p, li, .metric-value, .metric-label, .nav-btn, .slide-index {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    li {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+
+    .hero-art {
+      position: relative;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 28% 18%, rgba(214, 155, 108, 0.95), transparent 20%),
+        radial-gradient(circle at 34% 18%, rgba(184, 107, 57, 0.88), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(214, 155, 108, 0.22), transparent 24%),
+        linear-gradient(160deg, #17120f 0%, #3e2a1d 48%, #7d563c 100%);
+      min-height: 340px;
+    }
+
+    .hero-art::before,
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .hero-art::before {
+      width: 320px;
+      height: 320px;
+      top: -80px;
+      right: -40px;
+    }
+
+    .hero-art::after {
+      width: 220px;
+      height: 220px;
+      left: -50px;
+      bottom: -70px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .metric {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .metric-value {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .timeline-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .nav-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(25, 22, 19, 0.9);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .slide-index {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 960px) {
+      .slide {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        padding: 22px 22px 94px;
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide active">
+      <div class="panel strong">
+        <span class="eyebrow">Apresentacao executiva</span>
+        <h1>MEI Docs como camada pública de documentação e apresentação.</h1>
+        <p>
+          O projeto passa a ter uma entrada clara no GitHub Pages: uma vitrine estática, leve e própria
+          para compartilhamento, sem depender de abrir o repositório primeiro.
+        </p>
+        <div class="grid-3">
+          <div class="metric">
+            <div class="metric-value">3</div>
+            <div class="metric-label">Paginas publicas</div>
+            <p>Entrada, página principal e deck executivo.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1</div>
+            <div class="metric-label">Fonte de deploy</div>
+            <p>Publicação dedicada a partir de `public-site/`.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">0</div>
+            <div class="metric-label">Dependencias</div>
+            <p>HTML estático puro, sem build local obrigatório.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="hero-art"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="panel strong">
+        <span class="eyebrow">Metodo</span>
+        <h2>Separar acervo interno da vitrine pública.</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>Passo 1</strong>
+            O site público vive em `public-site/`, sem depender dos arquivos de bastidor.
+          </div>
+          <div class="timeline-item">
+            <strong>Passo 2</strong>
+            O workflow de Pages publica apenas esse pacote estático.
+          </div>
+          <div class="timeline-item">
+            <strong>Passo 3</strong>
+            O repositório continua preservando o material completo para evolução do projeto.
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Beneficio</span>
+        <h2>Menos atrito para compartilhar.</h2>
+        <ul>
+          <li>Navegação mais clara para quem chega de fora.</li>
+          <li>Menor chance de expor arquivos internos como homepage pública.</li>
+          <li>Replicação simples do padrão que já funcionou na Elevra.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="panel strong">
+        <span class="eyebrow">Proximo passo</span>
+        <h2>O que melhora a partir daqui.</h2>
+        <div class="grid-3">
+          <div class="metric">
+            <div class="metric-value">01</div>
+            <div class="metric-label">Copy final</div>
+            <p>Substituir o texto-base pela narrativa comercial definitiva.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">02</div>
+            <div class="metric-label">Identidade</div>
+            <p>Adicionar marca, mockups e provas visuais do projeto.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">03</div>
+            <div class="metric-label">CTA</div>
+            <p>Fechar a jornada com contato, proposta ou ação desejada.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Repositorio</span>
+        <p>
+          O material completo continua disponível em
+          <a href="https://github.com/programahaf-lab/MEI-Docs">programahaf-lab/MEI-Docs</a>.
+        </p>
+        <p>
+          A função do Pages aqui é apresentar o projeto com clareza, não substituir o repositório como fonte técnica.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" type="button" data-direction="-1">Anterior</button>
+    <div class="slide-index"><span id="current">1</span> / <span id="total">3</span></div>
+    <button class="nav-btn" type="button" data-direction="1">Proxima</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const currentEl = document.getElementById('current');
+    const totalEl = document.getElementById('total');
+    const buttons = Array.from(document.querySelectorAll('[data-direction]'));
+    let current = 0;
+
+    totalEl.textContent = String(slides.length);
+
+    function render() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === current);
+      });
+      currentEl.textContent = String(current + 1);
+    }
+
+    function move(delta) {
+      current = (current + delta + slides.length) % slides.length;
+      render();
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        move(Number(button.dataset.direction));
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+        move(1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        move(-1);
+      }
+    });
+  </script>
+</body>
+</html>
