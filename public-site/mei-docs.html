@@ -169,6 +169,12 @@
         radial-gradient(circle at 82% 66%, rgba(255, 192, 120, 0.1), transparent 24%);
     }
 
+    .slide.contact::before {
+      background:
+        radial-gradient(circle at 18% 30%, rgba(255, 196, 103, 0.12), transparent 24%),
+        radial-gradient(circle at 82% 68%, rgba(103, 212, 255, 0.12), transparent 28%);
+    }
+
     .slide-grid {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
@@ -290,6 +296,23 @@
     .slide.packages .tag::before {
       background: #ffd189;
       box-shadow: 0 0 14px rgba(255, 209, 137, 0.68);
+    }
+
+    .slide.contact .tag {
+      border-color: rgba(255, 214, 132, 0.24);
+      background: rgba(255, 196, 103, 0.1);
+      color: #ffd189;
+    }
+
+    .slide.contact .tag::before {
+      background: #ffd189;
+      box-shadow: 0 0 14px rgba(255, 209, 137, 0.68);
+    }
+
+    .slide.contact h2 .accent,
+    .slide.contact h3 .accent {
+      color: #ffd189;
+      text-shadow: 0 0 28px rgba(255, 209, 137, 0.28);
     }
 
     h1, h2, h3, h4, p {
@@ -836,6 +859,47 @@
       color: var(--neon-2);
     }
 
+    .contact-panel {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .contact-stack {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .contact-link {
+      display: grid;
+      gap: 6px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 214, 132, 0.18);
+      background: linear-gradient(180deg, rgba(255, 196, 103, 0.08), rgba(255, 255, 255, 0.025));
+      text-decoration: none;
+    }
+
+    .contact-link strong {
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: #fff2d5;
+    }
+
+    .contact-link span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
     .nav {
       position: fixed;
       left: 50%;
@@ -934,6 +998,7 @@
       .slide-grid,
       .slide-grid.single,
       .hero-top,
+      .contact-panel,
       .metrics,
       .grid-4,
       .grid-3,
@@ -1037,7 +1102,7 @@
   <div class="mouse-glow" id="mouseGlow"></div>
   <div class="hud-left">MEI DOCS // AGENT-LED DOCUMENTATION</div>
   <div class="hud-right">No scroll <span>deck mode</span></div>
-  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">5</span></div>
+  <div class="slide-index">Slide <span id="cn">1</span> / <span id="tn">6</span></div>
   <div class="autoplay-badge">capa em autoplay • setas navegam</div>
 
   <div class="deck" id="deck">
@@ -1276,7 +1341,7 @@
     </section>
 
     <section class="slide packages">
-      <div class="slide-grid">
+      <div class="slide-grid single">
         <div class="panel strong">
           <div class="tag">Pacotes</div>
           <h2>Uma estrutura comercial em <span class="accent">três níveis</span>.</h2>
@@ -1298,10 +1363,35 @@
             </article>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="panel">
+    <section class="slide contact">
+      <div class="slide-grid single">
+        <div class="panel strong contact-panel">
+          <div class="contact-stack">
+            <div class="tag">Contato</div>
+            <h2>Se fez sentido, a próxima etapa é uma <span class="accent">conversa objetiva</span>.</h2>
+            <p class="lead">
+              A proposta do MEI Docs é tirar projeto relevante do improviso. Se hoje existe código demais,
+              contexto de menos e dependência de memória informal, a conversa certa é sobre continuidade,
+              clareza e documentação que realmente sustenta evolução.
+            </p>
+            <div class="contact-links">
+              <a class="contact-link" href="mailto:contato@meidocs.dev">
+                <strong>contato@meidocs.dev</strong>
+                <span>Canal direto para abrir a conversa comercial e técnica.</span>
+              </a>
+              <a class="contact-link" href="https://github.com/programahaf-lab/MEI-Docs">
+                <strong>github.com/programahaf-lab/MEI-Docs</strong>
+                <span>Referência pública do projeto e da estrutura publicada.</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="panel">
           <div class="tag">Contato</div>
-          <h3>A conversa certa é sobre como isso escala.</h3>
+          <h3>A conversa certa é sobre como isso <span class="accent">escala</span>.</h3>
           <p class="subcopy">
             Se o problema hoje é complexidade demais e contexto de menos, a proposta do MEI Docs é transformar
             documentação em infraestrutura de continuidade.
