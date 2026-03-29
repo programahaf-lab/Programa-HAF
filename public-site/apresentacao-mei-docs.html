@@ -894,8 +894,16 @@
       mouseGlow.style.top = event.clientY + 'px';
     });
 
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearInterval(autoTimer);
+      } else {
+        restartAuto();
+      }
+    });
+
     renderUI();
-    restartAuto();
+    window.addEventListener('load', restartAuto, { once: true });
   </script>
 </body>
 </html>

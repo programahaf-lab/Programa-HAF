@@ -1145,7 +1145,7 @@ github.com/programahaf-lab/MEI-Docs</div>
       dot.setAttribute('aria-label', 'Ir para slide ' + (index + 1));
       dot.addEventListener('click', () => {
         goTo(index);
-        stopAuto();
+        startAuto();
       });
       dotsEl.appendChild(dot);
     });
@@ -1208,22 +1208,22 @@ github.com/programahaf-lab/MEI-Docs</div>
 
     prevBtn.addEventListener('click', () => {
       go(-1);
-      stopAuto();
+      startAuto();
     });
 
     nextBtn.addEventListener('click', () => {
       go(1);
-      stopAuto();
+      startAuto();
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowRight' || event.key === 'PageDown') {
         go(1);
-        stopAuto();
+        startAuto();
       }
       if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
         go(-1);
-        stopAuto();
+        startAuto();
       }
     });
 
@@ -1232,8 +1232,16 @@ github.com/programahaf-lab/MEI-Docs</div>
       mouseGlow.style.top = event.clientY + 'px';
     });
 
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAuto();
+      } else {
+        startAuto();
+      }
+    });
+
     ui();
-    startAuto();
+    window.addEventListener('load', startAuto, { once: true });
   </script>
 </body>
 </html>
