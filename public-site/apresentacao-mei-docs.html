@@ -577,6 +577,10 @@
       transition: all 180ms ease;
     }
 
+    .nav-home {
+      text-decoration: none;
+    }
+
     .nav-btn:hover {
       background: var(--cyan);
       color: #04101c;
@@ -821,7 +825,7 @@
   </div>
 
   <div class="controls">
-    <button class="nav-btn" id="prevBtn" type="button" aria-label="Anterior">&#8592;</button>
+    <a class="nav-btn nav-home" href="./mei-docs.html" aria-label="Voltar para home">&#8962;</a>
     <div class="dots" id="dots"></div>
     <button class="nav-btn" id="nextBtn" type="button" aria-label="Proxima">&#8594;</button>
   </div>
@@ -832,7 +836,6 @@
     const cn = document.getElementById('cn');
     const tn = document.getElementById('tn');
     const dotsEl = document.getElementById('dots');
-    const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const mouseGlow = document.getElementById('mouseGlow');
     let current = 0;
@@ -911,11 +914,6 @@
         restartAuto();
       }, 5000);
     }
-
-    prevBtn.addEventListener('click', () => {
-      move(-1);
-      markInteraction();
-    });
 
     nextBtn.addEventListener('click', () => {
       move(1);
