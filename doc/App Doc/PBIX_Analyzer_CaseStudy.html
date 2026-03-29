@@ -1,0 +1,695 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PBIX Analyzer — Case de Sucesso</title>
+<style>
+:root {
+  --y: #FFBE00;
+  --yd: #cc9800;
+  --bg: #1E1E20;
+  --bg2: #28282C;
+  --bg3: #313136;
+  --card: #232326;
+  --border: rgba(255,190,0,0.18);
+  --text: #F0F0F2;
+  --muted: #909098;
+  --white: #ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+
+/* ── DECK ── */
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:56px 80px 80px;
+  opacity:0;transform:translateX(56px);
+  transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;overflow-y:auto;
+}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:all}
+.slide.out-left{opacity:0;transform:translateX(-56px)}
+
+/* ── TYPE ── */
+.tag{font-size:10px;font-weight:800;letter-spacing:3.5px;text-transform:uppercase;color:var(--y);margin-bottom:14px}
+h1{font-size:clamp(30px,5vw,62px);font-weight:900;line-height:1.05;color:var(--white)}
+h1 em{color:var(--y);font-style:normal}
+h2{font-size:clamp(20px,2.8vw,38px);font-weight:800;color:var(--white);margin-bottom:28px;text-align:center}
+h2 em{color:var(--y);font-style:normal}
+h3{font-size:13px;font-weight:700;color:var(--y);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+p,li{font-size:clamp(12px,1.3vw,15px);color:#bbbbc4;line-height:1.72}
+li{margin-left:16px;margin-bottom:5px}
+strong,b{color:var(--white)}
+.center{text-align:center}
+.sub{font-size:clamp(13px,1.6vw,19px);color:var(--muted);margin-top:14px;max-width:680px;text-align:center;line-height:1.6}
+
+/* ── LAYOUT ── */
+.w{max-width:980px;width:100%}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:980px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;width:100%;max-width:980px}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt20{margin-top:20px}.mt24{margin-top:24px}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px}
+.card:hover{border-color:rgba(255,190,0,.35)}
+.icon{font-size:26px;margin-bottom:10px}
+.card-y{border-color:rgba(255,190,0,.5);background:rgba(255,190,0,.06)}
+
+/* ── DIVIDER ── */
+.bar{width:52px;height:3px;background:var(--y);border-radius:2px;margin:14px auto}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%;max-width:980px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 12px;text-align:center}
+.sn{font-size:clamp(26px,3.5vw,44px);font-weight:900;color:var(--y);line-height:1}
+.sl{font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:.3px}
+
+/* ── DOC PREVIEW ── */
+.doc-frame{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:20px 22px;font-size:12px;line-height:1.65;color:#c0c0cc;
+  max-height:260px;overflow-y:auto;
+}
+.doc-frame .sec{color:var(--y);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-top:12px;margin-bottom:3px}
+.doc-frame .body{color:#c8c8d4;margin-bottom:8px}
+.doc-frame .highlight{background:rgba(255,190,0,.12);border-left:3px solid var(--y);padding:6px 10px;border-radius:4px;margin:6px 0}
+.doc-frame .box-blue{background:rgba(0,120,215,.1);border-left:3px solid #4fa3e0;padding:6px 10px;border-radius:4px;margin:6px 0}
+.doc-frame .box-warn{background:rgba(255,100,50,.1);border-left:3px solid #ff6432;padding:6px 10px;border-radius:4px;margin:6px 0}
+
+/* ── BEFORE / AFTER ── */
+.ba{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:start;width:100%;max-width:980px}
+.ba-arrow{display:flex;align-items:center;justify-content:center;height:100%;color:var(--y);font-size:26px;padding-top:40px}
+.bad{border-color:rgba(255,80,80,.3);background:rgba(255,60,60,.04)}
+.good{border-color:rgba(80,200,120,.3);background:rgba(60,180,100,.04)}
+.bad h3{color:#ff6b6b}
+.good h3{color:#5fcf8a}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;gap:14px;width:100%;max-width:900px}
+.tli{display:flex;gap:18px;align-items:flex-start}
+.tld{width:34px;height:34px;border-radius:50%;background:var(--y);color:#1a1a1a;
+     display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;margin-top:2px}
+.tlb p{margin-top:4px}
+
+/* ── PILL ── */
+.pill{display:inline-block;background:rgba(255,190,0,.12);border:1px solid rgba(255,190,0,.3);
+      color:var(--y);font-size:11px;font-weight:700;padding:3px 10px;border-radius:16px;margin:2px;letter-spacing:.4px}
+.pill-red{background:rgba(255,90,90,.12);border-color:rgba(255,90,90,.3);color:#ff7070}
+.pill-green{background:rgba(80,200,120,.12);border-color:rgba(80,200,120,.3);color:#5fcf8a}
+
+/* ── QUOTE ── */
+.quote{
+  border-left:4px solid var(--y);padding:16px 20px;
+  background:rgba(255,190,0,.06);border-radius:0 10px 10px 0;
+  font-size:clamp(13px,1.4vw,16px);color:var(--white);line-height:1.7;font-style:italic;
+}
+
+/* ── PROMPT BOX ── */
+.pb{
+  background:#0e0e10;border:2px solid var(--y);border-radius:14px;
+  padding:24px 28px;width:100%;max-width:900px;position:relative;margin-top:10px;
+}
+.pb::before{
+  content:'💬  PROMPT COPILOT CLI';
+  position:absolute;top:-12px;left:20px;
+  background:var(--y);color:#1a1a1a;
+  font-size:10px;font-weight:900;letter-spacing:2px;padding:2px 10px;border-radius:6px;
+}
+.pb p{font-family:'Consolas','SF Mono',monospace;font-size:clamp(11px,1.1vw,13px);
+       color:#dde;line-height:1.75;white-space:pre-wrap}
+
+/* ── COVER GLOW ── */
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+.g-a{width:600px;height:600px;background:radial-gradient(circle,rgba(255,190,0,.07) 0%,transparent 70%);top:-250px;right:-200px}
+.g-b{width:500px;height:500px;background:radial-gradient(circle,rgba(255,190,0,.05) 0%,transparent 70%);bottom:-200px;left:-150px}
+
+/* ── NAV ── */
+.nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100}
+.nb{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,190,0,.35);
+    background:rgba(28,28,30,.9);color:var(--y);font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(8px)}
+.nb:hover{background:var(--y);color:#1a1a1a;border-color:var(--y)}
+.nb:disabled{opacity:.2;cursor:default}
+.dots{display:flex;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,190,0,.28);cursor:pointer;transition:all .25s}
+.dot.on{background:var(--y);width:22px;border-radius:3px}
+
+/* ── HUD ── */
+.hud-l{position:fixed;top:22px;left:28px;font-size:12px;font-weight:800;letter-spacing:1px;color:var(--y);z-index:100}
+.hud-r{position:fixed;top:22px;right:28px;font-size:12px;color:var(--muted);font-weight:600;z-index:100}
+.hud-r span{color:var(--y)}
+.hint{position:fixed;bottom:28px;right:28px;font-size:10px;color:var(--muted);z-index:100}
+.kbd{display:inline-block;border:1px solid var(--muted);border-radius:3px;padding:1px 5px;font-size:9px;color:var(--muted)}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,190,0,.25);border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="hud-l">◆ PBIX ANALYZER</div>
+<div class="hud-r" id="hud-r" style="top:56px;right:16px">Slide <span id="cn">1</span> / <span id="tn">13</span></div>
+<img id="jd-logo" src="data:image/jpeg;base64,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" style="position:fixed;top:0;right:0;height:52px;z-index:100;display:none;pointer-events:none">
+<div class="hint"><span class="kbd">←</span> <span class="kbd">→</span></div>
+<div id="powered-by" style="position:fixed;bottom:88px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted);letter-spacing:.5px;z-index:100;white-space:nowrap;transition:opacity .3s">
+  Powered by <strong style="color:var(--y)">Paulo Souza</strong>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ══════════════════════════════════════════
+     01 — CAPA
+══════════════════════════════════════════ -->
+<div class="slide active">
+  <div class="glow g-a"></div><div class="glow g-b"></div>
+  <div class="center" style="max-width:780px;z-index:1">
+    <div class="tag">Branch Data Hub · Data Squad · 2025–2026</div>
+    <h1><em>PBIX Analyzer</em></h1>
+    <h1 style="font-size:clamp(18px,2.5vw,32px);font-weight:400;color:var(--muted);margin-top:6px">Case de Sucesso</h1>
+    <div class="bar"></div>
+    <p class="sub">Como o GitHub Copilot CLI nos ajudou a construir um app que <strong>documenta automaticamente</strong> relatórios Power BI e notebooks Databricks — transformando horas de trabalho manual em minutos de geração automática.</p>
+    <div class="mt20" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+      <span class="pill">Python 3.14</span>
+      <span class="pill">PyInstaller</span>
+      <span class="pill">GitHub Models</span>
+      <span class="pill">gpt-4o</span>
+      <span class="pill">GitHub Copilot CLI</span>
+      <span class="pill">Power BI</span>
+      <span class="pill">Databricks</span>
+      <span class="pill">python-docx</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     02 — O PROBLEMA
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">O Problema</div>
+  <h2>Documentação técnica é <em>essencial</em> — e ninguém quer fazer</h2>
+  <div class="g2 w">
+    <div class="card bad">
+      <div class="icon">😰</div>
+      <h3>Antes — Processo Manual</h3>
+      <ul class="mt8">
+        <li>Horas por arquivo para documentar estrutura e lógica</li>
+        <li>Documentação ficava desatualizada rapidamente</li>
+        <li>Estagiário novo não conseguia entender o notebook sozinho</li>
+        <li>Nenhum padrão entre relatórios e equipes diferentes</li>
+        <li>Análises críticas de pricing sem contexto de negócio registrado</li>
+      </ul>
+    </div>
+    <div class="card bad">
+      <div class="icon">🔥</div>
+      <h3>O Cenário Real</h3>
+      <p>Um notebook Databricks com <strong>14 células</strong>, <strong>5 queries SQL</strong>, <strong>22 fontes de dados</strong> e <strong>UDFs complexas</strong> para extração de marca/modelo/família — sem nenhuma documentação.</p>
+      <div class="mt16"></div>
+      <p>Um relatório Power BI <strong>Pricing Evolution</strong> com <strong>292 visuais</strong>, <strong>149 campos</strong>, <strong>21 tabelas</strong> e análise de GAP competitivo da John Deere — invisível para quem não construiu.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     03 — A IDEIA
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">A Ideia</div>
+  <h2>E se um agente de IA <em>lesse o arquivo</em> e escrevesse a documentação?</h2>
+  <div class="tl w" style="max-width:860px">
+    <div class="tli">
+      <div class="tld">1</div>
+      <div class="tlb">
+        <h3>O app abre o arquivo (.pbix ou .ipynb)</h3>
+        <p>Extrai toda a estrutura: páginas, medidas DAX, visuais, relações (PBIX) ou células, funções, SQL, imports, fontes de dados (notebook)</p>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tld">2</div>
+      <div class="tlb">
+        <h3>Envia cada elemento para o LLM (gpt-4o)</h3>
+        <p>Para cada página do PBIX ou cada célula do notebook, um prompt especializado pede ao modelo que explique o propósito, as decisões técnicas e os riscos — <strong>como um engenheiro sênior documentaria</strong></p>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tld">3</div>
+      <div class="tlb">
+        <h3>Gera um Word (.docx) estruturado e rico</h3>
+        <p>Capa, índice, seções temáticas, código com tema Dracula, tabelas de métricas, narrativa LLM por página/célula — tudo em um clique</p>
+      </div>
+    </div>
+    <div class="tli">
+      <div class="tld">4</div>
+      <div class="tlb">
+        <h3>Tudo construído com GitHub Copilot CLI</h3>
+        <p>O app inteiro foi desenvolvido em conversas com o Copilot CLI — desde a arquitetura até os bugs de produção. <strong>Sem abrir IDE, sem ambiente Python configurado.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     04 — O APP
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">A Solução</div>
+  <h2>Um <em>executável</em> simples — sem instalação</h2>
+  <div class="g3 w">
+    <div class="card">
+      <div class="icon">🖥️</div>
+      <h3>Interface Tkinter</h3>
+      <p>Aba <strong>PBIX</strong> e aba <strong>Notebook</strong>. Campo de seleção, log em tempo real, aba de config LLM. App empacotado como <code>.exe</code> via PyInstaller.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📊</div>
+      <h3>Analisador PBIX</h3>
+      <p>Abre <code>.pbix</code> como ZIP. Extrai medidas DAX, visuais, relações, tabelas, tooltips. LLM gera narrativa por página.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🐍</div>
+      <h3>Analisador Notebook</h3>
+      <p>Parseia células, detecta magics <code>%sql %pip %sh</code>, extrai funções, SQL, UDFs. LLM gera <strong>3 caixas</strong> por célula.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🤖</div>
+      <h3>GitHub Models / gpt-4o</h3>
+      <p>Token pessoal GitHub. <code>max_tokens=2000</code> por célula. Resposta em JSON estruturado: <em>contexto · detalhe · atenção</em>.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎨</div>
+      <h3>Tema Dracula</h3>
+      <p>Código nos documentos com syntax highlight usando <strong>pygments</strong>. Keywords, strings, funções e comentários cada um com sua cor.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📦</div>
+      <h3>Deploy SharePoint</h3>
+      <p><code>PBIX_Analyzer.exe</code> publicado em dois caminhos SharePoint sincronizados. Sem Python. Sem dependências. Abre e usa.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     05 — RESULTADO PBIX (PRICING EVOLUTION)
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Resultado — Power BI</div>
+  <h2>Pricing Evolution — <em>documentação gerada</em></h2>
+  <div class="g2 w" style="align-items:stretch">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat"><div class="sn">13</div><div class="sl">Páginas no relatório</div></div>
+        <div class="stat"><div class="sn">292</div><div class="sl">Visuais mapeados</div></div>
+        <div class="stat"><div class="sn">21</div><div class="sl">Tabelas de dados</div></div>
+        <div class="stat"><div class="sn">149</div><div class="sl">Campos/medidas</div></div>
+      </div>
+      <div class="card card-y" style="flex:1">
+        <h3>LLM descreveu cada página assim:</h3>
+        <div class="mt8 quote" style="font-size:12px">
+          "Esta aba analisa os preços médios praticados pela John Deere e seus concorrentes, destacando diferenças e tendências ao longo do tempo. O indicador <strong>GAP</strong> mede a diferença percentual entre JD e concorrência. Um aumento no GAP pode sinalizar que os preços JD estão se distanciando, impactando percepção de valor."
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="doc-frame" style="flex:1">
+        <div class="sec">📋 Guia de Leitura — Pesquisa de Preços</div>
+        <div class="highlight">1. Comece pelos KPIs no topo — GAP, preço médio JD, preço médio concorrência e nº de cotações.</div>
+        <div class="body">2. Use os slicers à esquerda para filtrar por país, região, montadora ou modelo. Todos os visuais se ajustam automaticamente.</div>
+        <div class="body">3. Analise o gráfico combinado de linha e coluna mostrando evolução de preços ao longo do tempo.</div>
+        <div class="highlight">4. Tabelas de <strong>Marca × Preço vs JD</strong> e <strong>Família × Modelo × Montadora</strong> permitem comparação granular com equivalentes John Deere.</div>
+        <div class="body">5. O Box & Whisker (Custom) revela distribuição estatística de preços por modelo e dealer.</div>
+        <div class="sec">📊 Fluxo de Navegação Recomendado</div>
+        <div class="body">Home → MPV Gerencial → MPV Operacional → Pesquisa de Preços → APN</div>
+        <div class="sec">🗄️ Tabelas de Dados Utilizadas</div>
+        <div class="body">db_Pesquisa (fato) · Medidas · db_PublishedDiscountBrasil · Atualização</div>
+      </div>
+      <div class="card" style="background:rgba(255,190,0,.05);border-color:rgba(255,190,0,.3)">
+        <h3>⏱️ Tempo de execução</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+          <div style="text-align:center;background:rgba(95,207,138,.08);border:1px solid rgba(95,207,138,.3);border-radius:10px;padding:10px">
+            <div style="font-size:22px;font-weight:900;color:#5fcf8a">~3 min</div>
+            <div style="font-size:10px;color:#888;margin-top:3px">PBIX Analyzer<br>13 páginas + 5 LLM calls</div>
+          </div>
+          <div style="text-align:center;background:rgba(255,100,100,.08);border:1px solid rgba(255,100,100,.3);border-radius:10px;padding:10px">
+            <div style="font-size:22px;font-weight:900;color:#ff7070">~2 dias</div>
+            <div style="font-size:10px;color:#888;margin-top:3px">Manual estimado<br>292 visuais · 21 tabelas</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#888;margin-top:8px;text-align:center">Economia estimada: <strong style="color:var(--y)">~960× mais rápido</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     06 — RESULTADO NOTEBOOK (SILVER EMPRESOMETRO)
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Resultado — Databricks Notebook</div>
+  <h2>silver_empresometro — <em>cada célula documentada</em></h2>
+  <div class="g2 w" style="align-items:stretch">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat"><div class="sn">14</div><div class="sl">Células documentadas</div></div>
+        <div class="stat"><div class="sn">5</div><div class="sl">Queries SQL mapeadas</div></div>
+        <div class="stat"><div class="sn">22</div><div class="sl">Fontes de dados</div></div>
+        <div class="stat"><div class="sn">12</div><div class="sl">Imports detectados</div></div>
+      </div>
+      <div class="card card-y" style="flex:1">
+        <h3>Guia de leitura gerado pelo LLM:</h3>
+        <p style="font-size:12px;margin-top:6px;color:#c8c8d0;line-height:1.6"><strong>Células 1–3:</strong> Verificar bibliotecas e dependências instaladas no cluster (msal, pandas, pyspark).<br><strong>Células 4–6:</strong> Analisar as UDFs <code>_n, _get_marca, _strip_noise</code> — fundamentais para normalização.<br><strong>Células 7–9:</strong> Queries SQL que criam tabelas na camada <strong>silver</strong>.<br><strong>Células 10–14:</strong> Exploração e validação dos dados transformados.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="doc-frame" style="flex:1">
+        <div class="sec">📋 Contexto — Célula 4 (UDFs de Extração)</div>
+        <div class="highlight">Esta célula define as funções-core do pipeline: <strong>_brand_from_text</strong>, <strong>_family_from_text</strong> e <strong>_model_for_brand</strong>. Elas substituem toda a lógica SQL de CASE/WHEN por matching brand-aware via catálogo <code>catalogo_geral_48_fabricantes_v3.xlsx</code>.</div>
+        <div class="sec">🔍 Detalhe Técnico</div>
+        <div class="body">O dicionário <code>_BRAND_ALIASES</code> mapeia 48 fabricantes com variações ortográficas para formas canônicas — evitando fragmentação de dados por erros de digitação ("JHON DEERE", "J DEERE", "JDB" → "JOHN DEERE").</div>
+        <div class="sec">⚠️ Atenção</div>
+        <div class="box-warn">O catálogo <code>catalogo_geral_48_fabricantes_v3.xlsx</code> é carregado de um Volume Databricks. Se o arquivo for movido ou renomeado, <strong>todas as UDFs falham silenciosamente</strong>.</div>
+        <div class="sec">📋 Contexto — Célula 7 (Criação da Tabela Silver)</div>
+        <div class="highlight">Cria/substitui a tabela <strong>jd.ds_silver_jd.silver_empresometro</strong> na camada silver a partir da tabela refinada, aplicando todas as transformações anteriores.</div>
+        <div class="box-warn">Operação <strong>DROP + CREATE</strong> — qualquer execução sobrescreve os dados anteriores sem confirmação.</div>
+      </div>
+      <div class="card" style="background:rgba(255,190,0,.05);border-color:rgba(255,190,0,.3)">
+        <h3>⏱️ Tempo de execução</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+          <div style="text-align:center;background:rgba(95,207,138,.08);border:1px solid rgba(95,207,138,.3);border-radius:10px;padding:10px">
+            <div style="font-size:22px;font-weight:900;color:#5fcf8a">~4 min</div>
+            <div style="font-size:10px;color:#888;margin-top:3px">PBIX Analyzer<br>14 células · 14 LLM calls</div>
+          </div>
+          <div style="text-align:center;background:rgba(255,100,100,.08);border:1px solid rgba(255,100,100,.3);border-radius:10px;padding:10px">
+            <div style="font-size:22px;font-weight:900;color:#ff7070">~12 horas</div>
+            <div style="font-size:10px;color:#888;margin-top:3px">Manual estimado<br>UDFs · SQL · contexto negócio</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#888;margin-top:8px;text-align:center">Economia estimada: <strong style="color:var(--y)">~180× mais rápido</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     07 — ANTES vs DEPOIS (NOTEBOOK)
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Antes vs Depois</div>
+  <h2>Qualidade da <em>descrição por célula</em></h2>
+  <div class="ba w">
+    <div class="card bad" style="padding:20px">
+      <h3>❌ Antes (heurístico)</h3>
+      <p style="font-size:11px;color:#aaa;margin-top:8px;font-family:monospace;line-height:1.8">
+        📋 O que faz:<br>
+        Define as funções/classes '_n', '_brand_from_text', '_family_from_text', '_model_for_brand'. Também lê dados e aplica junção de tabelas.
+      </p>
+      <div class="mt16">
+        <span class="pill-red" style="font-size:10px;padding:2px 8px">220 palavras no doc todo</span>
+        <span class="pill-red" style="font-size:10px;padding:2px 8px">Sem contexto de negócio</span>
+        <span class="pill-red" style="font-size:10px;padding:2px 8px">Sem alertas de risco</span>
+      </div>
+    </div>
+    <div class="ba-arrow">→</div>
+    <div class="card good" style="padding:20px">
+      <h3>✅ Depois (LLM gpt-4o)</h3>
+      <p style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.8">
+        <b style="color:#5fcf8a">📋 Contexto:</b> Define as UDFs core do pipeline. <code>_brand_from_text</code> extrai a marca canônica via dicionário de 48 fabricantes com variações ortográficas. <code>_model_for_brand</code> cruza com catálogo Excel para retornar modelo padronizado.<br><br>
+        <b style="color:#8be9fd">🔍 Detalhe:</b> Substitui lógica SQL de CASE/WHEN frágil por matching brand-aware.<br><br>
+        <b style="color:#ffb86c">⚠️ Atenção:</b> Catálogo carregado de Volume Databricks — se movido, falha silenciosa.
+      </p>
+      <div class="mt16">
+        <span class="pill-green" style="font-size:10px;padding:2px 8px">2.000+ palavras no doc</span>
+        <span class="pill-green" style="font-size:10px;padding:2px 8px">Contexto de negócio</span>
+        <span class="pill-green" style="font-size:10px;padding:2px 8px">Riscos explícitos</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     08 — O PAPEL DO COPILOT CLI
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">GitHub Copilot CLI</div>
+  <h2>Como o Copilot CLI <em>desenvolveu o app</em></h2>
+  <div class="g2 w">
+    <div class="tl" style="gap:12px">
+      <div class="tli">
+        <div class="tld" style="width:28px;height:28px;font-size:11px">💬</div>
+        <div class="tlb"><h3>Conversa é o código</h3><p>Descrevemos o problema em linguagem natural. O Copilot escreveu o código, corrigiu bugs e fez o build — tudo na mesma sessão.</p></div>
+      </div>
+      <div class="tli">
+        <div class="tld" style="width:28px;height:28px;font-size:11px">🔍</div>
+        <div class="tlb"><h3>Diagnosticou erros pelo log</h3><p>Colamos o log de erro no chat. O Copilot identificou: <em>sys.path carregando .py stale do SharePoint</em>, <em>max_tokens=800 truncando JSON</em>, <em>token EMU sem acesso ao GitHub Models</em>.</p></div>
+      </div>
+      <div class="tli">
+        <div class="tld" style="width:28px;height:28px;font-size:11px">📦</div>
+        <div class="tlb"><h3>Build e deploy automáticos</h3><p>PyInstaller, cópia do .exe para dois caminhos SharePoint, verificação de timestamp — tudo executado pelo Copilot sem sair do terminal.</p></div>
+      </div>
+      <div class="tli">
+        <div class="tld" style="width:28px;height:28px;font-size:11px">🔄</div>
+        <div class="tlb"><h3>Iterações rápidas</h3><p>Do bug reportado à correção deployed: menos de 5 minutos por ciclo. Sem IDE, sem ambiente configurado.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <h3>Bugs resolvidos na sessão</h3>
+        <ul class="mt8">
+          <li><code>unterminated subpattern</code> — regex inválida</li>
+          <li>sys.path carregando .py antigo do SharePoint</li>
+          <li>LLM silencioso (except swallowing errors)</li>
+          <li>max_tokens=800 truncando JSON da resposta</li>
+          <li>Token EMU da Deere sem acesso ao GitHub Models</li>
+          <li><code>cells not defined</code> após refatoração</li>
+        </ul>
+      </div>
+      <div class="card card-y">
+        <h3>Resultado</h3>
+        <p>App funcional, deployed e em uso no mesmo dia em que foi pedida a feature. <strong>Zero setup de ambiente para o usuário final.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     09 — NÚMEROS FINAIS
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Impacto</div>
+  <h2>O que mudou <em>na prática</em></h2>
+  <div class="stats w mt8">
+    <div class="stat"><div class="sn">~3min</div><div class="sl">Para documentar um notebook completo</div></div>
+    <div class="stat"><div class="sn">0</div><div class="sl">Linhas de código escritas manualmente pelo usuário</div></div>
+    <div class="stat"><div class="sn">2k+</div><div class="sl">Palavras de documentação por arquivo</div></div>
+    <div class="stat"><div class="sn">1 .exe</div><div class="sl">Sem Python, sem instalação, sem config</div></div>
+  </div>
+  <div class="g2 w mt20">
+    <div class="card">
+      <h3>🎯 Para quem vai manter o código</h3>
+      <p>Um estagiário que nunca viu o notebook tem agora um guia com: objetivo do pipeline, o que cada célula faz, riscos de cada operação, fluxo de leitura passo a passo e quais tabelas são geradas.</p>
+    </div>
+    <div class="card">
+      <h3>📊 Para quem vai usar o relatório</h3>
+      <p>Um analista que não construiu o PBIX tem agora: guia de navegação, o que cada métrica significa, como interpretar variações no GAP, quais filtros usar para cada perfil de análise.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     10 — ARQUITETURA TÉCNICA
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Arquitetura</div>
+  <h2>Como o app é <em>construído</em></h2>
+  <div class="g3 w">
+    <div class="card">
+      <h3>pbix_analyzer_gui.py</h3>
+      <p>Interface Tkinter. Gerencia abas, log em tempo real, config LLM. Salva config em <code>config.json</code> no APP_DIR (SharePoint).</p>
+    </div>
+    <div class="card">
+      <h3>pbix_analyzer.py</h3>
+      <p>Core PBIX. Abre como ZIP, extrai DAX/visuais/relações. Função <code>call_llm()</code> central. Gera .docx formatado.</p>
+    </div>
+    <div class="card">
+      <h3>ipynb_analyzer.py</h3>
+      <p>Core notebooks. Parseia células, magics SQL/pip/sh, extrai UDFs. Usa <code>_call_llm_notebook()</code> com max_tokens=2000.</p>
+    </div>
+    <div class="card">
+      <h3>pygments (Dracula)</h3>
+      <p>Tokeniza código e aplica cores por tipo de token no Word. Keywords, strings, funções, comentários com paleta Dracula.</p>
+    </div>
+    <div class="card">
+      <h3>PyInstaller .spec</h3>
+      <p><code>excludes=['ipynb_analyzer']</code> para evitar bytecode stale. <code>ipynb_analyzer.py</code> como DATA file em _MEIPASS.</p>
+    </div>
+    <div class="card">
+      <h3>GitHub Models API</h3>
+      <p>Token GitHub Personal Access Token. Endpoint Azure OpenAI-compatible. JSON por célula: <em>contexto · detalhe · atenção</em>. Logging completo de erros.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     11 — PROMPT PARA CRIAR O APP
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Como replicar</div>
+  <h2>Prompts para criar um <em>app similar</em> com Copilot CLI</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:920px">
+    <div class="pb">
+      <p>Crie um app Python desktop (.exe via PyInstaller) com Tkinter que analisa arquivos [TIPO: .pbix/.ipynb/.xlsx]
+e gera documentação em Word (.docx). O app deve ter:
+- Aba de seleção de arquivo e pasta de saída
+- Log em tempo real na interface
+- Integração com GitHub Models (gpt-4o) via Personal Access Token
+- Para cada [elemento extraído], chamar LLM retornando JSON:
+  {"contexto": "...", "detalhe": "...", "atencao": "..."}
+Estruture em 3 arquivos: gui.py, analyzer.py e SPEC para PyInstaller.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     12 — PRÓXIMOS PASSOS
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="tag">Próximos Passos</div>
+  <h2>O que vem a <em>seguir</em></h2>
+  <div class="g2 w">
+    <div class="card">
+      <h3>🤖 IA aplicada em outros processos do time</h3>
+      <ul class="mt8">
+        <li>Geração automática de <strong>dicionário de dados</strong> a partir de tabelas Delta/Hive</li>
+        <li>Documentação de <strong>pipelines ADF / Databricks Workflows</strong></li>
+        <li>Resumo automático de <strong>pull requests e code reviews</strong> no GitHub</li>
+        <li>Assistente de <strong>onboarding</strong> — responde perguntas sobre o codebase usando os docs gerados</li>
+        <li>Análise de impacto: <strong>"o que quebra se eu alterar essa tabela?"</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📄 Expandir o documentador para outros formatos</h3>
+      <ul class="mt8">
+        <li><strong>.sql</strong> — documentar scripts SQL complexos com contexto de negócio</li>
+        <li><strong>.py / .scala</strong> — arquivos Python e Scala fora de notebooks</li>
+        <li><strong>Excel (.xlsx)</strong> — mapear fórmulas, abas e lógica de negócio</li>
+        <li><strong>YAML / JSON</strong> — configs de pipelines, schemas e contratos de dados</li>
+        <li>Modo <strong>batch</strong> — documentar uma pasta inteira de uma vez</li>
+        <li>Publicação direta no <strong>Confluence / SharePoint</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card card-y mt16 w" style="padding:16px 20px">
+    <h3>💡 Qualquer membro do time pode pedir uma nova feature</h3>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap">
+      <p style="flex:1;font-size:13px">"No app PBIX Analyzer, adicione suporte a arquivos <strong>[FORMATO]</strong>. Extraia <strong>[ESTRUTURA]</strong> e gere documentação Word com descrição LLM por <strong>[ELEMENTO]</strong>. Implemente, reconstrua o .exe e publique no SharePoint."</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="pill">Sem Python local</span>
+        <span class="pill">Sem IDE</span>
+        <span class="pill">Deploy em minutos</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     13 — PROMPT FINAL (CRIAR APRESENTAÇÃO ASSIM)
+══════════════════════════════════════════ -->
+<div class="slide">
+  <div class="glow g-a"></div><div class="glow g-b"></div>
+  <div class="center w" style="max-width:940px;z-index:1">
+    <div class="tag">Bônus — Copilot CLI pode fazer isso também</div>
+    <h2>Prompt para criar uma <em>apresentação HTML</em> assim</h2>
+    <div class="bar"></div>
+    <div class="pb" style="text-align:left;margin-top:20px">
+      <p>Leia os documentos [CAMINHOS DOS ARQUIVOS .docx ou .txt] e crie uma
+apresentação HTML de case de sucesso, autocontida (sem dependências externas).
+
+DESIGN:
+- Fundo #1E1E20 (cinza carvão), destaque #FFBE00 (amarelo)
+- Cards com border sutil, layout em grid, tipografia moderna
+
+SLIDES OBRIGATÓRIOS:
+1. Capa — nome do projeto, subtítulo, tags de tecnologia
+2. O Problema — o que motivou o projeto (antes/dor)
+3. A Solução — como funciona, arquitetura em 3-6 cards
+4. Resultado real — use trechos REAIS dos documentos fornecidos
+   (números, quotes, seções geradas pelo LLM)
+5. Antes vs Depois — comparação visual lado a lado
+6. Impacto — números, métricas, o que mudou na prática
+7. Como replicar — prompts genéricos para quem quer fazer igual
+8. Último slide — prompt para criar uma apresentação como essa
+
+FUNCIONALIDADES:
+- Transições suaves (opacity + translateX, 0.45s cubic-bezier)
+- Botões Anterior/Próximo + dots clicáveis + navegação ← →
+- Contador Slide X/Y no canto
+
+Salve como arquivo .html único sem dependências externas.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav class="nav">
+  <button class="nb" id="pb" onclick="go(-1)" disabled>&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nb" id="nb" onclick="go(1)">&#8594;</button>
+</nav>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=slides.length;
+let cur=0,busy=false;
+document.getElementById('tn').textContent=total;
+
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.onclick=()=>goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function ui(){
+  document.getElementById('cn').textContent=cur+1;
+  document.getElementById('pb').disabled=cur===0;
+  document.getElementById('nb').disabled=cur===total-1;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  document.getElementById("jd-logo").style.display=cur===0?"block":"none";
+  document.getElementById('powered-by').style.opacity=cur===0?'1':'0';
+  document.getElementById('powered-by').style.pointerEvents=cur===0?'auto':'none';
+}
+
+function goTo(idx){
+  if(busy||idx===cur||idx<0||idx>=total)return;
+  busy=true;
+  const dir=idx>cur?1:-1;
+  const old=slides[cur],nxt=slides[idx];
+  if(dir>0){old.classList.add('out-left')}
+  else{old.style.transition='';old.style.opacity='0';old.style.transform='translateX(56px)'}
+  nxt.style.cssText=`transition:none;opacity:0;transform:translateX(${dir>0?56:-56}px)`;
+  nxt.classList.add('active');
+  nxt.getBoundingClientRect();
+  nxt.style.cssText='';
+  nxt.style.opacity='1';nxt.style.transform='translateX(0)';
+  setTimeout(()=>{
+    old.classList.remove('active','out-left');
+    old.style.cssText='';
+    nxt.style.cssText='';
+    nxt.scrollTop=0;
+    cur=idx;ui();busy=false;
+  },470);
+}
+function go(d){goTo(cur+d)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+ui();
+</script>
+</body>
+</html>

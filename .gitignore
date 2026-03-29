@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+System Volume Information/
+*.pyc
+SESSION_ID.txt
+git.txt
+doc/App Doc/TOKEN.txt
+doc/App Doc/session_id.txt
+doc/App Doc/build/
+doc/App Doc/dist/
+doc/App Doc/config.local.json

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEI Docs | Documentacao</title>
+  <style>
+    :root {
+      --bg: #f5efe8;
+      --paper: rgba(255, 255, 255, 0.88);
+      --paper-strong: #fffdfa;
+      --ink: #1d1712;
+      --muted: #665d56;
+      --line: rgba(29, 23, 18, 0.1);
+      --accent: #b86b39;
+      --accent-soft: #efd7c6;
+      --accent-dark: #7e4724;
+      --shadow: 0 18px 50px rgba(64, 37, 21, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(184, 107, 57, 0.15), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(126, 71, 36, 0.09), transparent 24%),
+        linear-gradient(135deg, #faf6f1 0%, #f5efe8 45%, #ece1d6 100%);
+      font-family: Arial, Helvetica, sans-serif;
+      min-width: 320px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 14px 0 0;
+    }
+
+    .nav-shell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255, 253, 249, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 36px rgba(64, 37, 21, 0.08);
+    }
+
+    .brand-mark {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-links a:hover {
+      background: rgba(184, 107, 57, 0.08);
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 24px 0 24px;
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+      gap: 24px;
+      align-items: stretch;
+      background: var(--paper);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 42px 42px 38px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3, h4, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+      margin-bottom: 18px;
+    }
+
+    .hero-copy p {
+      max-width: 52ch;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .cta-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(126, 71, 36, 0.22);
+    }
+
+    .cta-secondary {
+      border: 1px solid rgba(184, 107, 57, 0.2);
+      background: rgba(184, 107, 57, 0.06);
+      color: var(--accent-dark);
+    }
+
+    .hero-notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .hero-note {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(184, 107, 57, 0.07);
+      border: 1px solid rgba(184, 107, 57, 0.12);
+      text-align: left;
+    }
+
+    .hero-note strong {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
+
+    .hero-note span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .hero-visual {
+      min-height: 400px;
+      position: relative;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(239, 215, 198, 0.95), transparent 18%),
+        radial-gradient(circle at 72% 24%, rgba(184, 107, 57, 0.28), transparent 22%),
+        linear-gradient(150deg, #261a14 0%, #5a3b2a 46%, #9c6b49 100%);
+      overflow: hidden;
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .hero-visual::before {
+      width: 320px;
+      height: 320px;
+      top: -54px;
+      right: -42px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-visual::after {
+      width: 240px;
+      height: 240px;
+      left: -70px;
+      bottom: -90px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .visual-stack {
+      position: absolute;
+      inset: 0;
+      padding: 38px;
+      display: grid;
+      align-content: end;
+      gap: 16px;
+    }
+
+    .visual-card {
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(255, 252, 248, 0.9);
+      box-shadow: 0 16px 40px rgba(22, 14, 10, 0.22);
+    }
+
+    .visual-card h3 {
+      margin: 0 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .visual-card p,
+    .visual-card li {
+      color: #5d534c;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .visual-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    section {
+      padding: 18px 0 0;
+    }
+
+    .section-card {
+      background: var(--paper);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    .section-heading {
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 60ch;
+      margin-bottom: 0;
+    }
+
+    .grid-3,
+    .grid-2 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .info-card,
+    .asset-card,
+    .step-card {
+      background: rgba(255, 253, 249, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .info-card h3,
+    .asset-card h3,
+    .step-card h3 {
+      margin: 0 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .info-card p,
+    .asset-card p,
+    .step-card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    .asset-card a {
+      color: var(--accent-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .asset-card a:hover {
+      text-decoration: underline;
+    }
+
+    .label {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(184, 107, 57, 0.1);
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .footer {
+      padding: 22px 0 48px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero-card,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-notes {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .nav-shell {
+        border-radius: 26px;
+        align-items: flex-start;
+      }
+
+      .hero-copy,
+      .section-card {
+        padding: 24px;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container">
+      <div class="nav-shell">
+        <a class="brand-mark" href="#top">MEI Docs</a>
+        <div class="nav-links">
+          <a href="#visao-geral">Visao geral</a>
+          <a href="#materiais">Materiais</a>
+          <a href="#fluxo">Fluxo</a>
+          <a href="./apresentacao-mei-docs.html">Apresentacao</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">Base reaproveitada da Elevra</span>
+            <h1>Site para organizar a proposta e a documentacao do MEI Docs.</h1>
+            <p>
+              Estruturei este diretório no mesmo formato do site da Elevra Sunwear: uma página principal estática,
+              uma apresentação em deck e um ponto de entrada simples. A ideia é transformar arquivos soltos em uma
+              navegação clara para consulta, envio e demonstração do projeto MEI Docs.
+            </p>
+            <div class="hero-actions">
+              <a class="cta-primary" href="#materiais">Ver materiais</a>
+              <a class="cta-secondary" href="./apresentacao-mei-docs.html">Abrir apresentacao</a>
+            </div>
+            <div class="hero-notes">
+              <div class="hero-note">
+                <strong>Estrutura</strong>
+                <span>`index.html` com redirecionamento e página principal dedicada.</span>
+              </div>
+              <div class="hero-note">
+                <strong>Navegacao</strong>
+                <span>Seções para visão geral, entregáveis e acesso rápido aos arquivos.</span>
+              </div>
+              <div class="hero-note">
+                <strong>Expansao</strong>
+                <span>Pronta para receber branding, textos finais e novos ativos.</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="visual-stack">
+              <div class="visual-card">
+                <span class="label">Pacote atual</span>
+                <h3>Arquivos já disponíveis</h3>
+                <ul>
+                  <li>`Pricing Evolution.pbix`</li>
+                  <li>`IRS - Done.pbix`</li>
+                  <li>`Pricing Evolution_Documentacao.docx`</li>
+                  <li>`proposta_comercial_template.docx`</li>
+                </ul>
+              </div>
+              <div class="visual-card">
+                <span class="label">Uso sugerido</span>
+              <p>Usar esta página como hub do projeto MEI Docs e a apresentação como narrativa executiva para reuniões.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="visao-geral">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>Mesma lógica do site da Elevra, aplicada aqui.</h2>
+            <p>
+              O padrão é o mesmo: experiência leve, sem dependências, fácil de publicar no GitHub Pages e simples de manter.
+              Isso reduz atrito para compartilhar a proposta com cliente, time interno ou parceiros.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="info-card">
+              <span class="label">1</span>
+              <h3>Entrada clara</h3>
+              <p>O `index.html` aponta direto para a página principal, evitando telas soltas ou navegação confusa.</p>
+            </div>
+            <div class="info-card">
+              <span class="label">2</span>
+              <h3>Página principal</h3>
+              <p>Centraliza contexto do projeto, materiais, entregáveis e links para consulta imediata.</p>
+            </div>
+            <div class="info-card">
+              <span class="label">3</span>
+              <h3>Deck separado</h3>
+              <p>A apresentação fica em um HTML dedicado, melhor para ritmo de reunião e storytelling executivo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materiais">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>Materiais do diretório</h2>
+            <p>
+              Organizei os principais arquivos já existentes como ativos navegáveis. Isso cria uma camada de
+              apresentação sem alterar os documentos originais.
+            </p>
+          </div>
+          <div class="grid-2">
+            <div class="asset-card">
+              <span class="label">Documentacao</span>
+              <h3>Pricing Evolution</h3>
+              <p><a href="./Pricing%20Evolution_Documentacao.docx">Abrir documentação em DOCX</a></p>
+              <p><a href="./Pricing%20Evolution.pbix">Abrir arquivo PBIX</a></p>
+            </div>
+            <div class="asset-card">
+              <span class="label">BI</span>
+              <h3>IRS - Done</h3>
+              <p><a href="./IRS%20-%20Done.pbix">Abrir arquivo PBIX</a></p>
+              <p>Material complementar pronto para ser incorporado na narrativa comercial.</p>
+            </div>
+            <div class="asset-card">
+              <span class="label">Template</span>
+              <h3>Proposta comercial</h3>
+              <p><a href="./proposta_comercial_template.docx">Abrir template DOCX</a></p>
+              <p>Base útil para transformar a proposta em versão final com branding e escopo aprovados.</p>
+            </div>
+            <div class="asset-card">
+              <span class="label">Automacao</span>
+              <h3>Gerador local</h3>
+              <p><a href="./gerar_proposta_comercial.py">Abrir script Python</a></p>
+              <p>Permite evoluir este site junto com a automação da proposta sem duplicar conteúdo manualmente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fluxo">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-heading">
+            <h2>Fluxo recomendado</h2>
+            <p>
+              Se a intenção for seguir exatamente a linha da Elevra, o próximo passo é trocar o conteúdo genérico
+              por uma narrativa comercial fechada, com branding, prova de valor e CTA de aprovação.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="step-card">
+              <span class="label">Etapa 1</span>
+              <h3>Definir mensagem</h3>
+              <p>Posicionamento, problema resolvido, escopo do projeto e resultado esperado.</p>
+            </div>
+            <div class="step-card">
+              <span class="label">Etapa 2</span>
+              <h3>Refinar a vitrine</h3>
+              <p>Inserir identidade visual, imagens, mockups e destaques comerciais do projeto.</p>
+            </div>
+            <div class="step-card">
+              <span class="label">Etapa 3</span>
+              <h3>Fechar distribuicao</h3>
+              <p>Publicar como site estático ou usar localmente como peça de apoio em apresentações.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      MEI Docs com estrutura inspirada no padrão já usado no projeto Elevra Sunwear.
+    </div>
+  </footer>
+</body>
+</html>

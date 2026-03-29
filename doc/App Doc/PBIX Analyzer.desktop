@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PBIX Analyzer
+Comment=Gerador de documentacao para relatórios Power BI e notebooks
+Exec=/bin/bash -lc '"/home/toraka/Documentos/0 - PROJETOS/Proposta Comercial - Documentação/doc/App Doc/dist/PBIX_Analyzer_Linux"'
+Path=/home/toraka/Documentos/0 - PROJETOS/Proposta Comercial - Documentação/doc/App Doc
+Icon=/home/toraka/Documentos/0 - PROJETOS/Proposta Comercial - Documentação/doc/App Doc/pbix-analyzer-icon.png
+Terminal=false
+Categories=Office;Development;Utility;
+StartupNotify=true
+Keywords=Power BI;PBIX;Databricks;Notebook;Documentacao;
+NoDisplay=false

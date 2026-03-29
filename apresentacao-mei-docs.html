@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEI Docs | Apresentacao</title>
+  <style>
+    :root {
+      --bg: #f7f2ec;
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: rgba(255, 255, 255, 0.96);
+      --ink: #191613;
+      --muted: #5f5852;
+      --line: rgba(25, 22, 19, 0.1);
+      --accent: #b86b39;
+      --accent-2: #d69b6c;
+      --good: #2f7d4b;
+      --warn: #9a6b1b;
+      --shadow: 0 24px 80px rgba(42, 28, 18, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(214, 155, 108, 0.24), transparent 24%),
+        radial-gradient(circle at 84% 12%, rgba(184, 107, 57, 0.18), transparent 22%),
+        radial-gradient(circle at 72% 82%, rgba(214, 155, 108, 0.1), transparent 22%),
+        linear-gradient(135deg, #fcfaf7 0%, #f7f2ec 48%, #f1e7dc 100%);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow: hidden;
+    }
+
+    .deck {
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 56px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(28px) scale(0.985);
+      transition: opacity 280ms ease, transform 280ms ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+
+    .slide.single {
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      padding: 26px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel.strong {
+      background: var(--panel-strong);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(184, 107, 57, 0.12);
+      color: var(--accent);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 14px;
+      line-height: 1.02;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 72px);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(28px, 3vw, 42px);
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p, li, .metric-value, .metric-label, .nav-btn, .slide-index {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    li {
+      margin: 0 0 10px;
+      line-height: 1.45;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .hero-art {
+      position: relative;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 28% 18%, rgba(214, 155, 108, 0.95), transparent 20%),
+        radial-gradient(circle at 34% 18%, rgba(184, 107, 57, 0.88), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(214, 155, 108, 0.22), transparent 24%),
+        linear-gradient(160deg, #17120f 0%, #3e2a1d 48%, #7d563c 100%);
+      overflow: hidden;
+      min-height: 340px;
+    }
+
+    .hero-art::before,
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .hero-art::before {
+      width: 320px;
+      height: 320px;
+      top: -80px;
+      right: -40px;
+    }
+
+    .hero-art::after {
+      width: 220px;
+      height: 220px;
+      left: -50px;
+      bottom: -70px;
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.5);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      min-height: 110px;
+    }
+
+    .metric-value {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .metric p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .timeline-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .nav-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(25, 22, 19, 0.9);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .slide-index {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 960px) {
+      .slide {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        padding: 22px 22px 94px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide active">
+      <div class="panel strong hero">
+        <div>
+          <span class="eyebrow">Apresentacao executiva</span>
+          <h1>Mesma estrutura da Elevra, agora aplicada ao MEI Docs.</h1>
+          <p>
+            Este deck funciona como a camada de narrativa do projeto: ele organiza contexto, ativos existentes
+            e próximos passos em um formato mais objetivo para reunião, alinhamento ou envio.
+          </p>
+        </div>
+        <div class="grid-3">
+          <div class="metric">
+            <div class="metric-value">2</div>
+            <div class="metric-label">Paginas base</div>
+            <p>Página principal e deck separados para navegação e apresentação.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">4</div>
+            <div class="metric-label">Ativos linkados</div>
+            <p>PBIX, DOCX, template e script local já conectados ao hub.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">0</div>
+            <div class="metric-label">Dependencias</div>
+            <p>Tudo em HTML estático, simples de abrir localmente ou publicar.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="hero-art"></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="panel strong">
+        <span class="eyebrow">Arquitetura</span>
+        <h2>O padrão reaproveitado é pragmático.</h2>
+        <p>
+          A estrutura da Elevra funciona bem porque separa acesso rápido, conteúdo principal e narrativa de apresentação.
+          Aqui a lógica foi mantida para evitar retrabalho e acelerar iterações.
+        </p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>Entrada</strong>
+            `index.html` redireciona para a página principal.
+          </div>
+          <div class="timeline-item">
+            <strong>Hub</strong>
+            `mei-docs.html` organiza materiais, contexto e links.
+          </div>
+          <div class="timeline-item">
+            <strong>Deck</strong>
+            `apresentacao-mei-docs.html` concentra o discurso executivo.
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Objetivo</span>
+        <h2>Transformar documentação em peça comercial navegável.</h2>
+        <ul>
+          <li>Evitar envio de arquivos isolados sem contexto.</li>
+          <li>Criar uma camada de apresentação mais profissional.</li>
+          <li>Permitir evolução incremental sem mexer nos documentos-fonte.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="panel strong">
+        <span class="eyebrow">Proximo passo</span>
+        <h2>O que falta para fechar o site do MEI Docs.</h2>
+        <div class="grid-3">
+          <div class="metric">
+            <div class="metric-value">01</div>
+            <div class="metric-label">Copy</div>
+            <p>Trocar o texto-base por narrativa comercial final.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">02</div>
+            <div class="metric-label">Branding</div>
+            <p>Adicionar identidade visual do projeto ou do cliente.</p>
+          </div>
+          <div class="metric">
+            <div class="metric-value">03</div>
+            <div class="metric-label">CTA</div>
+            <p>Inserir contato, aprovação ou próxima ação desejada.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="eyebrow">Leitura direta</span>
+        <p>
+          Se a sua intenção é seguir a mesma estrutura da Elevra, esse esqueleto já resolve a parte técnica.
+          A partir daqui o trabalho é editorial: decidir mensagem, prova de valor e acabamento visual final.
+        </p>
+        <p>
+          A vantagem é que você já tem um formato validado, então o esforço agora fica concentrado em conteúdo.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" type="button" data-direction="-1">Anterior</button>
+    <div class="slide-index"><span id="current">1</span> / <span id="total">3</span></div>
+    <button class="nav-btn" type="button" data-direction="1">Proxima</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const currentEl = document.getElementById('current');
+    const totalEl = document.getElementById('total');
+    const buttons = Array.from(document.querySelectorAll('[data-direction]'));
+    let current = 0;
+
+    totalEl.textContent = String(slides.length);
+
+    function render() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === current);
+      });
+      currentEl.textContent = String(current + 1);
+    }
+
+    function move(delta) {
+      current = (current + delta + slides.length) % slides.length;
+      render();
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        move(Number(button.dataset.direction));
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+        move(1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        move(-1);
+      }
+    });
+  </script>
+</body>
+</html>
