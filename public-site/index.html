@@ -698,24 +698,14 @@
     .card::after {
       content: "";
       position: absolute;
-      inset: 0;
+      inset: -30% auto auto -10%;
+      width: 120px;
+      height: 160px;
       pointer-events: none;
-      background-image:
-        radial-gradient(circle at 10% 18%, rgba(140, 248, 255, 0.78) 0 0.7px, transparent 1.4px),
-        radial-gradient(circle at 18% 72%, rgba(103, 212, 255, 0.62) 0 0.8px, transparent 1.5px),
-        radial-gradient(circle at 26% 36%, rgba(140, 248, 255, 0.74) 0 0.6px, transparent 1.4px),
-        radial-gradient(circle at 34% 84%, rgba(103, 212, 255, 0.56) 0 0.8px, transparent 1.5px),
-        radial-gradient(circle at 42% 22%, rgba(140, 248, 255, 0.7) 0 0.7px, transparent 1.3px),
-        radial-gradient(circle at 50% 64%, rgba(103, 212, 255, 0.54) 0 0.8px, transparent 1.6px),
-        radial-gradient(circle at 58% 12%, rgba(140, 248, 255, 0.82) 0 0.6px, transparent 1.3px),
-        radial-gradient(circle at 66% 46%, rgba(103, 212, 255, 0.6) 0 0.8px, transparent 1.5px),
-        radial-gradient(circle at 74% 78%, rgba(140, 248, 255, 0.72) 0 0.7px, transparent 1.4px),
-        radial-gradient(circle at 82% 28%, rgba(103, 212, 255, 0.58) 0 0.8px, transparent 1.5px),
-        radial-gradient(circle at 90% 62%, rgba(140, 248, 255, 0.78) 0 0.7px, transparent 1.4px);
-      opacity: 0.34;
-      transform: translate3d(0, 0, 0);
-      transition: opacity 220ms ease, transform 220ms ease;
-      animation: card-particle-drift 9s linear infinite;
+      background: linear-gradient(135deg, rgba(147, 251, 255, 0.28), rgba(147, 251, 255, 0));
+      transform: rotate(24deg);
+      opacity: 0;
+      transition: opacity 180ms ease;
     }
 
     .metric:hover,
@@ -736,30 +726,11 @@
 
     .metric:hover::after,
     .card:hover::after {
-      opacity: 0.82;
-      transform: translate3d(0, -2px, 0) scale(1.01);
+      opacity: 1;
     }
 
     .metric:hover strong {
       text-shadow: 0 0 24px rgba(103, 212, 255, 0.34);
-    }
-
-    @keyframes card-particle-drift {
-      0% {
-        transform: translate3d(0, 0, 0);
-      }
-      25% {
-        transform: translate3d(1px, -2px, 0);
-      }
-      50% {
-        transform: translate3d(-1px, 1px, 0);
-      }
-      75% {
-        transform: translate3d(2px, -1px, 0);
-      }
-      100% {
-        transform: translate3d(0, 0, 0);
-      }
     }
 
     .metric strong {
