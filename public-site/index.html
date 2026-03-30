@@ -567,15 +567,26 @@
 
     .contact-cta {
       position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
       isolation: isolate;
       overflow: visible;
       border: 1px solid rgba(255, 232, 124, 0.5);
       background: linear-gradient(135deg, #fff4a1 0%, #ffd54a 40%, #ffb81c 100%);
       color: #211400;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
       box-shadow:
         0 0 0 1px rgba(255, 245, 180, 0.16) inset,
         0 16px 40px rgba(255, 193, 50, 0.3),
         0 0 34px rgba(255, 214, 82, 0.22);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
     }
 
     .contact-cta::before {
