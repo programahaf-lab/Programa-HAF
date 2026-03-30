@@ -754,6 +754,38 @@
       gap: 16px;
     }
 
+    .format-block {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(123, 213, 255, 0.16);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .format-block h3 {
+      margin-bottom: 10px;
+    }
+
+    .format-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .format-item {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(123, 213, 255, 0.12);
+      background: rgba(123, 213, 255, 0.05);
+    }
+
+    .format-item strong {
+      color: var(--neon-2);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
     .hero-metrics {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
@@ -1690,6 +1722,19 @@
                   <span class="spark s3" aria-hidden="true"></span>
                   Portifolio
                 </a>
+              </div>
+              <div class="format-block">
+                <h3>Onde o método se aplica</h3>
+                <div class="format-list">
+                  <div class="format-item">
+                    <strong>.ipynb</strong>
+                    <span class="mini">notebooks analíticos, pipelines, estudos exploratórios</span>
+                  </div>
+                  <div class="format-item">
+                    <strong>.pbix</strong>
+                    <span class="mini">dashboards Power BI, modelos e leitura gerencial</span>
+                  </div>
+                </div>
               </div>
             </div>
 
