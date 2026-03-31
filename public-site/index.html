@@ -2131,6 +2131,23 @@ Abrir envio de e-mail pelo botao de contato</div>
       goTo(cur + delta);
     }
 
+    function setInitialSlide(index) {
+      if (!Number.isInteger(index) || index < 0 || index >= total) return;
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('active', slideIndex === index);
+        slide.classList.remove('out-left');
+        slide.style.cssText = '';
+      });
+      cur = index;
+      ui();
+    }
+
+    function syncSlideWithHash() {
+      if (window.location.hash === '#contato') {
+        setInitialSlide(total - 1);
+      }
+    }
+
     function stopAuto() {
       clearTimeout(autoTimer);
     }
@@ -2198,6 +2215,8 @@ Abrir envio de e-mail pelo botao de contato</div>
       }
     });
 
+    syncSlideWithHash();
+    window.addEventListener('hashchange', syncSlideWithHash);
     ui();
     window.addEventListener('load', startAuto, { once: true });
   </script>
