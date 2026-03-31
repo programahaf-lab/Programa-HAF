@@ -89,41 +89,37 @@
 
     .contact-cta {
       position: relative;
+      overflow: visible;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      overflow: visible;
-      min-height: 52px;
-      padding: 14px 22px;
+      min-height: 48px;
+      padding: 12px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 234, 132, 0.54);
-      background: linear-gradient(135deg, #fff7b0 0%, #ffd84e 42%, #ffbf1f 100%);
-      color: #221500;
+      isolation: isolate;
+      border: 1px solid rgba(255, 232, 124, 0.5);
+      background: linear-gradient(135deg, #fff6aa 0%, #ffd64a 40%, #ffb81c 100%);
+      color: #211400;
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       box-shadow:
-        0 0 0 1px rgba(255, 243, 160, 0.18) inset,
-        0 16px 40px rgba(255, 193, 50, 0.3),
+        0 0 0 1px rgba(255, 245, 180, 0.16) inset,
+        0 16px 40px rgba(255, 193, 50, 0.28),
         0 0 34px rgba(255, 214, 82, 0.22);
       transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
-    }
-
-    .contact-cta .label {
-      position: relative;
-      top: 1px;
     }
 
     .contact-cta::before {
       content: "";
       position: absolute;
-      inset: -8px;
+      inset: -9px;
       border-radius: 999px;
       z-index: -2;
       background: radial-gradient(circle, rgba(255, 220, 90, 0.3) 0%, rgba(255, 220, 90, 0) 72%);
-      filter: blur(10px);
+      filter: blur(11px);
       opacity: 0.95;
     }
 
@@ -133,8 +129,8 @@
       inset: 1px;
       border-radius: 999px;
       z-index: -1;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0) 46%);
-      opacity: 0.85;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0) 44%);
+      opacity: 0.88;
     }
 
     .contact-cta:hover {
@@ -147,116 +143,55 @@
 
     .contact-cta .spark {
       position: absolute;
-      border-radius: 999px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
       pointer-events: none;
-      opacity: 0.95;
-      filter: blur(0.2px);
-      box-shadow: 0 0 12px currentColor;
-      animation: contactSpark 5.8s ease-in-out infinite;
+      background: radial-gradient(circle, rgba(255, 252, 226, 1) 0%, rgba(255, 221, 95, 0.9) 44%, rgba(255, 221, 95, 0) 100%);
+      box-shadow: 0 0 12px rgba(255, 234, 132, 0.7);
+      animation: orbit-glow-alt 3.7s linear infinite;
     }
 
     .contact-cta .spark.c1 {
-      top: -8px;
-      right: 20px;
-      width: 5px;
-      height: 5px;
-      color: rgba(255, 244, 181, 0.96);
-      animation-delay: -0.5s;
+      top: 50%;
+      left: -6px;
+      animation-delay: -0.8s;
     }
 
     .contact-cta .spark.c2 {
-      bottom: -9px;
-      left: 22px;
-      width: 4px;
-      height: 4px;
-      color: rgba(255, 220, 108, 0.88);
-      animation-delay: -2.1s;
+      top: -7px;
+      right: 18px;
+      animation-duration: 4.4s;
+      animation-delay: -1.6s;
     }
 
     .contact-cta .spark.c3 {
-      top: 50%;
-      right: -10px;
-      width: 4px;
-      height: 4px;
-      color: rgba(255, 234, 148, 0.9);
-      animation-delay: -3.4s;
+      left: 28px;
+      bottom: -7px;
+      animation-duration: 3.2s;
+      animation-delay: -2.4s;
     }
 
-    .contact-cta .spark.c4 {
-      top: -10px;
-      left: 34px;
-      width: 3px;
-      height: 3px;
-      color: rgba(255, 241, 163, 0.92);
-      animation-delay: -1.2s;
-    }
-
-    .contact-cta .spark.c5 {
-      top: 10px;
-      left: -9px;
-      width: 4px;
-      height: 4px;
-      color: rgba(255, 225, 112, 0.86);
-      animation-delay: -4.1s;
-    }
-
-    .contact-cta .spark.c6 {
-      bottom: 8px;
-      right: -8px;
-      width: 3px;
-      height: 3px;
-      color: rgba(255, 249, 201, 0.92);
-      animation-delay: -2.9s;
-    }
-
-    .contact-cta .spark.c7 {
-      bottom: -11px;
-      right: 38px;
-      width: 5px;
-      height: 5px;
-      color: rgba(255, 213, 92, 0.82);
-      animation-delay: -5s;
-    }
-
-    .contact-cta .spark.c8 {
-      top: 50%;
-      left: -11px;
-      width: 3px;
-      height: 3px;
-      color: rgba(255, 238, 154, 0.88);
-      animation-delay: -0.9s;
-    }
-
-    .contact-cta .spark.c9 {
-      top: -7px;
-      right: 58px;
-      width: 4px;
-      height: 4px;
-      color: rgba(255, 247, 191, 0.9);
-      animation-delay: -3.7s;
-    }
-
-    .contact-cta .spark.c10 {
-      bottom: -10px;
-      left: 52px;
-      width: 3px;
-      height: 3px;
-      color: rgba(255, 229, 128, 0.9);
-      animation-delay: -1.8s;
-    }
-
-    @keyframes contactSpark {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) scale(0.9);
-        opacity: 0.35;
+    @keyframes orbit-glow-alt {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.82);
+        opacity: 0.25;
       }
-      30% {
-        transform: translate3d(3px, -6px, 0) scale(1.15);
-        opacity: 1;
+      18% {
+        transform: translate3d(3px, -7px, 0) scale(1.06);
+        opacity: 0.98;
       }
-      65% {
-        transform: translate3d(-4px, 7px, 0) scale(0.78);
-        opacity: 0.55;
+      42% {
+        transform: translate3d(9px, 2px, 0) scale(0.72);
+        opacity: 0.52;
+      }
+      67% {
+        transform: translate3d(-4px, 9px, 0) scale(1);
+        opacity: 0.88;
+      }
+      100% {
+        transform: translate3d(0, 0, 0) scale(0.82);
+        opacity: 0.25;
       }
     }
 
@@ -742,14 +677,7 @@ Saidas observadas:
         <span class="spark c1" aria-hidden="true"></span>
         <span class="spark c2" aria-hidden="true"></span>
         <span class="spark c3" aria-hidden="true"></span>
-        <span class="spark c4" aria-hidden="true"></span>
-        <span class="spark c5" aria-hidden="true"></span>
-        <span class="spark c6" aria-hidden="true"></span>
-        <span class="spark c7" aria-hidden="true"></span>
-        <span class="spark c8" aria-hidden="true"></span>
-        <span class="spark c9" aria-hidden="true"></span>
-        <span class="spark c10" aria-hidden="true"></span>
-        <span class="label">Quero usar isso no meu projeto</span>
+        Aplicar isso no meu projeto
       </a>
     </div>
   </main>
